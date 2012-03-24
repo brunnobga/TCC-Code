@@ -30,7 +30,7 @@ import javax.persistence.TemporalType;
  * @author EvandrO
  */
 @Entity
-@Table(name = "session")
+@Table(name = "Session")
 @NamedQueries({
     @NamedQuery(name = "Session.findAll", query = "SELECT s FROM Session s"),
     @NamedQuery(name = "Session.findById", query = "SELECT s FROM Session s WHERE s.id = :id"),

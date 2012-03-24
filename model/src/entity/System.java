@@ -21,7 +21,7 @@ import javax.persistence.Table;
  * @author EvandrO
  */
 @Entity
-@Table(name = "system")
+@Table(name = "System")
 @NamedQueries({
     @NamedQuery(name = "System.findAll", query = "SELECT s FROM System s"),
     @NamedQuery(name = "System.findById", query = "SELECT s FROM System s WHERE s.id = :id"),

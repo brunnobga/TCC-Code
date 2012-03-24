@@ -3,10 +3,6 @@ package bridge;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-
-import utils.ErrorUtils;
 import utils.FilterUtils;
 import utils.SessionUtils;
 
@@ -146,12 +142,12 @@ public class ServiceBridge {
 		} catch (InterruptedException e) {
 		}
 		int status = -1, metric = metricArg;
-		ArrayList<Integer> parameters = new ArrayList();
+		ArrayList<Integer> result = new ArrayList();
 		for(Connection c : monitor.getSessionDevices()) {
 			status = sf.defineMetricOnDevice(c, metric);
-			parameters.add(status);
+			result.add(status);
 		}
-		return parameters;
+		return result;
 	}
 	
 	public static ArrayList<UserRate> operatioEnableRate(Session sessionArg, Media mediaArg){
@@ -187,19 +183,18 @@ public class ServiceBridge {
 		return userRates;
 	} 
 	
-	public static ArrayList<SoftwareRate> operationSoftwareRate(Metric metric, ArrayList<Media> medias){
-		int status = -1;
+	public static SoftwareRate operationSoftwareRate(Metric metric, Media reference, Media media){
 		double value = -1;
 		SoftwareRate sr = null;
 		try {
-			Media referenceVideo = medias.get(0), video = medias.get(1);
-			if(metric.getType() == 10) {
+			Media referenceVideo = reference, video = media;
+			if(metric.getType() == 10) { //MSE
 				value = sf.calculateMSEFromVideo(referenceVideo.getPath(), video.getPath(), 
 						referenceVideo.getWidth(), referenceVideo.getHeigth());
-			} else if(metric.getType() == 11) {
+			} else if(metric.getType() == 11) { //PSNR
 				value = sf.calculatePSNRFromMSE((sf.calculateMSEFromVideo(referenceVideo.getPath(), video.getPath(), 
 						referenceVideo.getWidth(), referenceVideo.getHeigth())), 16);
-			} else if(metric.getType() == 12) {
+			} else if(metric.getType() == 12) { //MSSIM
 				value = sf.calculateMSSIMFromVideo(referenceVideo.getPath(), video.getPath(), 16, 
 						referenceVideo.getWidth(), referenceVideo.getHeigth());
 			}
@@ -210,33 +205,36 @@ public class ServiceBridge {
 			sr.setValue(Double.valueOf(value / 50d));
 			boolean queryResult = 
 				mif.saveOrUpdateSoftwareRate(sr);
-			if(queryResult) {
-				status = ErrorUtils.ERR_NONE;
-			} else {
-				status = ErrorUtils.ERR_HIBERNATE_QUERY_SAVE;
-			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		ArrayList<SoftwareRate> parameters = new ArrayList();
-		parameters.add(sr);
-		return parameters;
+		return sr;
 	}
 
 
 
 
-	/*if (parameters.get(1).equals(QUERY_ARTIFACT_LIST)) {
-		ArrayList queryResult = (ArrayList) mif.listAllArtifats();
-	} else if (parameters.get(1).equals(QUERY_MEDIA_FIND)) {
-		ArrayList queryResult = (ArrayList) mif.findMedia((Media)parameters.get(2));
-	} else if (parameters.get(1).equals(QUERY_METRIC_LIST)) {
-		ArrayList queryResult = (ArrayList) mif.listAllMetrics();
-	} else if (parameters.get(1).equals(QUERY_DEVICE_LIST)) {
-		ArrayList queryResult = (ArrayList) mif.listAllDevices();
-	} else if (parameters.get(1).equals(QUERY_SOFTWARE_RATE_LIST)) {
-		ArrayList queryResult = (ArrayList) mif.listAllSoftwareRates();
-	} else if (parameters.get(1).equals(QUERY_USER_RATE_LIST)) {
-		ArrayList queryResult = (ArrayList) mif.listAllUserRates();
-	}*/
+	public static ArrayList<Artifact> queryArtifactList(){
+		return (ArrayList<Artifact>) mif.listAllArtifats();
+	}
+	
+	public static ArrayList<Media> queryMediaList(Media media){
+		return (ArrayList<Media>) mif.findMedia(media == null ? new Media() : media);
+	}
+	
+	public static ArrayList<Metric> queryMetricList(){
+		return (ArrayList<Metric>) mif.listAllMetrics();
+	}
+	
+	public static ArrayList<Device> queryDeviceList(){
+		return (ArrayList<Device>) mif.listAllDevices();
+	}
+	
+	public static ArrayList<SoftwareRate> querySoftwareRateList(){
+		return (ArrayList<SoftwareRate>) mif.listAllSoftwareRates();
+	}
+	
+	public static ArrayList<UserRate> queryUserRateList(){
+		return (ArrayList<UserRate>) mif.listAllUserRates();
+	}
 }

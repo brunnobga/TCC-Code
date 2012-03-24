@@ -23,7 +23,7 @@ import javax.persistence.Table;
  * @author EvandrO
  */
 @Entity
-@Table(name = "userrate")
+@Table(name = "UserRate")
 @NamedQueries({
     @NamedQuery(name = "UserRate.findAll", query = "SELECT u FROM UserRate u"),
     @NamedQuery(name = "UserRate.findById", query = "SELECT u FROM UserRate u WHERE u.id = :id"),

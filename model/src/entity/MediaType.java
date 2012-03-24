@@ -24,7 +24,7 @@ import javax.persistence.Table;
  * @author EvandrO
  */
 @Entity
-@Table(name = "mediatype")
+@Table(name = "MediaType")
 @NamedQueries({
     @NamedQuery(name = "MediaType.findAll", query = "SELECT m FROM MediaType m"),
     @NamedQuery(name = "MediaType.findById", query = "SELECT m FROM MediaType m WHERE m.id = :id"),

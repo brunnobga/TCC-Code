@@ -25,7 +25,7 @@ import javax.persistence.Table;
  * @author EvandrO
  */
 @Entity
-@Table(name = "metric")
+@Table(name = "Metric")
 @NamedQueries({
     @NamedQuery(name = "Metric.findAll", query = "SELECT m FROM Metric m"),
     @NamedQuery(name = "Metric.findById", query = "SELECT m FROM Metric m WHERE m.id = :id"),

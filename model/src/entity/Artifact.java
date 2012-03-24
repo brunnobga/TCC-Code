@@ -26,7 +26,7 @@ import javax.persistence.Transient;
  * @author EvandrO
  */
 @Entity
-@Table(name = "artifact")
+@Table(name = "Artifact")
 @NamedQueries({
     @NamedQuery(name = "Artifact.findAll", query = "SELECT a FROM Artifact a"),
     @NamedQuery(name = "Artifact.findById", query = "SELECT a FROM Artifact a WHERE a.id = :id"),

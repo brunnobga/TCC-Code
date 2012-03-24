@@ -30,7 +30,7 @@ import javax.persistence.TemporalType;
  * @author EvandrO
  */
 @Entity
-@Table(name = "media")
+@Table(name = "Media")
 @NamedQueries({
     @NamedQuery(name = "Media.findAll", query = "SELECT m FROM Media m"),
     @NamedQuery(name = "Media.findById", query = "SELECT m FROM Media m WHERE m.id = :id"),
@@ -90,6 +90,9 @@ public class Media implements Serializable {
     private MediaType type;
 
     public Media() {
+    	this.heigth = 0;
+    	this.width = 0;
+    	this.size = 0;
     }
 
     public Media(Integer id) {

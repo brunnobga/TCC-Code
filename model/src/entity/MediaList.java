@@ -23,7 +23,7 @@ import javax.persistence.Table;
  * @author EvandrO
  */
 @Entity
-@Table(name = "medialist")
+@Table(name = "MediaList")
 @NamedQueries({
     @NamedQuery(name = "MediaList.findAll", query = "SELECT m FROM MediaList m"),
     @NamedQuery(name = "MediaList.findById", query = "SELECT m FROM MediaList m WHERE m.id = :id"),
