@@ -57,6 +57,7 @@ public class Configuracao extends javax.swing.JFrame {
         jComboBox3 = new javax.swing.JComboBox();
 
         setBounds(new java.awt.Rectangle(600, 200, 0, 0));
+        setResizable(false);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Visual"));
 
