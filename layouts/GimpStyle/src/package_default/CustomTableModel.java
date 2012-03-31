@@ -4,6 +4,8 @@
  */
 package package_default;
 
+import entity.Media;
+import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -11,84 +13,85 @@ import javax.swing.table.AbstractTableModel;
  * @author caio
  */
 public class CustomTableModel extends AbstractTableModel {
-        private String[] columnNames = {"First Name",
-                                        "Last Name",
-                                        "Sport",
-                                        "# of Years",
-                                        "Vegetarian"};
-        private Object[][] data = {
-	    {"Kathy", "Smith",
-	     "Snowboarding", new Integer(5), new Boolean(false)},
-	    {"John", "Doe",
-	     "Rowing", new Integer(3), new Boolean(true)},
-	    {"Sue", "Black",
-	     "Knitting", new Integer(2), new Boolean(false)},
-	    {"Jane", "White",
-	     "Speed reading", new Integer(20), new Boolean(true)},
-	    {"Joe", "Brown",
-	     "Pool", new Integer(10), new Boolean(false)}
-        };
 
-        public int getColumnCount() {
-            return columnNames.length;
-        }
+	public static final int VIDEO_DATA = 0;
+	public static final int ARTIFACT_DATA = 1;
+	public static final int DEVICE_DATA = 2;
 
-        public int getRowCount() {
-            return data.length;
-        }
+	private int dataType;
 
-        public String getColumnName(int col) {
-            return columnNames[col];
-        }
+	private String[][] columnNames = {
+		{"!", "Title", "format", "description"},
+		{""}
+	};
+	private Object[][] data;
 
-        public Object getValueAt(int row, int col) {
-            return data[row][col];
-        }
+	public CustomTableModel(int dataType, ArrayList queryData) {
+		int i;
+		this.dataType = dataType;
+		data = new Object[queryData.size()][columnNames[dataType].length];
+		switch(dataType){
+			case VIDEO_DATA:
+				for(i = 0; i < queryData.size(); i++){
+					Media a = (Media) queryData.get(i);
+					data[i][0] = false;
+					data[i][1] = a.getTitle();
+					data[i][2] = a.getFormat();
+					data[i][3] = a.getDescription();
+				}
+				break;
+			default:
+				break;
+		}
+	}
 
-        /*
-         * JTable uses this method to determine the default renderer/
-         * editor for each cell.  If we didn't implement this method,
-         * then the last column would contain text ("true"/"false"),
-         * rather than a check box.
-         */
-        public Class getColumnClass(int c) {
-            return getValueAt(0, c).getClass();
-        }
+	public void setTableData(){
+	}
 
-        /*
-         * Don't need to implement this method unless your table's
-         * editable.
-         */
-        public boolean isCellEditable(int row, int col) {
-            //Note that the data/cell address is constant,
-            //no matter where the cell appears onscreen.
-            if (col < 2) {
-                return false;
-            } else {
-                return true;
-            }
-        }
+	public int getColumnCount() {
+		return columnNames[dataType].length;
+	}
 
-        /*
-         * Don't need to implement this method unless your table's
-         * data can change.
-         */
-        public void setValueAt(Object value, int row, int col) {
-            data[row][col] = value;
-            fireTableCellUpdated(row, col);
-        }
+	public int getRowCount() {
+		return data.length;
+	}
 
-        private void printDebugData() {
-            int numRows = getRowCount();
-            int numCols = getColumnCount();
+	public String getColumnName(int col) {
+		return columnNames[dataType][col];
+	}
 
-            for (int i=0; i < numRows; i++) {
-                System.out.print("    row " + i + ":");
-                for (int j=0; j < numCols; j++) {
-                    System.out.print("  " + data[i][j]);
-                }
-                System.out.println();
-            }
-            System.out.println("--------------------------");
-        }
-    }
+	public Object getValueAt(int row, int col) {
+		return data[row][col];
+	}
+
+	public Class getColumnClass(int c) {
+		return getValueAt(0, c).getClass();
+	}
+
+	public boolean isCellEditable(int row, int col) {
+		if (col > 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	public void setValueAt(Object value, int row, int col) {
+		data[row][col] = value;
+		fireTableCellUpdated(row, col);
+	}
+
+	private void printDebugData() {
+		int numRows = getRowCount();
+		int numCols = getColumnCount();
+
+		for (int i = 0; i < numRows; i++) {
+			System.out.print("    row " + i + ":");
+			for (int j = 0; j < numCols; j++) {
+				System.out.print("  " + data[i][j]);
+			}
+			System.out.println();
+		}
+		System.out.println("--------------------------");
+	}
+}

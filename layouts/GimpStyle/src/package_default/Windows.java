@@ -4,6 +4,9 @@
  */
 package package_default;
 
+import bridge.ServiceBridge;
+import communication.Monitor;
+
 /**
  *
  * @author caio
@@ -158,6 +161,11 @@ public class Windows extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+		Monitor m;
+
+		m = new Monitor();
+		m.start();
+		ServiceBridge.init(m);
         /*
          * Set the Nimbus look and feel
          */
@@ -184,7 +192,6 @@ public class Windows extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Windows.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
         /*
          * Create and display the form
          */
