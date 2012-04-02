@@ -8,3 +8,5 @@
 *.prefs
 *.log
 layouts/GimpStyle/build/*
+/layouts/GimpStyle/nbproject/private/
+/layouts/GimpStyle/dist/
