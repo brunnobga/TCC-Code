@@ -14,30 +14,46 @@ import javax.swing.table.AbstractTableModel;
  */
 public class CustomTableModel extends AbstractTableModel {
 
-	public static final int VIDEO_DATA = 0;
-	public static final int ARTIFACT_DATA = 1;
-	public static final int DEVICE_DATA = 2;
+	public static final int VIDEO_DATA_SELECT = 0;
+	public static final int VIDEO_DATA = 1;
+	public static final int ARTIFACT_DATA = 2;
+	public static final int DEVICE_DATA = 3;
 
 	private int dataType;
+	private ArrayList currentData;
 
 	private String[][] columnNames = {
 		{"!", "Title", "format", "description"},
+		{"Title", "format", "description"},
 		{""}
 	};
 	private Object[][] data;
 
 	public CustomTableModel(int dataType, ArrayList queryData) {
-		int i;
 		this.dataType = dataType;
-		data = new Object[queryData.size()][columnNames[dataType].length];
+		refresh(queryData);
+	}
+
+	public void refresh(ArrayList newData){
+		this.currentData = newData;
+		int i;
+		data = new Object[newData.size()][columnNames[dataType].length];
 		switch(dataType){
-			case VIDEO_DATA:
-				for(i = 0; i < queryData.size(); i++){
-					Media a = (Media) queryData.get(i);
+			case VIDEO_DATA_SELECT:
+				for(i = 0; i < newData.size(); i++){
+					Media a = (Media) newData.get(i);
 					data[i][0] = false;
 					data[i][1] = a.getTitle();
 					data[i][2] = a.getFormat();
 					data[i][3] = a.getDescription();
+				}
+				break;
+			case VIDEO_DATA:
+				for(i = 0; i < newData.size(); i++){
+					Media a = (Media) newData.get(i);
+					data[i][0] = a.getTitle();
+					data[i][1] = a.getFormat();
+					data[i][2] = a.getDescription();
 				}
 				break;
 			default:
