@@ -19,6 +19,7 @@ public class CustomTableModel extends AbstractTableModel {
 	public static final int DEVICE_DATA = 2;
 
 	private int dataType;
+	private ArrayList currentData;
 
 	private String[][] columnNames = {
 		{"!", "Title", "format", "description"},
@@ -27,13 +28,18 @@ public class CustomTableModel extends AbstractTableModel {
 	private Object[][] data;
 
 	public CustomTableModel(int dataType, ArrayList queryData) {
-		int i;
 		this.dataType = dataType;
-		data = new Object[queryData.size()][columnNames[dataType].length];
+		refresh(queryData);
+	}
+
+	public void refresh(ArrayList newData){
+		this.currentData = newData;
+		int i;
+		data = new Object[newData.size()][columnNames[dataType].length];
 		switch(dataType){
 			case VIDEO_DATA:
-				for(i = 0; i < queryData.size(); i++){
-					Media a = (Media) queryData.get(i);
+				for(i = 0; i < newData.size(); i++){
+					Media a = (Media) newData.get(i);
 					data[i][0] = false;
 					data[i][1] = a.getTitle();
 					data[i][2] = a.getFormat();
