@@ -19,7 +19,7 @@ int main(void){
 	// read input file dct2.in
 	for(int i = 0; i < m; i++){
 		for(int j = 0; j < n; j++){
-			scanf("%f", &o[m][n]);
+			scanf("%f", &o[i][j]);
 		}
 	}
 
@@ -32,7 +32,7 @@ int main(void){
 			r[p][q] = 0;
 			for(int mm = 0; mm < m; mm++){
 				for(int nn = 0; nn < n; nn++){
-					r[p][q] += a*b*cos(M_PI*(2*mm+1)*p/(2*m))*cos(M_PI*(2*nn+1)*q/(2*n));
+					r[p][q] += a*b*o[mm][nn]*cos(M_PI*(2*mm+1)*p/(2*m))*cos(M_PI*(2*nn+1)*q/(2*n));
 				}
 			}
 		}
