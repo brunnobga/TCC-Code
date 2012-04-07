@@ -16,15 +16,15 @@ int main(){
 	//ofstream fileBlock("/mnt/vbox/video/parkblur_1280x720_25Hz_P420.yuv", ofstream::binary);
 	byte *frame, *outframe;
 	int i, j, k = 0;
-	float dct[BLOCK_SIZE][BLOCK_SIZE];
-	
+	int removals[] = {2, 3};
+	double dct[BLOCK_SIZE][BLOCK_SIZE];
 	//alocar espaço para frames
 	frame = (byte*)malloc(W*H*sizeof(byte));
 	outframe = (byte*)malloc(W*H*sizeof(byte));
 
 	//enqto não chegar ao fim do video
-	while(!fileYUV.eof()){
-	//for(k = 0; k < 10;){
+	//while(!fileYUV.eof()){
+	for(k = 0; k < 10;){
 
 		//ler 1 frame
 		fileYUV.read((char*)frame, H*W);
@@ -34,8 +34,9 @@ int main(){
 		for(i = 0; i < 288/BLOCK_SIZE; i++){
 			for(j = 0; j < 352/BLOCK_SIZE; j++){
 				//printf("i-> %d j-> %d\n", i, j);
-				applyDCT2(frame + i*W*BLOCK_SIZE + j*BLOCK_SIZE, &dct[0][0], BLOCK_SIZE, W);
-				applyIDCT2(&dct[0][0], outframe + i*W*BLOCK_SIZE + j*BLOCK_SIZE, BLOCK_SIZE, W);
+				//applyDCT2(frame + i*W*BLOCK_SIZE + j*BLOCK_SIZE, &dct[0][0], BLOCK_SIZE, W);
+				//applyIDCT2(&dct[0][0], outframe + i*W*BLOCK_SIZE + j*BLOCK_SIZE, BLOCK_SIZE, W);
+				blockage(frame + i*W*BLOCK_SIZE + j*BLOCK_SIZE, outframe + i*W*BLOCK_SIZE + j*BLOCK_SIZE, BLOCK_SIZE, W, removals, 2);
 			}
 		}
 		
