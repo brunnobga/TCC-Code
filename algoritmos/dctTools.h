@@ -5,6 +5,8 @@ typedef unsigned char byte;
 
 void applyDCT2(byte* blockFrom, double* blockTo, int blockSize, int frameW);
 
+void applyDCT2Lossy(byte *blockFrom, double* blockTo, int blockSize, int frameW, int *levels, int lSize);
+
 void applyIDCT2(double* blockFrom, byte* blockTo, int blockSize, int frameW);
 
 void blockage(byte* blockFrom, byte* blockTo, int blockSize, int frameW, int * removals, int removalsSize);
