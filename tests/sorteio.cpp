@@ -57,31 +57,37 @@ list<Sorteio> sorteio(int f, int w, int h, float p, int d, int dist){
 	list<Sorteio> vetor;
 	list<Sorteio>::iterator it;
 	int j, i = round(f*w*h*p);
-	printf("p=%d \n",  i);
-	for(i; i; i){
+	//printf("p=%d \n",  i);
+	for(i; i >= 0; i){
 		Sorteio *s = new Sorteio();
-		(*s).f = rand()%f;
+		(*s).f = 1+rand()%(f-1);//(f-d);
 		(*s).x = rand()%w;
 		(*s).y = rand()%h;
 		for(j = 0; j < d && i--; j++){
-			vetor.push_back(*s);
-			(*s).f++;
+			if(((*s).f) <= f){
+				vetor.push_back(*s);
+				(*s).f++;
+			} else{
+				i++;
+				continue;
+			}
 		}
 	}
 	return vetor;
 }
 
 int main(){
-	int F = 30, W = 20, H = 10, D = 1;
-	float P = 0.01;
+	int F = 30, W = 256, H = 192, D = 5;
+	float P = 0.03;
 	list<Sorteio> resultado = sorteio(F, W, H, P, D, CONSTANTE);
 	list<Sorteio>::iterator it;
 	//for(it = resultado.begin(); it != resultado.end(); it++)
 	//	printf("F=%d\tX=%d\tY=%d\t\n", (*it).f, (*it).x, (*it).y);
-	printf("it=%d\n", resultado.size());
+	//printf("it=%d\n", resultado.size());
 	resultado.sort(ordenar);
-	//for(it = resultado.begin(); it != resultado.end(); it++)
-	//	printf("F=%d\tX=%d\tY=%d\t\n", (*it).f, (*it).x, (*it).y);
+	for(it = resultado.begin(); it != resultado.end(); it++)
+		//printf("F=%d\tX=%d\tY=%d\t\n", (*it).f, (*it).x, (*it).y);
+		printf("%d %d %d\n", (*it).f, (*it).x, (*it).y);
 
 	return 0;
 }
