@@ -60,24 +60,22 @@ list<Sorteio> sorteio(int f, int w, int h, float p, int d, int dist){
 	//printf("p=%d \n",  i);
 	for(i; i >= 0; i){
 		Sorteio *s = new Sorteio();
-		(*s).f = 1+rand()%(f-1);//(f-d);
+		(*s).f = 2-d+rand()%(f+d-1);//(f-d);
 		(*s).x = rand()%w;
 		(*s).y = rand()%h;
-		for(j = 0; j < d && i--; j++){
-			if(((*s).f) <= f){
+		for(j = 0; j < d && i >= 0; j++){
+			if(((*s).f) <= f && ((*s).f) > 0){
 				vetor.push_back(*s);
-				(*s).f++;
-			} else{
-				i++;
-				continue;
+				i--;
 			}
+			(*s).f++;
 		}
 	}
 	return vetor;
 }
 
 int main(){
-	int F = 30, W = 256, H = 192, D = 5;
+	int F = 30, W = 256, H = 192, D = 1;
 	float P = 0.03;
 	list<Sorteio> resultado = sorteio(F, W, H, P, D, CONSTANTE);
 	list<Sorteio>::iterator it;
