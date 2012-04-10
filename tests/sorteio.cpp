@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <time.h>
 #include <cstdio>
+#include <cmath>
 #define CONSTANTE 1
 #define NORMAL 2
 
@@ -55,14 +56,17 @@ list<Sorteio> sorteio(int f, int w, int h, float p, int d, int dist){
 	srand(time(NULL));
 	list<Sorteio> vetor;
 	list<Sorteio>::iterator it;
-	int i = (int)f*w*h*p;
-	//printf("p=%d %f\n", i, (int)100*p);
+	int j, i = round(f*w*h*p);
+	printf("p=%d \n",  i);
 	for(i; i; i){
 		Sorteio *s = new Sorteio();
 		(*s).f = rand()%f;
 		(*s).x = rand()%w;
 		(*s).y = rand()%h;
-		for(int j = 0; j < d && i--; j++) vetor.push_back(*s);
+		for(j = 0; j < d && i--; j++){
+			vetor.push_back(*s);
+			(*s).f++;
+		}
 	}
 	return vetor;
 }
