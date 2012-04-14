@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <getopt.h>
 #include <fstream>
+#include "dctTools.h"
 #define DEBUG
 
 using namespace std;
@@ -19,22 +20,21 @@ static struct option long_options[] =
 static char short_options[] = "i:o:s:f:w:";
 
 int main(int argc, char* argv[]){
-	int filterType, frameWidth, frameHeight, opt_index, c;
+	int filterType, frameWidth, frameHeight, frameTotal, frameSize, opt_index, c;
 	char *inputFileName, *outputFileName, *tmp;
 	ifstream input;
 	ofstream output;
+	byte * frame;
 
-	tmp = (char*)malloc(64); 
-
-	//argument parsing
+	/*1. Argument parsing*/
 	while((c = getopt_long(argc, argv, short_options, long_options, &opt_index)) != -1){
 		switch(c){
 			case 'i':
-				inputFileName = (char*)malloc(strlen(optarg)+1); //TODO free memory
+				inputFileName = (char*)malloc(strlen(optarg)+1); 
 				strcpy(inputFileName, optarg);
 				break;
 			case 'o':
-				outputFileName = (char*)malloc(strlen(optarg)+1); //TODO free memory
+				outputFileName = (char*)malloc(strlen(optarg)+1); 
 				strcpy(outputFileName, optarg);
 				break;
 			case 's':
@@ -44,6 +44,8 @@ int main(int argc, char* argv[]){
 				tmp = strtok(NULL, "x");
 				if(tmp == NULL) printf("Argumento invalido para -s...\n"), exit(1);
 				frameHeight = atoi(tmp);
+				frameSize = frameHeight*frameWidth;
+				frame = (byte*)malloc(frameSize); //TODO free memory
 				break;
 			case 'a':
 				printf("Argumento -f: %s\n", optarg);
@@ -55,8 +57,7 @@ int main(int argc, char* argv[]){
 				break;
 		}
 	}
-
-	free(tmp);
+	/*1. end*/
 
 #ifdef DEBUG
 	printf("Input: %s\n", inputFileName);
@@ -65,15 +66,41 @@ int main(int argc, char* argv[]){
 	printf("Frame H %d\n", frameHeight);
 #endif
 
-	//TODO open file streams
+	//TODO 2.verify if there are enough arguments
 
-	//TODO process artifact arguments and raffle pixels
+	/*3. Opening file and counting number of frames*/
+	input.open(inputFileName, ifstream::binary);
+	output.open(outputFileName, ofstream::binary);
+	if(input.eof() || input.fail()) printf("Arquivo inexistente: %s\n", inputFileName), exit(2);
+	input.seekg(0, ios::end);
+	frameTotal = input.tellg();
+	frameTotal /= frameSize*1.5;
+	input.seekg(0, ios::beg);
+	free(inputFileName);
+	free(outputFileName);
+	/*3. end*/
 
-	//TODO read Y component
+#ifdef DEBUG
+	printf("FrameTotal: %d\n", frameTotal);
+#endif
 
-	//TODO apply artifacts to Y component
+	//TODO 4.process artifact arguments and raffle pixels
 
-	//TODO write Y component to output and copy UV to output
+	for(int fc = 0; fc < frameTotal; fc++){
+		//5. read Y component
+		input.read((char*)frame, frameSize);
+
+		//TODO apply artifacts to Y component
+
+		/*7. write Y component to output and copy UV to output*/
+		output.write((char*) frame, frameSize);
+		input.read((char*) frame, frameSize/2);
+		output.write((char*) frame, frameSize/2);
+		/*7. end*/
+	}
+
+	input.close();
+	output.close();
 
 	return 0;
 }
