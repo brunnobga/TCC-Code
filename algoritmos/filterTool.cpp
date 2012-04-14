@@ -3,7 +3,9 @@
 #include <cstdlib>
 #include <getopt.h>
 #include <fstream>
+#include <list>
 #include "dctTools.h"
+#include "raffleTools.h"
 #define DEBUG
 
 using namespace std;
@@ -17,14 +19,20 @@ static struct option long_options[] =
 		{"window", required_argument, 0, 'w'}
 	};
 
-static char short_options[] = "i:o:s:f:w:";
+static char short_options[] = "i:o:s:a:w:";
+
+void blockFilter();
+
+void blurFilter();
 
 int main(int argc, char* argv[]){
-	int filterType, frameWidth, frameHeight, frameTotal, frameSize, opt_index, c;
+	int artifactType, frameWidth, frameHeight, frameTotal, frameSize, opt_index, c;
 	char *inputFileName, *outputFileName, *tmp;
 	ifstream input;
 	ofstream output;
 	byte * frame;
+	list<Sorteio> pixelList;
+	Sorteio pixel;
 
 	/*1. Argument parsing*/
 	while((c = getopt_long(argc, argv, short_options, long_options, &opt_index)) != -1){
@@ -48,7 +56,7 @@ int main(int argc, char* argv[]){
 				frame = (byte*)malloc(frameSize); //TODO free memory
 				break;
 			case 'a':
-				printf("Argumento -f: %s\n", optarg);
+				printf("Argumento -a: %s\n", optarg);
 				break;
 			case 'w':
 				printf("Argumento -w: %s\n", optarg);
@@ -86,11 +94,14 @@ int main(int argc, char* argv[]){
 
 	//TODO 4.process artifact arguments and raffle pixels
 
-	for(int fc = 0; fc < frameTotal; fc++){
+	for(int fc = 1; fc <= frameTotal; fc++){
 		//5. read Y component
 		input.read((char*)frame, frameSize);
 
 		//TODO apply artifacts to Y component
+		if(artifactType == 0){
+		}
+		else{continue;}
 
 		/*7. write Y component to output and copy UV to output*/
 		output.write((char*) frame, frameSize);
