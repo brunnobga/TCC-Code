@@ -6,6 +6,7 @@
 #include <list>
 #include "dctTools.h"
 #include "raffleTools.h"
+#include "commons.h"
 #define DEBUG
 
 using namespace std;
@@ -31,8 +32,8 @@ int main(int argc, char* argv[]){
 	ifstream input;
 	ofstream output;
 	byte * frame;
-	list<Sorteio> pixelList;
-	Sorteio pixel;
+	list<Raffle> pixelList;
+	Raffle pixel;
 
 	/*1. Argument parsing*/
 	while((c = getopt_long(argc, argv, short_options, long_options, &opt_index)) != -1){

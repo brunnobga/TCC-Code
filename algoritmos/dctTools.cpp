@@ -3,13 +3,16 @@
 #include <cmath>
 #include <cstdlib>
 #include <cstdio>
+#include "commons.h"
+#include "dctTools.h"
 
-typedef unsigned char byte;
-
-void applyDCT2Lossy(byte *blockFrom, double* blockTo, int blockSize, int frameW, int *levels, int lSize){
+void applyDCT2Lossy(byte *blockFrom, double* blockTo, int frameW, Settings * set){
 	float a, b;
-	int p, q, mm, nn, i;
+	int p, q, mm, nn, i, blockSize, lSize, *levels;
 	bool zerar = false;
+	blockSize = set->blockSize;
+	levels = set->removals;
+	lSize = set->removalsSize;
 
 	for(p = 0; p < blockSize; p++){
 		for(q = 0; q < blockSize; q++){
@@ -65,12 +68,12 @@ void applyIDCT2(double* blockFrom, byte* blockTo, int blockSize, int frameW){
 	float a, b;
 	int p, q, mm, nn, result;
 	
-	for(int mm = 0; mm < blockSize; mm++){
-		for(int nn = 0; nn < blockSize; nn++){
+	for(mm = 0; mm < blockSize; mm++){
+		for(nn = 0; nn < blockSize; nn++){
 			//r[mm][nn] = 0;
 			result = 0;
-			for(int p = 0; p < blockSize; p++){
-				for(int q = 0; q < blockSize; q++){
+			for(p = 0; p < blockSize; p++){
+				for(q = 0; q < blockSize; q++){
 					if(p == 0) a = 1/sqrt(blockSize);
 					else a = sqrt(2)/sqrt(blockSize);
 					if(q == 0) b = 1/sqrt(blockSize);
@@ -99,9 +102,11 @@ void removeDiagBelow(double* matrix, int mSize, int level){
 	for(int i = level; i < 2*mSize - 1; i++);
 }
 
-void blockage(byte* blockFrom, byte* blockTo, int blockSize, int frameW, int * removals, int removalsSize){
+void blockage(byte* blockFrom, byte* blockTo, int frameW, Settings * set){
+	int blockSize, *levels, lSize;
+	blockSize = set->blockSize;
+
 	double dct[blockSize][blockSize];
-	applyDCT2(blockFrom, &dct[0][0], blockSize, frameW);
-	removeDiag(&dct[0][0], blockSize, 1);
+	applyDCT2Lossy(blockFrom, &dct[0][0], frameW, set);
 	applyIDCT2(&dct[0][0], blockTo, blockSize, frameW);
 }

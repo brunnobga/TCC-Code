@@ -1,3 +1,4 @@
+#include "commons.h"
 #include "dctTools.h"
 #include <cstdio>
 #include <fstream>
@@ -21,6 +22,10 @@ int main(){
 	//alocar espaço para frames
 	frame = (byte*)malloc(W*H*sizeof(byte));
 	outframe = (byte*)malloc(W*H*sizeof(byte));
+	Settings set;
+	set.removals = removals;
+	set.removalsSize = 2;
+	set.blockSize = 8;
 
 	//enqto não chegar ao fim do video
 	//while(!fileYUV.eof()){
@@ -36,7 +41,7 @@ int main(){
 				//printf("i-> %d j-> %d\n", i, j);
 				//applyDCT2(frame + i*W*BLOCK_SIZE + j*BLOCK_SIZE, &dct[0][0], BLOCK_SIZE, W);
 				//applyIDCT2(&dct[0][0], outframe + i*W*BLOCK_SIZE + j*BLOCK_SIZE, BLOCK_SIZE, W);
-				blockage(frame + i*W*BLOCK_SIZE + j*BLOCK_SIZE, outframe + i*W*BLOCK_SIZE + j*BLOCK_SIZE, BLOCK_SIZE, W, removals, 2);
+				blockage(frame + i*W*BLOCK_SIZE + j*BLOCK_SIZE, outframe + i*W*BLOCK_SIZE + j*BLOCK_SIZE, W, &set);
 			}
 		}
 		
