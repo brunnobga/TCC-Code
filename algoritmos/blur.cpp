@@ -15,21 +15,23 @@ using namespace std;
 typedef unsigned char byte;
 
 int min(int a, int b){ return a < b ? a : b; }
+int max(int a, int b){ return a > b ? a : b; }
 bool compare(double a, double b){ return a < b ? true : false; }
 
 void blur(byte *originalFrame, byte *bluredFrame, int H, int W, int fType, int fSize){
 	int lowerLimit = (fSize-fSize%2)/-2;
 	int upperLimit = (fSize-fSize%2)/2;
-	int elements = fSize*fSize;
+	double elements = fSize*fSize;
 
 	if(fType == AVERAGE){
 		for(int i = 0; i < H; i++){
 			for(int j = 0; j < W; j++){
 				// filters 3x3 or bigger
-				*(bluredFrame + i*W + j) = 0;
-				for(int k = lowerLimit; k <= upperLimit; k++)
-					for(int m = lowerLimit; m <= upperLimit; m++)
-						*(bluredFrame + i*W + j) += *(originalFrame + (i+k)*W +(j+m))/elements;
+				//*(bluredFrame + i*W + j) = 0;
+				//for(int k = lowerLimit; k <= upperLimit; k++)
+				//	for(int m = lowerLimit; m <= upperLimit; m++)
+						//*(bluredFrame + i*W + j) += *(originalFrame + max(min(i+k, H), 0)*W + max(min(j+m, W), 0))/elements;
+				*(bluredFrame+i*W+j) = *(originalFrame+i*W+j);
 			}
 		}
 	} else if(fType == MEDIAN){
