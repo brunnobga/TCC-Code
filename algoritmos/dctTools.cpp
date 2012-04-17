@@ -103,7 +103,7 @@ void removeDiagBelow(double* matrix, int mSize, int level){
 }
 
 void blockage(byte* blockFrom, byte* blockTo, int frameW, Settings * set){
-	int blockSize, *levels, lSize;
+	int blockSize;
 	blockSize = set->blockSize;
 
 	double dct[blockSize][blockSize];

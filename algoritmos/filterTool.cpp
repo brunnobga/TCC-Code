@@ -4,9 +4,9 @@
 #include <getopt.h>
 #include <fstream>
 #include <list>
+#include "commons.h"
 #include "dctTools.h"
 #include "raffleTools.h"
-#include "commons.h"
 #define DEBUG
 
 using namespace std;

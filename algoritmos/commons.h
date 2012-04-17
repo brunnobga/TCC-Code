@@ -8,7 +8,8 @@ typedef struct raffle{
 } Raffle;
 
 typedef struct settings{
-	int blockSize, removalsSize, *removals;
+	int blockSize, removalsSize, *removals, artifactLength, artifactDist, frameDist;
+	float percent;
 } Settings;
 
 #endif
