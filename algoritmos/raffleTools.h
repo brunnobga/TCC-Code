@@ -1,6 +1,6 @@
 #ifndef RAFFLETOOLS
 #define RAFFLETOOLS
 
-//list<int> raffle(int f, int w, int h, Settings * set);
+list<Raffle> raffle(int f, int w, int h, Settings * set);
 
 #endif

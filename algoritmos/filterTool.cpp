@@ -5,8 +5,7 @@
 #include <fstream>
 #include <list>
 #include "commons.h"
-#include "dctTools.h"
-#include "raffleTools.h"
+
 #define DEBUG
 
 using namespace std;
@@ -22,97 +21,121 @@ static struct option long_options[] =
 
 static char short_options[] = "i:o:s:a:w:";
 
-void blockFilter();
+#include "dctTools.h"
+#include "raffleTools.h"
 
-void blurFilter();
-
-int main(int argc, char* argv[]){
+class FilterTool{
+private:
 	int artifactType, frameWidth, frameHeight, frameTotal, frameSize, opt_index, c;
 	char *inputFileName, *outputFileName, *tmp;
 	ifstream input;
 	ofstream output;
-	byte * frame;
+	byte * frame, *outframe;
 	list<Raffle> pixelList;
 	Raffle pixel;
+	Settings set;
 
-	/*1. Argument parsing*/
-	while((c = getopt_long(argc, argv, short_options, long_options, &opt_index)) != -1){
-		switch(c){
-			case 'i':
-				inputFileName = (char*)malloc(strlen(optarg)+1); 
-				strcpy(inputFileName, optarg);
-				break;
-			case 'o':
-				outputFileName = (char*)malloc(strlen(optarg)+1); 
-				strcpy(outputFileName, optarg);
-				break;
-			case 's':
-				tmp = strtok(optarg, "x");
-				if(tmp == NULL) printf("Argumento invalido para -s...\n"), exit(1);
-				frameWidth = atoi(tmp);
-				tmp = strtok(NULL, "x");
-				if(tmp == NULL) printf("Argumento invalido para -s...\n"), exit(1);
-				frameHeight = atoi(tmp);
-				frameSize = frameHeight*frameWidth;
-				frame = (byte*)malloc(frameSize); //TODO free memory
-				break;
-			case 'a':
-				printf("Argumento -a: %s\n", optarg);
-				break;
-			case 'w':
-				printf("Argumento -w: %s\n", optarg);
-				break;
-			default:
-				break;
+public:
+	FilterTool(int argc, char* argv[]){
+		while((c = getopt_long(argc, argv, short_options, long_options, &opt_index)) != -1){
+			switch(c){
+				case 'i':
+					inputFileName = (char*)malloc(strlen(optarg)+1); 
+					strcpy(inputFileName, optarg);
+					break;
+				case 'o':
+					outputFileName = (char*)malloc(strlen(optarg)+1); 
+					strcpy(outputFileName, optarg);
+					break;
+				case 's':
+					tmp = strtok(optarg, "x");
+					if(tmp == NULL) printf("Argumento invalido para -s...\n"), exit(1);
+					frameWidth = atoi(tmp);
+					tmp = strtok(NULL, "x");
+					if(tmp == NULL) printf("Argumento invalido para -s...\n"), exit(1);
+					frameHeight = atoi(tmp);
+					frameSize = frameHeight*frameWidth;
+					frame = (byte*)malloc(frameSize); //TODO free memory
+					outframe = (byte*)malloc(frameSize); //TODO free memory	
+					break;
+				case 'a':
+					if(strcmp(optarg, "block") == 0) artifactType = 0;
+					else if(strcmp(optarg, "blur") == 0) artifactType = 1;
+					else printf("Argumento invalido para -a...\n"), exit(1);
+					break;
+				case 'w':
+					set.blockSize = atoi(optarg);
+					if(set.blockSize == 0) printf("Argumento invalido para -w...\n"), exit(1);
+					break;
+				default:
+					break;
+			}
 		}
-	}
-	/*1. end*/
 
-#ifdef DEBUG
-	printf("Input: %s\n", inputFileName);
-	printf("Output: %s\n", outputFileName);
-	printf("Frame W: %d\n", frameWidth);
-	printf("Frame H %d\n", frameHeight);
-#endif
+		#ifdef DEBUG
+			printf("Input: %s\n", inputFileName);
+			printf("Output: %s\n", outputFileName);
+			printf("Frame W: %d\n", frameWidth);
+			printf("Frame H %d\n", frameHeight);
+		#endif
 
-	//TODO 2.verify if there are enough arguments
+	//TODO verify if there are enough arguments
 
-	/*3. Opening file and counting number of frames*/
-	input.open(inputFileName, ifstream::binary);
-	output.open(outputFileName, ofstream::binary);
-	if(input.eof() || input.fail()) printf("Arquivo inexistente: %s\n", inputFileName), exit(2);
-	input.seekg(0, ios::end);
-	frameTotal = input.tellg();
-	frameTotal /= frameSize*1.5;
-	input.seekg(0, ios::beg);
-	free(inputFileName);
-	free(outputFileName);
-	/*3. end*/
-
-#ifdef DEBUG
-	printf("FrameTotal: %d\n", frameTotal);
-#endif
-
-	//TODO 4.process artifact arguments and raffle pixels
-
-	for(int fc = 1; fc <= frameTotal; fc++){
-		//5. read Y component
-		input.read((char*)frame, frameSize);
-
-		//TODO apply artifacts to Y component
-		if(artifactType == 0){
-		}
-		else{continue;}
-
-		/*7. write Y component to output and copy UV to output*/
-		output.write((char*) frame, frameSize);
-		input.read((char*) frame, frameSize/2);
-		output.write((char*) frame, frameSize/2);
-		/*7. end*/
 	}
 
-	input.close();
-	output.close();
+	void performIO(){
+		input.open(inputFileName, ifstream::binary);
+		output.open(outputFileName, ofstream::binary);
+		if(input.eof() || input.fail()) printf("Arquivo inexistente: %s\n", inputFileName), exit(2);
+		input.seekg(0, ios::end);
+		frameTotal = input.tellg();
+		frameTotal /= frameSize*1.5;
+		input.seekg(0, ios::beg);
+		free(inputFileName);
+		free(outputFileName);
+		#ifdef DEBUG
+			printf("FrameTotal: %d\n", frameTotal);
+		#endif
+	}
 
+	void closeIO(){
+		input.close();
+		output.close();
+	}
+
+	void performFiltering(){
+		for(int fc = 1; fc <= frameTotal; fc++){
+			input.read((char*)frame, frameSize);
+
+			if(artifactType == 0){
+				//blockFilter(frame, outframe, frameWidth, &set, &pixelList);
+			}
+			else{continue;}
+
+			output.write((char*) outframe, frameSize);
+			input.read((char*) frame, frameSize/2);
+			output.write((char*) frame, frameSize/2);
+		}
+	}
+
+}; /*end of class FilterTools*/
+
+int main(int argc, char* argv[]){
+
+	//1. Process options
+	//2. verify if there are enough argumentes
+	FilterTool f(argc, argv);
+
+	//3. open IO and count number of frames
+	f.performIO();
+
+	//TODO 4. process artifact arguments and raffle pixels
+
+	//5 read Y component
+	//6. apply artifacts to Y component
+	//7. write Y component and copy UV to output
+	f.performFiltering();
+
+	f.closeIO();
 	return 0;
 }
