@@ -29,13 +29,12 @@ static char short_options[] = "i:o:s:a:w:p:d:";
 
 class FilterTool{
 private:
-	int artifactType, frameWidth, frameHeight, frameTotal, frameSize, opt_index, c;
+	int artifactType, frameWidth, frameHeight, frameTotal, frameSize, blockSize, opt_index, c;
 	char *inputFileName, *outputFileName, *tmp;
 	ifstream input;
 	ofstream output;
 	byte * frame, *outframe;
 	list<Raffle> pixelList;
-	Raffle pixel;
 	Settings set;
 
 public:
@@ -68,6 +67,7 @@ public:
 					break;
 				case 'w':
 					set.blockSize = atoi(optarg);
+					blockSize =  set.blockSize;
 					if(set.blockSize == 0) printf("Argumento invalido para -w...\n"), exit(1);
 					break;
 				case 'p':
@@ -119,8 +119,8 @@ public:
 
 	void processArtifact(){
 		if(artifactType == 0){
-			pixelList = raffle(frameTotal, frameWidth, frameHeight, &set);
-		} else {
+			pixelList = raffle(frameTotal, frameWidth/set.blockSize, frameHeight/set.blockSize, &set);
+			pixelList.sort(sort);
 		}
 		#ifdef DEBUG_RAFFLE
 			list<Raffle>::iterator it;
@@ -131,12 +131,30 @@ public:
 		#endif
 	}
 
+	void blockFilter(int fc){
+		Raffle current = pixelList.front();
+		while(current.f == fc){
+			blockage(frame + current.x*frameWidth*blockSize + current.y*blockSize,
+					outframe + current.x*frameWidth*blockSize + current.y*blockSize, 
+					frameWidth, 
+					&set);
+			pixelList.pop_front();
+			current = pixelList.front();
+		}
+	}
+
 	void performFiltering(){
+		//TODO remove this
+		int rem[] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+		set.removals = rem;
+		set.removalsSize = 14;
+		// end
 		for(int fc = 1; fc <= frameTotal; fc++){
 			input.read((char*)frame, frameSize);
+			memcpy(outframe, frame, frameSize);
 
 			if(artifactType == 0){
-				//blockFilter(frame, outframe, frameWidth, &set, &pixelList);
+				blockFilter(fc);
 			} else{continue;}
 
 			output.write((char*) outframe, frameSize);
@@ -162,7 +180,7 @@ int main(int argc, char* argv[]){
 	//5 read Y component
 	//6. apply artifacts to Y component
 	//7. write Y component and copy UV to output
-	//f.performFiltering();
+	f.performFiltering();
 
 	f.closeIO();
 	return 0;
