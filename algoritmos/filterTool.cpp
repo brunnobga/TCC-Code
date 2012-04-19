@@ -6,7 +6,8 @@
 #include <list>
 #include "commons.h"
 
-#define DEBUG
+#define DEBUG_INPUT
+#define DEBUG_RAFFLE
 
 using namespace std;
 
@@ -16,10 +17,12 @@ static struct option long_options[] =
 		{"output", required_argument, 0, 'o'},
 		{"size", required_argument, 0, 's'},
 		{"artifact", required_argument, 0, 'a'},
-		{"window", required_argument, 0, 'w'}
+		{"window", required_argument, 0, 'w'},
+		{"percentage", required_argument, 0, 'p'},
+		{"duration", required_argument, 0, 'd'}
 	};
 
-static char short_options[] = "i:o:s:a:w:";
+static char short_options[] = "i:o:s:a:w:p:d:";
 
 #include "dctTools.h"
 #include "raffleTools.h"
@@ -67,16 +70,27 @@ public:
 					set.blockSize = atoi(optarg);
 					if(set.blockSize == 0) printf("Argumento invalido para -w...\n"), exit(1);
 					break;
+				case 'p':
+					set.percent = atof(optarg);
+					if(set.percent <= 0) printf("Argumento invalido para -p...\n"), exit(1);
+					break;
+				case 'd':
+					set.duration = atoi(optarg);
+					if(set.duration == 0) printf("Argumento invalido para -d...\n"), exit(1);
+					break;
 				default:
 					break;
 			}
 		}
 
-		#ifdef DEBUG
+		#ifdef DEBUG_INPUT
 			printf("Input: %s\n", inputFileName);
 			printf("Output: %s\n", outputFileName);
 			printf("Frame W: %d\n", frameWidth);
 			printf("Frame H %d\n", frameHeight);
+			printf("Artifact type %d\n", artifactType);
+			printf("Block Size %d\n", set.blockSize);
+			printf("Percentage %lf\n", set.percent);
 		#endif
 
 	//TODO verify if there are enough arguments
@@ -93,7 +107,7 @@ public:
 		input.seekg(0, ios::beg);
 		free(inputFileName);
 		free(outputFileName);
-		#ifdef DEBUG
+		#ifdef DEBUG_INPUT
 			printf("FrameTotal: %d\n", frameTotal);
 		#endif
 	}
@@ -103,14 +117,27 @@ public:
 		output.close();
 	}
 
+	void processArtifact(){
+		if(artifactType == 0){
+			pixelList = raffle(frameTotal, frameWidth, frameHeight, &set);
+		} else {
+		}
+		#ifdef DEBUG_RAFFLE
+			list<Raffle>::iterator it;
+			printf("RAFFLE RESULT:\n");
+			for(it = pixelList.begin(); it != pixelList.end(); it++){
+				printf("F %d X %d Y %d\n", it->f, it->x, it->y);
+			}
+		#endif
+	}
+
 	void performFiltering(){
 		for(int fc = 1; fc <= frameTotal; fc++){
 			input.read((char*)frame, frameSize);
 
 			if(artifactType == 0){
 				//blockFilter(frame, outframe, frameWidth, &set, &pixelList);
-			}
-			else{continue;}
+			} else{continue;}
 
 			output.write((char*) outframe, frameSize);
 			input.read((char*) frame, frameSize/2);
@@ -130,11 +157,12 @@ int main(int argc, char* argv[]){
 	f.performIO();
 
 	//TODO 4. process artifact arguments and raffle pixels
+	f.processArtifact();
 
 	//5 read Y component
 	//6. apply artifacts to Y component
 	//7. write Y component and copy UV to output
-	f.performFiltering();
+	//f.performFiltering();
 
 	f.closeIO();
 	return 0;
