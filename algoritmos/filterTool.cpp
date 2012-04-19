@@ -120,6 +120,7 @@ public:
 	void processArtifact(){
 		if(artifactType == 0){
 			pixelList = raffle(frameTotal, frameWidth/set.blockSize, frameHeight/set.blockSize, &set);
+			printf("%d\n", pixelList.size());
 			pixelList.sort(sort);
 		}
 		#ifdef DEBUG_RAFFLE
@@ -132,8 +133,9 @@ public:
 	}
 
 	void blockFilter(int fc){
-		Raffle current = pixelList.front();
-		while(current.f == fc){
+		Raffle current;
+		if(pixelList.size() > 0) current = pixelList.front();
+		while(current.f == fc && pixelList.size() > 0){
 			blockage(frame + current.x*frameWidth*blockSize + current.y*blockSize,
 					outframe + current.x*frameWidth*blockSize + current.y*blockSize, 
 					frameWidth, 
@@ -142,6 +144,9 @@ public:
 			current = pixelList.front();
 		}
 	}
+
+	int min(int a, int b){ return a < b ? a : b; }
+	int max(int a, int b){ return a > b ? a : b; }
 
 	void performFiltering(){
 		//TODO remove this

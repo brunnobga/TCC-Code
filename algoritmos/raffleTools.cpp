@@ -46,8 +46,8 @@ list<Raffle> raffle(int f, int w, int h, Settings * set){
 	for(; i >= 0;){
 		Raffle *s = new Raffle();
 		(*s).f = 2-d+rand()%(f+d-1);//(f-d);
-		(*s).x = rand()%w;
-		(*s).y = rand()%h;
+		(*s).x = rand()%h;
+		(*s).y = rand()%w;
 		for(j = 0; j < d && i >= 0; j++){
 			if(((*s).f) <= f && ((*s).f) > 0){
 				vetor.push_back(*s);
