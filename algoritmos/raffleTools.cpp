@@ -26,18 +26,6 @@ bool sort(Raffle s1, Raffle s2){
 	/*}}}*/
 }
 
-int raffleFrame(int frames, Settings *set){
-	/* Sorteio do frame {{{*/
-	if(set->frameDist == CONSTANTE){
-		return (2 - set->duration + rand()%(frames + set->duration - 1));
-	else{
-		if(set-frameDist == TRIANGULAR){
-			// verificar parametros [a, b, c]
-			return triangular(set->frameDist->a, set->frameDist->b, set->frameDist->c);
-		}
-	}
-	/*}}}*/
-}
 int triangular(int a, int b, int c){
 	/* Distribuição triangular {{{*/
 	
@@ -55,20 +43,33 @@ int triangular(int a, int b, int c){
 	/*}}}*/
 }
 
+int raffleFrame(int frames, Settings *set){
+	/* Sorteio do frame {{{*/
+	if(set->frameDist.type == UNIFORM){
+		return (2 - set->duration + rand()%(frames + set->duration - 1));
+	}
+	else{
+		if(set->frameDist.type == TRIANGULAR){
+			// verificar parametros [a, b, c]
+			return triangular(set->frameDist.a, set->frameDist.b, set->frameDist.c);
+		}
+	}
+	/*}}}*/
+}
+
 int raffleDuration(Settings *set){
 /* Raffle Duration {{{*/
 
-	if(set->durationDist->type == CONSTANTE){
-		return d;
-	} else{
-		if(set->durationDist->type == NORMAL){
-			// TODO
-			return d;
-		} else{
-			if(set->durationDist->type == TRIANGULAR){
-				return triangular(set->durationDist->a, set->durationDist->b, set->durationDist->c);
-			}
-		}
+	if(set->durationDist.type == CONSTANT){
+		return set->duration;
+	} else if(set->durationDist.type == NORMAL){
+		// TODO
+		return set->duration;
+	} else if(set->durationDist.type == TRIANGULAR){
+		return triangular(set->durationDist.a, set->durationDist.b, set->durationDist.c);
+	} else if(set->durationDist.type == UNIFORM){
+		// uniforme no intervalo [a, b]
+		return ((double) rand() / (RAND_MAX+1.)) * (set->durationDist.b - set->durationDist.a + 1) + set->durationDist.a;
 	}
 	/*}}}*/
 }
@@ -92,7 +93,7 @@ list<Raffle> raffle(int f, int w, int h, Settings * set){
 	list<Raffle>::iterator it;
 	int j, i = round(f*w*h*p);
 	bool constantDurationDist = false;
-	if(set->durationDist->type == CONSTANTE){
+	if(set->durationDist.type == CONSTANT){
 		d = set->duration;
 		constantDurationDist = true;
 	}
@@ -100,10 +101,10 @@ list<Raffle> raffle(int f, int w, int h, Settings * set){
 		Raffle *s = new Raffle();
 		// Verificar a distribuição da duração
 		if(!constantDurationDist){
-			d = raffleDuration(&set);
+			d = raffleDuration(set);
 		}
 		// Verificar a distribuição dos frames
-		(*s).f = raffleFrame(f, &set);
+		(*s).f = raffleFrame(f, set);
 		(*s).x = rand()%h;
 		(*s).y = rand()%w;
 		for(j = 0; j < d && i >= 0; j++){

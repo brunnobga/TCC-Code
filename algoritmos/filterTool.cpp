@@ -20,16 +20,22 @@ static struct option long_options[] =
 		{"artifact", required_argument, 0, 'a'},
 		{"window", required_argument, 0, 'w'},
 		{"percentage", required_argument, 0, 'p'},
-		{"duration", required_argument, 0, 'd'},
+		{"durationdist", required_argument, 0, 'd'},
 		{"blur", required_argument, 0, 'b'},
-		{"levelsdct", required_argument, 0, 'l'}
+		{"levelsdct", required_argument, 0, 'l'},
+		{"paramduration", required_argument, 0, 'u'},
+		{"paramframe", required_argument, 0, 'r'},
+		{"framedist", required_argument, 0, 'f'}
 	};
 
-static char short_options[] = "i:o:s:a:w:p:d:b:l:";
+static char short_options[] = "i:o:s:a:w:p:d:b:l:u:f:r";
 
 #include "dctTools.h"
 #include "raffleTools.h"
 #include "blurTools.h"
+
+#define DURATIONDIST 0
+#define FRAMEDIST 1
 
 class FilterTool{
 private:
@@ -79,8 +85,12 @@ public:
 					if(set.percent <= 0) printf("Argumento invalido para -p...\n"), exit(1);
 					break;
 				case 'd':
-					set.duration = atoi(optarg);
-					if(set.duration == 0) printf("Argumento invalido para -d...\n"), exit(1);
+					if(strcmp(optarg, "constant") == 0) set.durationDist.type = CONSTANT;
+					else if(strcmp(optarg, "uniform") == 0) set.durationDist.type = UNIFORM;
+					else if(strcmp(optarg, "triangular") == 0) set.durationDist.type = TRIANGULAR;
+					else printf("Argumento invalido para -d...\n"), exit(1);
+				case 'u':
+					parseDistParams(optarg, DURATIONDIST);
 					break;
 				case 'b':
 					if(strcmp(optarg, "average") == 0) set.blurType = 1;
@@ -89,6 +99,14 @@ public:
 					break;
 				case 'l':
 					parseLevels(optarg);
+					break;
+				case 'f':
+					if(strcmp(optarg, "uniform") == 0) set.frameDist.type = UNIFORM;
+					else if(strcmp(optarg, "triangular") == 0) set.frameDist.type = TRIANGULAR;
+					else printf("Argumento invalido para -f...\n"), exit(1);
+					break;
+				case 'r':
+					parseDistParams(optarg, FRAMEDIST);
 					break;
 				default:
 					break;
@@ -122,6 +140,28 @@ public:
 		}
 		set.removalsSize = i;
 		set.removals = levels;
+	}
+
+	void parseDistParams(char * arg, int dist){
+		int i;
+		tmp = strtok(arg, ",");
+		if(dist == FRAMEDIST) set.frameDist.a = atoi(tmp);
+		else if(dist == DURATIONDIST) set.durationDist.a = atoi(tmp);
+		tmp = strtok(NULL, ",");
+		if(tmp != NULL){
+			if(dist == FRAMEDIST) set.frameDist.b = atoi(tmp);
+			else if(dist == DURATIONDIST) set.durationDist.b = atoi(tmp);
+			tmp = strtok(NULL, ",");
+		}
+		if(tmp != NULL){
+			if(dist == FRAMEDIST) set.frameDist.c = atoi(tmp);
+			else if(dist == DURATIONDIST) set.durationDist.c = atoi(tmp);
+			tmp = strtok(NULL, ",");
+		}
+		if(tmp != NULL){
+			if(dist == FRAMEDIST) printf("Excesso de parametros para -u...\n"), exit(1);
+			else if(dist == DURATIONDIST) printf("Excesso de parametros para -u...\n"), exit(1);
+		}
 	}
 
 	void performIO(){
