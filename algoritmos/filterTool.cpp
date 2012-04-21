@@ -8,6 +8,7 @@
 
 #define DEBUG_INPUT
 //#define DEBUG_RAFFLE
+#define DEBUG_OUTPUT
 
 using namespace std;
 
@@ -20,10 +21,11 @@ static struct option long_options[] =
 		{"window", required_argument, 0, 'w'},
 		{"percentage", required_argument, 0, 'p'},
 		{"duration", required_argument, 0, 'd'},
-		{"blur", required_argument, 0, 'b'}
+		{"blur", required_argument, 0, 'b'},
+		{"levelsdct", required_argument, 0, 'l'}
 	};
 
-static char short_options[] = "i:o:s:a:w:p:d:b:";
+static char short_options[] = "i:o:s:a:w:p:d:b:l:";
 
 #include "dctTools.h"
 #include "raffleTools.h"
@@ -31,7 +33,7 @@ static char short_options[] = "i:o:s:a:w:p:d:b:";
 
 class FilterTool{
 private:
-	int artifactType, frameWidth, frameHeight, frameTotal, frameSize, blockSize, opt_index, c;
+	int artifactType, frameWidth, frameHeight, frameTotal, frameSize, blockSize, levels[32], opt_index, c;
 	char *inputFileName, *outputFileName, *tmp;
 	ifstream input;
 	ofstream output;
@@ -85,6 +87,9 @@ public:
 					else if(strcmp(optarg, "median") == 0) set.blurType = 2;
 					else printf("Argumento invalido para -b...\n"), exit(1);
 					break;
+				case 'l':
+					parseLevels(optarg);
+					break;
 				default:
 					break;
 			}
@@ -100,10 +105,23 @@ public:
 			printf("Percentage %lf\n", set.percent);
 			printf("Duration %d\n", set.duration);
 			printf("BlurType %d\n", set.blurType);
+			printf("Levels Size %d\n", set.removalsSize);
 		#endif
 
 	//TODO verify if there are enough arguments
 
+	}
+
+	void parseLevels(char * arg){
+		int i;
+		tmp = strtok(arg, ",");
+		levels[0] = atoi(tmp);
+		tmp = strtok(NULL, ",");
+		for(i = 1; tmp != NULL; i++, tmp = strtok(NULL, ",")){
+			levels[i] = atoi(tmp);
+		}
+		set.removalsSize = i;
+		set.removals = levels;
 	}
 
 	void performIO(){
@@ -129,7 +147,6 @@ public:
 	void processArtifact(){
 		if(artifactType == 0){
 			pixelList = raffle(frameTotal, frameWidth/set.blockSize, frameHeight/set.blockSize, &set);
-			printf("%d\n", pixelList.size());
 			pixelList.sort(sort);
 		}
 		#ifdef DEBUG_RAFFLE
@@ -162,11 +179,6 @@ public:
 	int max(int a, int b){ return a > b ? a : b; }
 
 	void performFiltering(){
-		//TODO remove this
-		int rem[] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
-		set.removals = rem;
-		set.removalsSize = 14;
-		// end
 		for(int fc = 1; fc <= frameTotal; fc++){
 			input.read((char*)frame, frameSize);
 			memcpy(outframe, frame, frameSize);
@@ -180,6 +192,9 @@ public:
 			output.write((char*) outframe, frameSize);
 			input.read((char*) frame, frameSize/2);
 			output.write((char*) frame, frameSize/2);
+			#ifdef DEBUG_OUTPUT
+				printf("At %3d\n", fc);
+			#endif
 		}
 	}
 
