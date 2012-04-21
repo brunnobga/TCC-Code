@@ -7,7 +7,7 @@
 #include "dctTools.h"
 
 void applyDCT2Lossy(byte *blockFrom, double* blockTo, int frameW, Settings * set){
-	float a, b;
+	double a, b;
 	int p, q, mm, nn, i, blockSize, lSize, *levels;
 	bool zerar = false;
 	blockSize = set->blockSize;
@@ -41,7 +41,7 @@ return;
 // blockFrom aponta para o primeiro pixel a ser processado em um frame de largura frameW
 // blockTo deve ter tamanho blockSize*blockSize
 void applyDCT2(byte *blockFrom, double* blockTo, int blockSize, int frameW){
-	float a, b;
+	double a, b;
 	int p, q, mm, nn;
 
 	for(p = 0; p < blockSize; p++){
@@ -65,8 +65,8 @@ void applyDCT2(byte *blockFrom, double* blockTo, int blockSize, int frameW){
 
 //Aplica IDCT2 em um bloco blockSize X blockSize contido em um frame de largura frameW.
 void applyIDCT2(double* blockFrom, byte* blockTo, int blockSize, int frameW){
-	float a, b;
-	int p, q, mm, nn, result;
+	double a, b, result;
+	int p, q, mm, nn;
 	
 	for(mm = 0; mm < blockSize; mm++){
 		for(nn = 0; nn < blockSize; nn++){
