@@ -3,8 +3,8 @@ CFLAGS=-c -Wall
 
 all: filterTool
 
-filterTool: filterTool.o dctTools.o raffleTools.o commons.h dctTools.h raffleTools.h
-	$(CC) filterTool.o dctTools.o raffleTools.o -o filterTool
+filterTool: filterTool.o dctTools.o raffleTools.o blurTools.o commons.h dctTools.h raffleTools.h
+	$(CC) filterTool.o dctTools.o raffleTools.o blurTools.o -o filterTool
 
 testes: testes.o dctTools.o
 	$(CC) testes.o dctTools.o -o testes
@@ -20,6 +20,9 @@ dctTools.o: dctTools.cpp dctTools.h commons.h
 
 raffleTools.o: raffleTools.cpp raffleTools.h commons.h
 	$(CC) $(CFLAGS) raffleTools.cpp
+
+blurTools.o: blurTools.cpp blurTools.h commons.h
+	$(CC) $(CFLAGS) blurTools.cpp
 
 clean:
 	rm -rf *.o testes filterTools

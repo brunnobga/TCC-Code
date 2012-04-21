@@ -7,7 +7,7 @@
 #include "commons.h"
 
 #define DEBUG_INPUT
-#define DEBUG_RAFFLE
+//#define DEBUG_RAFFLE
 
 using namespace std;
 
@@ -19,13 +19,15 @@ static struct option long_options[] =
 		{"artifact", required_argument, 0, 'a'},
 		{"window", required_argument, 0, 'w'},
 		{"percentage", required_argument, 0, 'p'},
-		{"duration", required_argument, 0, 'd'}
+		{"duration", required_argument, 0, 'd'},
+		{"blur", required_argument, 0, 'b'}
 	};
 
-static char short_options[] = "i:o:s:a:w:p:d:";
+static char short_options[] = "i:o:s:a:w:p:d:b:";
 
 #include "dctTools.h"
 #include "raffleTools.h"
+#include "blurTools.h"
 
 class FilterTool{
 private:
@@ -78,6 +80,11 @@ public:
 					set.duration = atoi(optarg);
 					if(set.duration == 0) printf("Argumento invalido para -d...\n"), exit(1);
 					break;
+				case 'b':
+					if(strcmp(optarg, "average") == 0) set.blurType = 1;
+					else if(strcmp(optarg, "median") == 0) set.blurType = 2;
+					else printf("Argumento invalido para -b...\n"), exit(1);
+					break;
 				default:
 					break;
 			}
@@ -91,6 +98,8 @@ public:
 			printf("Artifact type %d\n", artifactType);
 			printf("Block Size %d\n", set.blockSize);
 			printf("Percentage %lf\n", set.percent);
+			printf("Duration %d\n", set.duration);
+			printf("BlurType %d\n", set.blurType);
 		#endif
 
 	//TODO verify if there are enough arguments
@@ -145,6 +154,10 @@ public:
 		}
 	}
 
+	void blurFilter(){
+		blur(frame, outframe, frameHeight, frameWidth, &set);
+	}
+
 	int min(int a, int b){ return a < b ? a : b; }
 	int max(int a, int b){ return a > b ? a : b; }
 
@@ -160,7 +173,9 @@ public:
 
 			if(artifactType == 0){
 				blockFilter(fc);
-			} else{continue;}
+			} else{
+				blurFilter();
+			}
 
 			output.write((char*) outframe, frameSize);
 			input.read((char*) frame, frameSize/2);
@@ -179,7 +194,7 @@ int main(int argc, char* argv[]){
 	//3. open IO and count number of frames
 	f.performIO();
 
-	//TODO 4. process artifact arguments and raffle pixels
+	//4. process artifact arguments and raffle pixels
 	f.processArtifact();
 
 	//5 read Y component

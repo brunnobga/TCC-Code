@@ -3,6 +3,7 @@
 #include <fstream>
 #include <cstring>
 #include <list>
+#include "commons.h"
 #include "blurTools.h"
 
 #define DEBUG
@@ -15,7 +16,9 @@ int min(int a, int b){ return a < b ? a : b; }
 int max(int a, int b){ return a > b ? a : b; }
 bool comparar(double a, double b){ return a < b ? true : false; }
 
-void blur(byte *originalFrame, byte *bluredFrame, int H, int W, int fType, int fSize){
+void blur(byte *originalFrame, byte *bluredFrame, int H, int W, Settings * set){
+	int fType = set->blurType;
+	int fSize = set->blockSize;
 	if(fSize < 3) return;
 	int lowerLimit = (fSize-fSize%2)/-2;
 	int upperLimit = (fSize-fSize%2)/2;
