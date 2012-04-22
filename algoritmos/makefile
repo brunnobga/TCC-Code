@@ -1,7 +1,13 @@
 CC=g++
 CFLAGS=-c -Wall
 
-all: filterTool
+all: filterTool metricTool
+
+metricTool: metricTool.o
+	$(CC) metricTool.o -o metricTool
+
+metricTool.o: metricTool.cpp
+	$(CC) $(CFLAGS) metricTool.cpp
 
 filterTool: filterTool.o dctTools.o raffleTools.o blurTools.o commons.h dctTools.h raffleTools.h
 	$(CC) filterTool.o dctTools.o raffleTools.o blurTools.o -o filterTool
@@ -25,5 +31,5 @@ blurTools.o: blurTools.cpp blurTools.h commons.h
 	$(CC) $(CFLAGS) blurTools.cpp
 
 clean:
-	rm -rf *.o testes filterTools
+	rm -rf *.o testes filterTool metricTool
 
