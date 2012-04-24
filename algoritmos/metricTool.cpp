@@ -164,7 +164,7 @@ public:
 
 	double mssim(){
 		int i, j, numberW = frameWidth/window, numberH = frameHeight/window;
-		double ssimperframe[numberW][numberH], mssimperframe[frameTotal];
+		double ssimperframe[numberH][numberW], mssimperframe[frameTotal];
 		for(int fc = 0; fc < frameTotal; fc++){
 			input.read((char*)frame, frameSize);
 			ref.read((char*)refframe, frameSize);
@@ -175,7 +175,7 @@ public:
 			}
 			input.read((char*)frame, frameSize/2);
 			ref.read((char*)refframe, frameSize/2);
-			mssimperframe[fc] = mean(ssimperframe[0], numberW);
+			mssimperframe[fc] = mean(&ssimperframe[0][0], numberW*numberH);
 			#ifdef DEBUG_OUTPUT
 				printf("Frame %d\n", fc);
 			#endif
