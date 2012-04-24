@@ -68,6 +68,7 @@ public:
 					if(strcmp(optarg, "MSE") == 0) metricType = 0;
 					else if(strcmp(optarg, "PSNR") == 0) metricType = 1;
 					else if(strcmp(optarg, "MSSIM") == 0) metricType = 2;
+					else printf("Metrica desconhecida. \n"), exit(2);
 					break;
 				default:
 					break;
@@ -92,7 +93,8 @@ public:
 
 	double mean(double * in, int size){
 		double result = 0;
-		for(int i = 0; i < size; i++, result += *(in + i));
+		for(int i = 0; i < size; i++)
+				result += *(in + i);
 		return result/size;
 	}
 
@@ -173,7 +175,7 @@ public:
 			}
 			input.read((char*)frame, frameSize/2);
 			ref.read((char*)refframe, frameSize/2);
-			mssimperframe[fc] = mean(ssimperframe[0], numberW*numberH);
+			mssimperframe[fc] = mean(ssimperframe[0], numberW);
 			#ifdef DEBUG_OUTPUT
 				printf("Frame %d\n", fc);
 			#endif
@@ -199,7 +201,7 @@ public:
 		frameTotal /= frameSize*1.5;
 		input.seekg(0, ios::beg);
 		ref.seekg(0, ios::end);
-		if(frameTotal != ref.tellg()/(frameSize*1.5)) printf("Arquivos de tamanho diferente!"), exit(2);
+		if(frameTotal != ref.tellg()/(frameSize*1.5)) printf("Arquivos de tamanho diferente!\n"), exit(2);
 		ref.seekg(0, ios::beg);
 		free(inputFileName);
 		free(refFileName);
