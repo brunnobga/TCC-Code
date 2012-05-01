@@ -147,7 +147,10 @@ public:
 		printf("dist %d arg %s\n", dist, arg);
 		tmp = strtok(arg, ",");
 		if(dist == FRAMEDIST) set.frameDist.a = atoi(tmp);
-		else if(dist == DURATIONDIST) set.durationDist.a = atoi(tmp);
+		else if(dist == DURATIONDIST){
+			set.durationDist.a = atoi(tmp);
+			set.duration = set.durationDist.a;
+		}
 		tmp = strtok(NULL, ",");
 		if(tmp != NULL){
 			if(dist == FRAMEDIST) set.frameDist.b = atoi(tmp);

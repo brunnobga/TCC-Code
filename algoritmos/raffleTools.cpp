@@ -37,7 +37,6 @@ int triangular(int a, int b, int c){
 	 */
 	double fc = (c - a)/(b - a);
 	double u = ((double)rand())/(RAND_MAX + 1.);
-	double x;
 	if(fc > u) return (int)(a + sqrt(u*(b-a)*(c-a)));
 	else if(fc < u) return (int)(b - sqrt((1-u)*(b-a)*(b-c)));
 	/*}}}*/
@@ -96,6 +95,7 @@ list<Raffle> raffle(int f, int w, int h, Settings * set){
 	if(set->durationDist.type == CONSTANT){
 		d = set->duration;
 		constantDurationDist = true;
+		printf("constant\n");
 	}
 	for(; i >= 0;){
 		Raffle *s = new Raffle();
