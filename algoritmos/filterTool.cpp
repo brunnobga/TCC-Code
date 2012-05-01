@@ -7,7 +7,7 @@
 #include "commons.h"
 
 #define DEBUG_INPUT
-//#define DEBUG_RAFFLE
+#define DEBUG_RAFFLE
 #define DEBUG_OUTPUT
 
 using namespace std;
@@ -28,7 +28,7 @@ static struct option long_options[] =
 		{"framedist", required_argument, 0, 'f'}
 	};
 
-static char short_options[] = "i:o:s:a:w:p:d:b:l:u:f:r";
+static char short_options[] = "i:o:s:a:w:p:d:b:l:u:f:r:";
 
 #include "dctTools.h"
 #include "raffleTools.h"
@@ -89,6 +89,7 @@ public:
 					else if(strcmp(optarg, "uniform") == 0) set.durationDist.type = UNIFORM;
 					else if(strcmp(optarg, "triangular") == 0) set.durationDist.type = TRIANGULAR;
 					else printf("Argumento invalido para -d...\n"), exit(1);
+					break;
 				case 'u':
 					parseDistParams(optarg, DURATIONDIST);
 					break;
@@ -121,9 +122,9 @@ public:
 			printf("Artifact type %d\n", artifactType);
 			printf("Block Size %d\n", set.blockSize);
 			printf("Percentage %lf\n", set.percent);
-			printf("Duration %d\n", set.duration);
 			printf("BlurType %d\n", set.blurType);
 			printf("Levels Size %d\n", set.removalsSize);
+			printf("Duration dist %d\n", set.durationDist.a);
 		#endif
 
 	//TODO verify if there are enough arguments
@@ -143,7 +144,7 @@ public:
 	}
 
 	void parseDistParams(char * arg, int dist){
-		int i;
+		printf("dist %d arg %s\n", dist, arg);
 		tmp = strtok(arg, ",");
 		if(dist == FRAMEDIST) set.frameDist.a = atoi(tmp);
 		else if(dist == DURATIONDIST) set.durationDist.a = atoi(tmp);
@@ -185,6 +186,7 @@ public:
 	}
 
 	void processArtifact(){
+		printf("Ola!\n");
 		if(artifactType == 0){
 			pixelList = raffle(frameTotal, frameWidth/set.blockSize, frameHeight/set.blockSize, &set);
 			pixelList.sort(sort);
