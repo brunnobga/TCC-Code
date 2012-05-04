@@ -17,22 +17,15 @@ static struct option long_options[] =
 		{"input", required_argument, 0, 'i'},
 		{"output", required_argument, 0, 'o'},
 		{"size", required_argument, 0, 's'},
-		{"artifact", required_argument, 0, 'a'},
 		{"window", required_argument, 0, 'w'},
 		{"percentage", required_argument, 0, 'p'},
-		{"durationdist", required_argument, 0, 'd'},
-		{"blur", required_argument, 0, 'b'},
 		{"levelsdct", required_argument, 0, 'l'},
-		{"paramduration", required_argument, 0, 'u'},
-		{"paramframe", required_argument, 0, 'r'},
-		{"framedist", required_argument, 0, 'f'}
+		{"rafflelist", required_argument, 0, 'r'}
 	};
 
-static char short_options[] = "i:o:s:a:w:p:d:b:l:u:f:r:";
+static char short_options[] = "i:o:s:w:p:l:r:";
 
 #include "dctTools.h"
-#include "raffleTools.h"
-#include "blurTools.h"
 
 #define DURATIONDIST 0
 #define FRAMEDIST 1
@@ -40,8 +33,8 @@ static char short_options[] = "i:o:s:a:w:p:d:b:l:u:f:r:";
 class FilterTool{
 private:
 	int artifactType, frameWidth, frameHeight, frameTotal, frameSize, blockSize, levels[32], opt_index, c;
-	char *inputFileName, *outputFileName, *tmp;
-	ifstream input;
+	char *inputFileName, *outputFileName, *raffleFileName, *tmp;
+	ifstream input, raffleFile;
 	ofstream output;
 	byte * frame, *outframe;
 	list<Raffle> pixelList;
@@ -70,11 +63,6 @@ public:
 					frame = (byte*)malloc(frameSize); //TODO free memory
 					outframe = (byte*)malloc(frameSize); //TODO free memory	
 					break;
-				case 'a':
-					if(strcmp(optarg, "block") == 0) artifactType = 0;
-					else if(strcmp(optarg, "blur") == 0) artifactType = 1;
-					else printf("Argumento invalido para -a...\n"), exit(1);
-					break;
 				case 'w':
 					set.blockSize = atoi(optarg);
 					blockSize =  set.blockSize;
@@ -84,30 +72,12 @@ public:
 					set.percent = atof(optarg);
 					if(set.percent <= 0) printf("Argumento invalido para -p...\n"), exit(1);
 					break;
-				case 'd':
-					if(strcmp(optarg, "constant") == 0) set.durationDist.type = CONSTANT;
-					else if(strcmp(optarg, "uniform") == 0) set.durationDist.type = UNIFORM;
-					else if(strcmp(optarg, "triangular") == 0) set.durationDist.type = TRIANGULAR;
-					else printf("Argumento invalido para -d...\n"), exit(1);
-					break;
-				case 'u':
-					parseDistParams(optarg, DURATIONDIST);
-					break;
-				case 'b':
-					if(strcmp(optarg, "average") == 0) set.blurType = 1;
-					else if(strcmp(optarg, "median") == 0) set.blurType = 2;
-					else printf("Argumento invalido para -b...\n"), exit(1);
-					break;
 				case 'l':
 					parseLevels(optarg);
 					break;
-				case 'f':
-					if(strcmp(optarg, "uniform") == 0) set.frameDist.type = UNIFORM;
-					else if(strcmp(optarg, "triangular") == 0) set.frameDist.type = TRIANGULAR;
-					else printf("Argumento invalido para -f...\n"), exit(1);
-					break;
 				case 'r':
-					parseDistParams(optarg, FRAMEDIST);
+					raffleFileName = (char*)malloc(strlen(optarg)+1);
+					strcpy(raffleFileName, optarg);
 					break;
 				default:
 					break;
@@ -143,35 +113,60 @@ public:
 		set.removals = levels;
 	}
 
-	void parseDistParams(char * arg, int dist){
-		printf("dist %d arg %s\n", dist, arg);
-		tmp = strtok(arg, ",");
-		if(dist == FRAMEDIST) set.frameDist.a = atoi(tmp);
-		else if(dist == DURATIONDIST){
-			set.durationDist.a = atoi(tmp);
-			set.duration = set.durationDist.a;
+	void blockFilter(int fc){
+		Raffle current;
+		if(pixelList.size() > 0) current = pixelList.front();
+		while(current.f == fc && pixelList.size() > 0){
+			blockage(frame + current.x*frameWidth*blockSize + current.y*blockSize,
+					outframe + current.x*frameWidth*blockSize + current.y*blockSize, 
+					frameWidth, 
+					&set);
+			pixelList.pop_front();
+			current = pixelList.front();
 		}
-		tmp = strtok(NULL, ",");
-		if(tmp != NULL){
-			if(dist == FRAMEDIST) set.frameDist.b = atoi(tmp);
-			else if(dist == DURATIONDIST) set.durationDist.b = atoi(tmp);
-			tmp = strtok(NULL, ",");
+	}
+
+	void performFiltering(){
+		for(int fc = 1; fc <= frameTotal; fc++){
+			input.read((char*)frame, frameSize);
+			memcpy(outframe, frame, frameSize);
+
+			blockFilter(fc);
+
+			output.write((char*) outframe, frameSize);
+			input.read((char*) frame, frameSize/2);
+			output.write((char*) frame, frameSize/2);
+			#ifdef DEBUG_OUTPUT
+				printf("At %3d\n", fc);
+			#endif
 		}
-		if(tmp != NULL){
-			if(dist == FRAMEDIST) set.frameDist.c = atoi(tmp);
-			else if(dist == DURATIONDIST) set.durationDist.c = atoi(tmp);
-			tmp = strtok(NULL, ",");
+	}
+
+	void readRaffleList(){
+		// TODO Ler arquivo com os pontos sorteados
+		int tmpF, tmpX, tmpY;
+		while(raffleFile >> tmpF >> tmpX >> tmpY){
+			Raffle *tmpRaffle = new Raffle();
+			(*tmpRaffle).f = tmpF;
+			(*tmpRaffle).x = tmpX/blockSize;
+			(*tmpRaffle).y = tmpY/blockSize;
+			pixelList.push_back(*tmpRaffle);
 		}
-		if(tmp != NULL){
-			if(dist == FRAMEDIST) printf("Excesso de parametros para -u...\n"), exit(1);
-			else if(dist == DURATIONDIST) printf("Excesso de parametros para -u...\n"), exit(1);
-		}
+		#ifdef DEBUG_RAFFLE
+			list<Raffle>::iterator it;
+			printf("RAFFLE RESULT:\n");
+			for(it = pixelList.begin(); it != pixelList.end(); it++){
+				printf("F %d X %d Y %d\n", it->f, it->x, it->y);
+			}
+		#endif
 	}
 
 	void performIO(){
 		input.open(inputFileName, ifstream::binary);
+		raffleFile.open(raffleFileName, ifstream::binary);
 		output.open(outputFileName, ofstream::binary);
 		if(input.eof() || input.fail()) printf("Arquivo inexistente: %s\n", inputFileName), exit(2);
+		if(raffleFile.eof() || raffleFile.fail()) printf("Arquivo inexistente: %s\n", raffleFileName), exit(2);
 		input.seekg(0, ios::end);
 		frameTotal = input.tellg();
 		frameTotal /= frameSize*1.5;
@@ -188,61 +183,6 @@ public:
 		output.close();
 	}
 
-	void processArtifact(){
-		printf("Ola!\n");
-		if(artifactType == 0){
-			pixelList = raffle(frameTotal, frameWidth/set.blockSize, frameHeight/set.blockSize, &set);
-			pixelList.sort(sort);
-		}
-		#ifdef DEBUG_RAFFLE
-			list<Raffle>::iterator it;
-			printf("RAFFLE RESULT:\n");
-			for(it = pixelList.begin(); it != pixelList.end(); it++){
-				printf("F %d X %d Y %d\n", it->f, it->x, it->y);
-			}
-		#endif
-	}
-
-	void blockFilter(int fc){
-		Raffle current;
-		if(pixelList.size() > 0) current = pixelList.front();
-		while(current.f == fc && pixelList.size() > 0){
-			blockage(frame + current.x*frameWidth*blockSize + current.y*blockSize,
-					outframe + current.x*frameWidth*blockSize + current.y*blockSize, 
-					frameWidth, 
-					&set);
-			pixelList.pop_front();
-			current = pixelList.front();
-		}
-	}
-
-	void blurFilter(){
-		blur(frame, outframe, frameHeight, frameWidth, &set);
-	}
-
-	int min(int a, int b){ return a < b ? a : b; }
-	int max(int a, int b){ return a > b ? a : b; }
-
-	void performFiltering(){
-		for(int fc = 1; fc <= frameTotal; fc++){
-			input.read((char*)frame, frameSize);
-			memcpy(outframe, frame, frameSize);
-
-			if(artifactType == 0){
-				blockFilter(fc);
-			} else{
-				blurFilter();
-			}
-
-			output.write((char*) outframe, frameSize);
-			input.read((char*) frame, frameSize/2);
-			output.write((char*) frame, frameSize/2);
-			#ifdef DEBUG_OUTPUT
-				printf("At %3d\n", fc);
-			#endif
-		}
-	}
-
 }; /*end of class FilterTools*/
 
 int main(int argc, char* argv[]){
@@ -255,7 +195,7 @@ int main(int argc, char* argv[]){
 	f.performIO();
 
 	//4. process artifact arguments and raffle pixels
-	f.processArtifact();
+	f.readRaffleList();
 
 	//5 read Y component
 	//6. apply artifacts to Y component
