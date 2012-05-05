@@ -4,6 +4,7 @@
 #include <cmath>
 #include <getopt.h>
 #include <fstream>
+#include <list>
 
 #define DEBUG_INPUT
 #define DEBUG_OUTPUT
@@ -12,16 +13,21 @@ using namespace std;
 
 typedef unsigned char byte;
 
+typedef struct raffle{
+	int b, d;
+} Raffle;
+
 static struct option long_options[] = 
 	{
 		{"input", required_argument, 0, 'i'},
 		{"output", required_argument, 0, 'o'},
 		{"burst", required_argument, 0, 'b'},
 		{"duration", required_argument, 0, 'd'},
-		{"ts", no_argument, 0, 't'}
+		{"ts", no_argument, 0, 't'},
+		{"raffle", required_argument, 0, 'r'}
 	};
 
-static char short_options[] = "i:o:b:d:nt";
+static char short_options[] = "i:o:b:d:tr:";
 
 static const int ts_size = 188;
 
@@ -30,9 +36,10 @@ private:
 	bool normal_flag, ts_flag;
 	double burst_mean, burst_dev, duration_mean, duration_dev;
 	int c, opt_index, entity_size, total_entities, total_lost;
-	char *inputFileName, *outFileName, *tmp;
-	ifstream input;
+	char *inputFileName, *outFileName, *raffleFileName, *tmp;
+	ifstream input, raffleFile;
 	ofstream output;
+	list<Raffle> lost;
 
 public:
 	NetSimTool(int argc, char* argv[]){
@@ -66,8 +73,9 @@ public:
 					if(tmp == NULL) printf("Argumento invalido para -d...\n"), exit(1);
 					duration_dev = atof(tmp);
 					break;
-				case 'n':
-					normal_flag = true;
+				case 'r':
+					raffleFileName = (char*)malloc(strlen(optarg)+1);
+					strcpy(raffleFileName, optarg);
 					break;
 				case 't':
 					ts_flag = true;
@@ -93,6 +101,7 @@ public:
 	
 	void performIO(){
 		input.open(inputFileName, ifstream::binary);
+		raffleFile.open(raffleFileName, ifstream::binary);
 		output.open(outFileName, ofstream::binary);
 		if(input.eof() || input.fail()) printf("Arquivo inexistente: %s\n", inputFileName), exit(2);
 		input.seekg(0, ios::end);
@@ -105,12 +114,30 @@ public:
 
 	void closeIO(){
 		input.close();
+		raffleFile.close();
 		output.close();
 	}
 
 	void raffle(int * burst, int * duration){
-		*burst = 100;
-		*duration = 10;
+		if(lost.empty()){
+			*burst = 9999999;
+			return;
+		}
+		Raffle a = lost.front();
+		lost.pop_front();
+		*burst = a.b;
+		*duration = a.d;
+		return;
+	}
+
+	void readRaffleFile(){
+		int tmpB, tmpD;
+		while(raffleFile >> tmpB >> tmpD){
+			Raffle a;
+			a.b = tmpB;
+			a.d = tmpD;
+			lost.push_back(a);
+		}
 		return;
 	}
 
@@ -133,7 +160,6 @@ public:
 				output.write((char*)pkg, entity_size);
 				raffle(&burst, &duration);
 			}
-			//printf("%d\n", i);
 		}
 		input.read((char*)pkg, entity_size);
 		output.write((char*)pkg, input.gcount());
@@ -151,6 +177,7 @@ int main(int argc, char* argv[]){
 	m.performIO();
 
 	//4. call simulation
+	m.readRaffleFile();
 	m.simulate();
 	
 	m.closeIO();
