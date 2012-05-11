@@ -9,14 +9,12 @@
 #include <iostream>
 
 /*
- ./raffleTool -o output.rff | -f uniform	-r a,b	| -d constant 	-u a
- 							|						| -d uniform 	-u a,b
-							|						| -d triangular	-u a,b,c
-							|
- 							| -f triangular	-r a,b,c	| -d constant	-u a
-							|							| -d uniform	-u a,b
-							|							| -d triangular	-u a,b,c
-							| -f packets?	-
+ ./raffle -o teste.rff
+ 		  -e 1000
+ 		  -u normal -r 2,6 
+		  -d uniform -p 1,5 
+		  -d constant -p 3 
+		  -d triangular -p 3,20,10
  */
 using namespace std;
 
