@@ -7,35 +7,34 @@
 #include "commons.h"
 #include <cmath>
 #include <iostream>
+#include <list>
 
 /*
- ./raffle -o teste.rff
- 		  -e 1000
- 		  -u normal -r 2,6 
-		  -d uniform -p 1,5 
-		  -d constant -p 3 
-		  -d triangular -p 3,20,10
+ ./raffle -o output.rff 
+ 		  -d constant | triangular | normal | uniform
+		  -p 	a		  a,b,c		  a,b		a,b
+		  -n number
  */
+
 using namespace std;
 
-#define FRAMEDIST 0
-#define DURATIONDIST 1
+#define DISTDURATION 0
+#define DISTVALUES 1
 
 #define DEBUG_INPUT 0
 
 static struct option long_options[] = 
 	{
 		{"output", required_argument, 0, 'o'},
-		{"framedist", required_argument, 0, 'f'},
-		{"frame", required_argument, 0, 'r'},
-		{"durationdist", required_argument, 0, 'd'},
-		{"duration", required_argument, 0, 'u'},
+		{"dist", required_argument, 0, 'd'},
+		{"params", required_argument, 0, 'p'},
 		{"elements", required_argument, 0, 'e'},
-		{"total", required_argument, 0, 't'},
-		{"size", required_argument, 0, 's'},
+		{"durationdist", required_argument, 0, 'u'},
+		{"durationparams", required_argument, 0, 'r'},
+		{"help", no_argument, 0, 'h'}
 	};
 
-static char short_options[] = "o:f:r:d:u:e:s:t:";
+static char short_options[] = "o:d:p:e:u:r:h:";
 
 bool compara(Raffle s1, Raffle s2){
 	/* Ordenação do vetor {{{*/
@@ -56,53 +55,84 @@ bool compara(Raffle s1, Raffle s2){
 	/*}}}*/
 }
 
-class RaffleTemp{
+class RaffleTool{
 private:
-	int c, opt_index, elements, width, height, numberFrames;
-	Distribution frame, duration;
+	int c, opt_index, elements;
+	list<Distribution> dist;
+	list<Distribution>::iterator distIt;
 	char *inputFileName, *outputFileName, *tmp;
 	ofstream output;
+	Distribution *distTemp, *duration;
+	bool help;
 
 public:
-	RaffleTemp(int argc, char* argv[]){
+	RaffleTool(int argc, char* argv[]){
+		help = false;
+		elements = 0;
 		while((c = getopt_long(argc, argv, short_options, long_options, &opt_index)) != -1){
 			switch(c){
 				case 'o':
 					outputFileName = (char*)malloc(strlen(optarg)+1); 
 					strcpy(outputFileName, optarg);
 					break;
-				case 'f':
-					if(strcmp(optarg, "uniform") == 0) frame.type = UNIFORM;
-					else if(strcmp(optarg, "triangular") == 0) frame.type = TRIANGULAR;
-					else printf("Argumento invalido para -f...\n"), exit(1);
-					break;
-				case 'r':
-					parseDistParams(optarg, FRAMEDIST);
-					break;
 				case 'd':
-					if(strcmp(optarg, "constant") == 0) duration.type = CONSTANT;
-					else if(strcmp(optarg, "uniform") == 0) duration.type = UNIFORM;
-					else if(strcmp(optarg, "triangular") == 0) duration.type = TRIANGULAR;
-					else printf("Argumento invalido para -d...\n"), exit(1);
+					distTemp = new Distribution();
+					distTemp->type = 0;
+					distTemp->a = 0;
+					distTemp->b = 0;
+					distTemp->c = 0;
+					if(strcmp(optarg, "constant") == 0) distTemp->type = CONSTANT;
+					else if(strcmp(optarg, "uniform") == 0) distTemp->type = UNIFORM;
+					else if(strcmp(optarg, "normal") == 0) distTemp->type = NORMAL;
+					else if(strcmp(optarg, "triangular") == 0) distTemp->type = TRIANGULAR;
+					else printf("Argumento invalido para -d...\n"), exit(2);
 					break;
-				case 'u':
-					parseDistParams(optarg, DURATIONDIST);
+				case 'p':
+					parseDistParams(optarg, DISTVALUES);
+					dist.push_back(*distTemp);
 					break;
 				case 'e':
 					elements = atoi(optarg);
 					if(elements == 0) printf("Argumento invalido para -e...\n"), exit(2);
 					break;
-				case 's':
-					tmp = strtok(optarg, "x");
-					if(tmp == NULL) printf("Argumento invalido para -s...\n"), exit(1);
-					width = atoi(tmp);
-					tmp = strtok(NULL, "x");
-					if(tmp == NULL) printf("Argumento invalido para -s...\n"), exit(1);
-					height = atoi(tmp);
+				case 'u':
+					duration = new Distribution();
+					duration->a = 0;
+					duration->b = 0;
+					duration->c = 0;
+					if(strcmp(optarg, "constant") == 0) duration->type = CONSTANT;
+					else if(strcmp(optarg, "uniform") == 0) duration->type = UNIFORM;
+					else if(strcmp(optarg, "normal") == 0) duration->type = NORMAL;
+					else if(strcmp(optarg, "triangular") == 0) duration->type = TRIANGULAR;
+					else printf("Argumento invalido para -u...\n"), exit(2);
 					break;
-				case 't':
-					numberFrames = atoi(optarg);
-					if(numberFrames == 0) printf("Argumento inválido para -t...\n"), exit(2);
+				case 'r':
+					parseDistParams(optarg, DISTDURATION);
+					break;
+				case 'h':
+					help = true;
+					printf("  raffleTools\n");
+					printf("    Exemplo: raffle -o raffleout.rff -u normal -r 2,6 -e 1000 -d uniform -p 1,5 -d constant -p 3 -d triangular -p 3,20,10\n");
+					printf("\n");
+					printf("\t--output \t\t-o\tnome do arquivo a ser criado/sobrescrito.\n");
+					printf("\t--dist \t\t\t-d\ttipo da [distribuição], cria nova coluna.\n");
+					printf("\t--params \t\t-p\t[parâmetros] da distribuição.\n");
+					printf("\t--elements \t\t-e\tnúmero de elementos (linhas) a serem gerados.\n");
+					printf("\t--durationdist \t\t-u\ttipo da [distribuição] da duração de cada elemento.\n");
+					printf("\t--durationparams \t-r\t[parâmetros] da [distribuição] da duração.\n");
+					printf("\n");
+					printf("  [distribuição]:\n");
+					printf("\tconstant : \tvalor constante.\n");
+					printf("\tuniform : \tdistribuição uniforme dentro do intervalo [a, b].\n");
+					printf("\tnormal : \tdistribuição normal dadas média e variância[m, v].\n");
+					printf("\ttriangular : \tdistribuição triangular no intervalo [a, b] com pico no ponto c.\n");
+					printf("\n");
+					printf("  [parâmetros]:\n");
+					printf("\tconstant : \tc\n");
+					printf("\tuniform : \ta,b\n");
+					printf("\tnormal : \tm,v\n");
+					printf("\ttriangular : \ta,b,c\n");
+					printf("\n");
 					break;
 				default:
 					break;
@@ -112,14 +142,12 @@ public:
 		#ifdef DEBUG_INPUT
 			printf("\n");
 			printf("|= INPUT ======================================\n");
-			printf("|  Output: \t\t\t%s\n", outputFileName);
-			printf("|  Dist Frame: \t\t\t%s\n", frame.type == UNIFORM ? "Uniform": frame.type == TRIANGULAR ? "Triangular": "nada");
-			printf("|  Frame params: \t\t[%d,%d,%d]\n", frame.a, frame.b, frame.c);
-			printf("|  Dist Duration: \t\t%s\n", duration.type == CONSTANT ? "Constant" : duration.type == UNIFORM ? "Uniform": duration.type == TRIANGULAR ? "Triangular" : "nada");
-			printf("|  Duration params: \t\t[%d,%d,%d]\n", duration.a, duration.b, duration.c);
-			printf("|  Elements \t\t\t%d\n", elements);
-			printf("|  W x H \t\t\t%dx%d\n", width, height);
-			printf("|  Frames \t\t\t%d\n", numberFrames);
+			printf("|  Output: %s\n", outputFileName);
+			printf("|  Elements: %d\n", elements);
+			for(distIt = dist.begin(); distIt != dist.end(); ++distIt){
+				printf("|  Dist: %s [%d,%d,%d]\n", (*distIt).type == CONSTANT ? "Constant" : (*distIt).type == UNIFORM ? "Uniform": (*distIt).type == TRIANGULAR ? "Triangular" : "Normal", (*distIt).a, (*distIt).b, (*distIt).c);
+			}
+			printf("|  Dur: %s [%d,%d,%d]\n", duration->type == CONSTANT ? "Constant" : duration->type == UNIFORM ? "Uniform": duration->type == TRIANGULAR ? "Triangular" : "Normal", duration->a, duration->b, duration->c);
 			printf("|==============================================\n");
 			printf("\n");
 		#endif
@@ -128,55 +156,27 @@ public:
 
 	}
 
-	void parseDistParams(char * arg, int dist){
+	bool asketHelp(){
+		return help;
+	}
+
+	void parseDistParams(char * arg, int OPTION){
 		tmp = strtok(arg, ",");
-		if(dist == FRAMEDIST)  frame.a = atoi(tmp);
-		else if(dist == DURATIONDIST) duration.a = atoi(tmp);
+		if(OPTION == DISTVALUES) distTemp->a = atoi(tmp);
+		else if(OPTION == DISTDURATION) duration->a = atoi(tmp);
 		tmp = strtok(NULL, ",");
 		if(tmp != NULL){
-			if(dist == FRAMEDIST) frame.b = atoi(tmp);
-			else if(dist == DURATIONDIST) duration.b = atoi(tmp);
+			if(OPTION == DISTVALUES) distTemp->b = atoi(tmp);
+			else if(OPTION == DISTDURATION) duration->b = atoi(tmp);
 			tmp = strtok(NULL, ",");
 		}
 		if(tmp != NULL){
-			if(dist == FRAMEDIST) frame.c = atoi(tmp);
-			else if(dist == DURATIONDIST) duration.c = atoi(tmp);
+			if(OPTION == DISTVALUES) distTemp->c = atoi(tmp);
+			else if(OPTION == DISTDURATION) duration->c = atoi(tmp);
 			tmp = strtok(NULL, ",");
 		}
-		if(tmp != NULL){
-			if(dist == FRAMEDIST) printf("Excesso de parametros para -r...\n"), exit(2);
-			else if(dist == DURATIONDIST) printf("Excesso de parametros para -u...\n"), exit(2);
-		}
+		if(tmp != NULL) printf("Excesso de parametros para -p...\n"), exit(2);
 	}
-
-	void raffle(){
-		int dur;
-		srand(time(NULL));
-		list<Raffle> vetor;
-		list<Raffle>::iterator it;
-		int j, i = elements;
-		for(; i > 0;){
-			Raffle *s = new Raffle();
-			if(duration.type == CONSTANT) dur = duration.a;
-			else if(duration.type == TRIANGULAR) dur = raffleDuration();
-			(*s).f = raffleFrame(dur);
-			(*s).x = rand()%height;
-			(*s).y = rand()%width;
-			//printf("F = %d X = %d Y = %d", (*s).f, (*s).x, (*s).y);
-			for(j = 0; j < dur && i > 0; j++){
-				if(((*s).f) < numberFrames && ((*s).f) >= 0){
-					vetor.push_back(*s);
-					i--;
-				}
-				(*s).f++;
-			}
-		}
-		vetor.sort(compara);
-		for(it = vetor.begin(); it != vetor.end(); ++it)
-			output << (*it).f << " " << (*it).x << " " << (*it).y << endl;
-		return;
-	}
-
 
 	int triangular(int a, int b, int c){
 		/* Distribuição triangular {{{*/
@@ -199,38 +199,49 @@ x = b - sqrt((1 - u) * (b - a) * (b - c)), for fc <= u < 1
 		return t;
 		/*}}}*/
 	}
+	
+	int normal(int mean, int variance){
+		// box-mueller method. m.ean v.ariance
+		double z0, z1, u, v, s;
+		do {
+			u = ((double)rand()/((double)(RAND_MAX+1.)));
+			u = 2*u - 1;
+			v = ((double)rand()/((double)(RAND_MAX+1.)));
+			v = 2*v - 1;
+			s = pow(u, 2)+pow(v, 2);
+		} while(s == 0 || s >= 1);
+		z0 = u*sqrt(-2*log(s)/s);
+		return (int)(mean+sqrt(variance)*z0);
+	}
 
-	int raffleFrame(int d){
-		/* Sorteio do frame {{{*/
-		if(frame.type == UNIFORM){
-			return frame.a + 2 - d + rand()%(frame.b-frame.a + d - 1);
-		}
-		else{
-			if(frame.type == TRIANGULAR){
-				// verificar parametros [a, b, c]
-				return triangular(frame.a, frame.b, frame.c);
+	int uniform(int a, int b){
+		return rand()/(RAND_MAX+1.)*(b-a)+a;
+	}
+	
+	void raffle(){
+		int dur = 9, i = 0;
+		int values[dist.size()];
+		for(; elements;){
+			for(i = 0, distIt = dist.begin(); distIt != dist.end() && elements; ++i, ++distIt){
+				if((*distIt).type == CONSTANT) values[i] = (*distIt).a;
+				else if((*distIt).type == UNIFORM) values[i] = uniform((*distIt).a, (*distIt).b);
+				else if((*distIt).type == NORMAL) values[i] = normal((*distIt).a, (*distIt).b);
+				else if((*distIt).type == TRIANGULAR) values[i] = triangular((*distIt).a, (*distIt).b, (*distIt).c);
+			}
+			// sortear duração
+			if(duration->type == CONSTANT) dur = duration->a;
+			else if(duration->type == UNIFORM) dur = uniform(duration->a, duration->b);
+			else if(duration->type == NORMAL) dur = normal(duration->a, duration->b);
+			else if(duration->type == TRIANGULAR) dur = triangular(duration->a, duration->b, duration->c);
+			for(int j = 0; j < dur && elements; --elements, j++){
+				for(int i = 0; i < dist.size(); ++i){
+					if(i == 0) output << values[i]+j << " ";
+					else output << values[i] << " ";
+				}
+				output << endl;
 			}
 		}
-		/*}}}*/
 	}
-
-	int raffleDuration(){
-		/* Raffle Duration {{{*/
-
-		if(duration.type == CONSTANT){
-			return duration.a;
-		} else if(duration.type == NORMAL){
-			// TODO
-			return duration.a;
-		} else if(duration.type == TRIANGULAR){
-			return triangular(duration.a, duration.b, duration.c);
-		} else if(duration.type == UNIFORM){
-			// uniforme no intervalo [a, b]
-			return ((double) rand() / (RAND_MAX+1.)) * (duration.b - duration.a + 1) + duration.a;
-		}
-		/*}}}*/
-	}
-
 
 	void performIO(){
 		output.open(outputFileName, ios::binary);
@@ -247,15 +258,16 @@ x = b - sqrt((1 - u) * (b - a) * (b - c)), for fc <= u < 1
 int main(int argc, char* argv[]){
 	// 1. Process options
 	// 2. verify if there are enough arguments
-	RaffleTemp r(argc, argv);
+	RaffleTool r(argc, argv);
+	if(!r.askedHelp()){
+		// 3. Open IO
+		r.performIO();
+	
+		// 4. Raffle values
+		r.raffle();
 
-	// 3. Open IO
-	r.performIO();
-
-	// 4. Execute raffle
-	r.raffle();
-
-	// 5. Close IO
-	r.closeIO();
+		// 5. Close IO
+		r.closeIO();
+	}
 	return 0;
 }

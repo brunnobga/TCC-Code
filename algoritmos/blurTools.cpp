@@ -18,9 +18,10 @@ static struct option long_options[] =
 		{"size", required_argument, 0, 's'},
 		{"blur", required_argument, 0, 'b'},
 		{"window", required_argument, 0, 'w'},
+		{"help", no_argument, 0, 'h'},
 	};
 
-static char short_options[] = "i:o:s:b:w:";
+static char short_options[] = "i:o:s:b:w:h:";
 
 #define DURATIONDIST 0
 #define FRAMEDIST 1
@@ -35,9 +36,11 @@ private:
 	ofstream output;
 	byte * frame, *outframe;
 	Settings set;
+	bool help;
 
 public:
 	FilterTool(int argc, char* argv[]){
+		help = false;
 		while((c = getopt_long(argc, argv, short_options, long_options, &opt_index)) != -1){
 			switch(c){
 				case 'i':
@@ -69,6 +72,9 @@ public:
 					blockSize =  set.blockSize;
 					if(set.blockSize == 0) printf("Argumento invalido para -w...\n"), exit(1);
 					break;
+				case 'h':
+					help = true;
+					break;
 				default:
 					break;
 			}
@@ -89,6 +95,10 @@ public:
 
 	//TODO verify if there are enough arguments
 
+	}
+
+	bool askedHelp(){
+		return help;
 	}
 
 	void performFiltering(){
@@ -135,14 +145,16 @@ int main(int argc, char* argv[]){
 	//2. verify if there are enough argumentes
 	FilterTool f(argc, argv);
 
-	//3. open IO and count number of frames
-	f.performIO();
+	if(!f.askedHelp()){
+		//3. open IO and count number of frames
+		f.performIO();
 
-	//5 read Y component
-	//6. apply artifacts to Y component
-	//7. write Y component and copy UV to output
-	f.performFiltering();
+		//5 read Y component
+		//6. apply artifacts to Y component
+		//7. write Y component and copy UV to output
+		f.performFiltering();
 
-	f.closeIO();
+		f.closeIO();
+	}
 	return 0;
 } // blur
