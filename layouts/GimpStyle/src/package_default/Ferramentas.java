@@ -5,6 +5,9 @@
 package package_default;
 
 import entity.Media;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -61,7 +64,18 @@ public class Ferramentas extends javax.swing.JFrame {
         jTable6 = new javax.swing.JTable();
         jComboBox1 = new javax.swing.JComboBox();
         jButton11 = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jButton12 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
+        jSpinner1 = new javax.swing.JSpinner();
+        jLabel3 = new javax.swing.JLabel();
+        jSpinner2 = new javax.swing.JSpinner();
 
+        setTitle("Ferramentas");
         setBounds(new java.awt.Rectangle(400, 200, 0, 0));
         setPreferredSize(new java.awt.Dimension(579, 411));
         setResizable(false);
@@ -345,6 +359,108 @@ public class Ferramentas extends javax.swing.JFrame {
 
     jTabbedPane1.addTab("Avaliador Objetivo", jPanel1);
 
+    jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        new Object [][] {
+            {"Duração", null, null, null, null},
+            {"Coluna 1", null, null, null, null}
+        },
+        new String [] {
+            "", "Distribuição", "Parâmetro 1", "Parâmetro 2", "Parâmetro 3"
+        }
+    ) {
+        Class[] types = new Class [] {
+            java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+        };
+        boolean[] canEdit = new boolean [] {
+            false, true, true, true, true
+        };
+
+        public Class getColumnClass(int columnIndex) {
+            return types [columnIndex];
+        }
+
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return canEdit [columnIndex];
+        }
+    });
+    jScrollPane1.setViewportView(jTable1);
+
+    jButton12.setText("Gerar");
+    jButton12.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton12ActionPerformed(evt);
+        }
+    });
+
+    jLabel1.setText("Número de elementos:");
+
+    jLabel2.setText("Nome do arquivo:");
+
+    jTextField3.setText("jTextField3");
+
+    jSpinner1.addChangeListener(new javax.swing.event.ChangeListener() {
+        public void stateChanged(javax.swing.event.ChangeEvent evt) {
+            jSpinner1StateChanged(evt);
+        }
+    });
+
+    jLabel3.setText("Colunas:");
+
+    jSpinner2.setValue(2);
+    jSpinner2.addChangeListener(new javax.swing.event.ChangeListener() {
+        public void stateChanged(javax.swing.event.ChangeEvent evt) {
+            jSpinner2StateChanged(evt);
+        }
+    });
+
+    javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+    jPanel4.setLayout(jPanel4Layout);
+    jPanel4Layout.setHorizontalGroup(
+        jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(jPanel4Layout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jButton12))
+                .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel4Layout.createSequentialGroup()
+                            .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jLabel3)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jSpinner2))
+                        .addComponent(jTextField3))))
+            .addContainerGap())
+    );
+    jPanel4Layout.setVerticalGroup(
+        jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(jPanel4Layout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jLabel2)
+                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jLabel1)
+                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel3)
+                .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(18, 18, 18)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jButton12)
+            .addContainerGap())
+    );
+
+    jTabbedPane1.addTab("RaffleTool", jPanel4);
+
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
     layout.setHorizontalGroup(
@@ -409,6 +525,73 @@ public class Ferramentas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        // TODO add your handling code here:
+        // Criar process
+        // raffle -o raffleout.rff -u normal -r 2,6 -e 1000 -d uniform -p 1,5 -d constant -p 3 -d triangular -p 3,20,10
+        String directory = System.getProperty("user.dir");
+        if(jTextField3.getText().length() > 0){
+            try{
+                String acc = "";
+                List<String> parametros = new ArrayList<String>();
+                parametros.add(directory+"/../../algoritmos/raffleTools");
+                parametros.add("-o");
+                parametros.add(jTextField3.getText());
+                parametros.add("-u");
+                parametros.add(jTable1.getValueAt(0, 1).toString());
+                parametros.add("-r");
+                if(jTable1.getValueAt(0, 2) != null) acc = jTable1.getValueAt(0, 2).toString();
+                if(jTable1.getValueAt(0, 3) != null) acc += ","+jTable1.getValueAt(0, 3).toString();
+                if(jTable1.getValueAt(0, 4) != null) acc += ","+jTable1.getValueAt(0, 4).toString();
+                parametros.add(jTable1.getValueAt(0, 2).toString());
+                parametros.add("-e");
+                parametros.add(jSpinner1.getValue().toString());
+                for(int i = 1; i < ((DefaultTableModel)jTable1.getModel()).getRowCount(); i++){
+                    acc = "";
+                    if(jTable1.getValueAt(i, 1) != null) parametros.add(jTable1.getValueAt(i, 1).toString());
+                    if(jTable1.getValueAt(i, 2) != null) acc += jTable1.getValueAt(i, 2).toString();
+                    if(jTable1.getValueAt(i, 3) != null) acc += ","+jTable1.getValueAt(i, 3).toString();
+                    if(jTable1.getValueAt(i, 4) != null) acc += ","+jTable1.getValueAt(i, 4).toString();
+                    parametros.add(acc);
+                }
+                for(int i = 0; i < parametros.size(); ++i) System.out.println(parametros.get(i));
+                //Process p = new ProcessBuilder(directory + "/../../algoritmos/raffleTools", "-o", "pbuilder.rff", "-u", "constant", "-r", "2", "-e", "100", "-d", "uniform", "-p", "1,5").start();
+                Process p = new ProcessBuilder(parametros).start();
+
+            } catch(java.io.IOException e){
+                System.out.println("Erro");
+            }
+        }
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jSpinner2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner2StateChanged
+        // TODO add your handling code here:
+        int newValue = Integer.valueOf(jSpinner2.getValue().toString());
+        if(newValue < 2){
+            jSpinner2.setValue(2);//(Object)new Integer(0));
+        } else{
+            DefaultTableModel t = ((DefaultTableModel)jTable1.getModel());
+            if(oldRaffleColumns < newValue){
+                if(t.getRowCount() == 0){
+                    t.insertRow(t.getRowCount(), new Object[]{"Duração"});
+                } else {
+                    t.insertRow(t.getRowCount(), new Object[]{"Coluna "+t.getRowCount()});
+                }
+            } else if(t.getRowCount() > 2){
+                t.removeRow(t.getRowCount()-1);
+            }
+        }
+        oldRaffleColumns = Integer.valueOf(jSpinner2.getValue().toString());
+    }//GEN-LAST:event_jSpinner2StateChanged
+
+    private void jSpinner1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner1StateChanged
+        // TODO add your handling code here:
+        int newValue = Integer.valueOf(jSpinner1.getValue().toString());
+        if(newValue < 0){
+            jSpinner1.setValue(0);//(Object)new Integer(0));
+        }
+    }//GEN-LAST:event_jSpinner1StateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -454,6 +637,7 @@ public class Ferramentas extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -463,17 +647,25 @@ public class Ferramentas extends javax.swing.JFrame {
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
+    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JSpinner jSpinner2;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
@@ -482,7 +674,9 @@ public class Ferramentas extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
+    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField9;
     private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables
+    private int oldRaffleColumns = 2;
 }

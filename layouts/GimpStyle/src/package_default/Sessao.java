@@ -57,6 +57,7 @@ public class Sessao extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
 
+        setTitle("Sessão");
         setBounds(new java.awt.Rectangle(300, 200, 0, 0));
         setResizable(false);
 

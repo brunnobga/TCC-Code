@@ -26,6 +26,7 @@ public class Resultados extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        setTitle("Resultados");
         setBounds(new java.awt.Rectangle(200, 100, 0, 0));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

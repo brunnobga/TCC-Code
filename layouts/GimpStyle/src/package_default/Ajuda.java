@@ -35,6 +35,7 @@ public class Ajuda extends javax.swing.JFrame {
         jTree1 = new javax.swing.JTree();
         jButton1 = new javax.swing.JButton();
 
+        setTitle("Ajuda");
         setBounds(new java.awt.Rectangle(200, 100, 0, 0));
 
         jTextArea1.setColumns(20);

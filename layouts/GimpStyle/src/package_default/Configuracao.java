@@ -56,6 +56,7 @@ public class Configuracao extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jComboBox3 = new javax.swing.JComboBox();
 
+        setTitle("Configuração");
         setBounds(new java.awt.Rectangle(600, 200, 0, 0));
         setResizable(false);
 
