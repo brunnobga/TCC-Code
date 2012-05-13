@@ -50,6 +50,7 @@ public class Windows extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(204, 204, 255));
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/package_default/imgs/icon_sessao.PNG"))); // NOI18N
+        jButton1.setMnemonic('s');
         jButton1.setToolTipText("Sessão");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -58,6 +59,7 @@ public class Windows extends javax.swing.JFrame {
         });
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/package_default/imgs/icon_tools.PNG"))); // NOI18N
+        jButton2.setMnemonic('f');
         jButton2.setToolTipText("Ferramentas");
         jButton2.setMargin(new java.awt.Insets(2, 5, 2, 5));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -67,6 +69,7 @@ public class Windows extends javax.swing.JFrame {
         });
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/package_default/imgs/icon_bancodedados.png"))); // NOI18N
+        jButton3.setMnemonic('b');
         jButton3.setToolTipText("<html>Banco de <center><br>Dados</center></html>");
         jButton3.setActionCommand("asdf");
         jButton3.setMargin(new java.awt.Insets(2, 0, 2, 0));
@@ -77,6 +80,7 @@ public class Windows extends javax.swing.JFrame {
         });
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/package_default/imgs/icon_config.PNG"))); // NOI18N
+        jButton4.setMnemonic('c');
         jButton4.setToolTipText("Configurações");
         jButton4.setMargin(new java.awt.Insets(2, 5, 2, 5));
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -86,6 +90,7 @@ public class Windows extends javax.swing.JFrame {
         });
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/package_default/imgs/icon_ajuda.PNG"))); // NOI18N
+        jButton5.setMnemonic('a');
         jButton5.setToolTipText("Ajuda");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -94,6 +99,7 @@ public class Windows extends javax.swing.JFrame {
         });
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/package_default/imgs/icon_results.png"))); // NOI18N
+        jButton6.setMnemonic('g');
         jButton6.setToolTipText("Gráficos e Informações de Sessão");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

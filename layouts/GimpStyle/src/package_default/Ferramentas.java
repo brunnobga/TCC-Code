@@ -396,8 +396,6 @@ public class Ferramentas extends javax.swing.JFrame {
 
     jLabel2.setText("Nome do arquivo:");
 
-    jTextField3.setText("jTextField3");
-
     jSpinner1.addChangeListener(new javax.swing.event.ChangeListener() {
         public void stateChanged(javax.swing.event.ChangeEvent evt) {
             jSpinner1StateChanged(evt);
@@ -525,6 +523,21 @@ public class Ferramentas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
+    private String getParams(int row, String dist){
+        String acc = "";
+        if(dist.equals("constant")){
+            if(jTable1.getValueAt(row, 2) == null) acc = "error1";// TODO warning
+            else acc = jTable1.getValueAt(row, 2).toString();
+        } else if(dist.equals("uniform") || dist.equals("normal")){
+            if(jTable1.getValueAt(row, 2) == null || jTable1.getValueAt(row, 3) == null ) acc = "error2";// TODO warning
+            else acc = jTable1.getValueAt(row, 2).toString() + "," + jTable1.getValueAt(row, 3).toString();
+        } else if(dist.equals("triangular")){
+            if(jTable1.getValueAt(row, 2) == null || jTable1.getValueAt(row, 3) == null || jTable1.getValueAt(row, 4) == null) acc = "error3";// TODO warning
+            else acc = jTable1.getValueAt(row, 2).toString() + "," + jTable1.getValueAt(row, 3).toString()+ "," + jTable1.getValueAt(row, 4).toString();
+        } else acc = "error4";
+        return acc;
+    }
+    
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         // TODO add your handling code here:
         // Criar process
@@ -532,35 +545,42 @@ public class Ferramentas extends javax.swing.JFrame {
         String directory = System.getProperty("user.dir");
         if(jTextField3.getText().length() > 0){
             try{
-                String acc = "";
+                String param = "";
                 List<String> parametros = new ArrayList<String>();
                 parametros.add(directory+"/../../algoritmos/raffleTools");
                 parametros.add("-o");
+                if(jTextField3.getText().equals("")) return; // TODO warning
                 parametros.add(jTextField3.getText());
                 parametros.add("-u");
-                parametros.add(jTable1.getValueAt(0, 1).toString());
-                parametros.add("-r");
-                if(jTable1.getValueAt(0, 2) != null) acc = jTable1.getValueAt(0, 2).toString();
-                if(jTable1.getValueAt(0, 3) != null) acc += ","+jTable1.getValueAt(0, 3).toString();
-                if(jTable1.getValueAt(0, 4) != null) acc += ","+jTable1.getValueAt(0, 4).toString();
-                parametros.add(jTable1.getValueAt(0, 2).toString());
-                parametros.add("-e");
-                parametros.add(jSpinner1.getValue().toString());
-                for(int i = 1; i < ((DefaultTableModel)jTable1.getModel()).getRowCount(); i++){
-                    acc = "";
-                    if(jTable1.getValueAt(i, 1) != null) parametros.add(jTable1.getValueAt(i, 1).toString());
-                    if(jTable1.getValueAt(i, 2) != null) acc += jTable1.getValueAt(i, 2).toString();
-                    if(jTable1.getValueAt(i, 3) != null) acc += ","+jTable1.getValueAt(i, 3).toString();
-                    if(jTable1.getValueAt(i, 4) != null) acc += ","+jTable1.getValueAt(i, 4).toString();
-                    parametros.add(acc);
+                if(jTable1.getValueAt(0, 1) == null){
+                    return; //TODO warning
+                } else{
+                    parametros.add(jTable1.getValueAt(0, 1).toString());
+                    parametros.add("-r");
+                    param = this.getParams(0, jTable1.getValueAt(0, 1).toString());
+                    if(param.equals("error")) return; // TODO warning
+                    parametros.add(param);
+                    parametros.add("-e");
+                    parametros.add(jSpinner1.getValue().toString());
+                    for(int i = 1; i < ((DefaultTableModel)jTable1.getModel()).getRowCount(); i++){
+                        parametros.add("-d");
+                        param = this.getParams(i, jTable1.getValueAt(i, 1).toString());
+                        if(param.equals("error")) return; // TODO warning
+                        parametros.add(jTable1.getValueAt(i, 1).toString());
+                        parametros.add("-p");
+                        parametros.add(param);
+                    }
+                    for(int i = 0; i < parametros.size(); ++i) System.out.println(parametros.get(i));
+                    //Process p = new ProcessBuilder(directory + "/../../algoritmos/raffleTools", "-o", "pbuilder.rff", "-u", "constant", "-r", "2", "-e", "100", "-d", "uniform", "-p", "1,5").start();
+                    // TODO warning confirmação!
+                    Process p = new ProcessBuilder(parametros).start();
                 }
-                for(int i = 0; i < parametros.size(); ++i) System.out.println(parametros.get(i));
-                //Process p = new ProcessBuilder(directory + "/../../algoritmos/raffleTools", "-o", "pbuilder.rff", "-u", "constant", "-r", "2", "-e", "100", "-d", "uniform", "-p", "1,5").start();
-                Process p = new ProcessBuilder(parametros).start();
-
             } catch(java.io.IOException e){
-                System.out.println("Erro");
+                System.out.println("Erro io");
+                System.err.println(e);
             }
+        } else{
+            // TODO Display warning
         }
     }//GEN-LAST:event_jButton12ActionPerformed
 
