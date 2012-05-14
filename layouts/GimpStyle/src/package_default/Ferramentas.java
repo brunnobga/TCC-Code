@@ -75,6 +75,7 @@ public class Ferramentas extends javax.swing.JFrame {
         jSpinner1 = new javax.swing.JSpinner();
         jLabel3 = new javax.swing.JLabel();
         jSpinner2 = new javax.swing.JSpinner();
+        jButton13 = new javax.swing.JButton();
 
         setTitle("Ferramentas");
         setBounds(new java.awt.Rectangle(400, 200, 0, 0));
@@ -412,6 +413,13 @@ public class Ferramentas extends javax.swing.JFrame {
         }
     });
 
+    jButton13.setText("Abrir...");
+    jButton13.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton13ActionPerformed(evt);
+        }
+    });
+
     javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
     jPanel4.setLayout(jPanel4Layout);
     jPanel4Layout.setHorizontalGroup(
@@ -435,7 +443,10 @@ public class Ferramentas extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jSpinner2))
-                        .addComponent(jTextField3))))
+                        .addGroup(jPanel4Layout.createSequentialGroup()
+                            .addComponent(jTextField3)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButton13)))))
             .addContainerGap())
     );
     jPanel4Layout.setVerticalGroup(
@@ -444,7 +455,8 @@ public class Ferramentas extends javax.swing.JFrame {
             .addContainerGap()
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel2)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton13))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel1)
@@ -452,7 +464,7 @@ public class Ferramentas extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGap(18, 18, 18)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(jButton12)
             .addContainerGap())
@@ -629,6 +641,12 @@ public class Ferramentas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jSpinner1StateChanged
 
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        // TODO add your handling code here:
+        String caminho = Dialog.getFile(Dialog.TipoGetFile.Abrir);
+        jTextField3.setText(caminho);
+    }//GEN-LAST:event_jButton13ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -675,6 +693,7 @@ public class Ferramentas extends javax.swing.JFrame {
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
