@@ -604,8 +604,10 @@ public class Ferramentas extends javax.swing.JFrame {
                     }
                 }
             } catch(java.io.IOException e){
-                System.out.println("Erro io");
-                System.err.println(e);
+                Dialog.msgError("Ocorreu um erro na geração do arquivo. Por favor, tente novamente.", "Processo de geração");
+                return;
+                //System.out.println("Erro io");
+                //System.err.println(e);
             }
         } else{
             // TODO Display warning
