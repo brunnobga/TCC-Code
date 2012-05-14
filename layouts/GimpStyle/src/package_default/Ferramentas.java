@@ -8,6 +8,7 @@ import entity.Media;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import support.Dialog;
 
 /**
  *
@@ -526,15 +527,15 @@ public class Ferramentas extends javax.swing.JFrame {
     private String getParams(int row, String dist){
         String acc = "";
         if(dist.equals("constant")){
-            if(jTable1.getValueAt(row, 2) == null) acc = "error1";// TODO warning
+            if(jTable1.getValueAt(row, 2) == null) acc = "error";// TODO warning
             else acc = jTable1.getValueAt(row, 2).toString();
         } else if(dist.equals("uniform") || dist.equals("normal")){
-            if(jTable1.getValueAt(row, 2) == null || jTable1.getValueAt(row, 3) == null ) acc = "error2";// TODO warning
+            if(jTable1.getValueAt(row, 2) == null || jTable1.getValueAt(row, 3) == null ) acc = "error";// TODO warning
             else acc = jTable1.getValueAt(row, 2).toString() + "," + jTable1.getValueAt(row, 3).toString();
         } else if(dist.equals("triangular")){
-            if(jTable1.getValueAt(row, 2) == null || jTable1.getValueAt(row, 3) == null || jTable1.getValueAt(row, 4) == null) acc = "error3";// TODO warning
+            if(jTable1.getValueAt(row, 2) == null || jTable1.getValueAt(row, 3) == null || jTable1.getValueAt(row, 4) == null) acc = "error";// TODO warning
             else acc = jTable1.getValueAt(row, 2).toString() + "," + jTable1.getValueAt(row, 3).toString()+ "," + jTable1.getValueAt(row, 4).toString();
-        } else acc = "error4";
+        } else acc = "error";
         return acc;
     }
     
@@ -549,31 +550,46 @@ public class Ferramentas extends javax.swing.JFrame {
                 List<String> parametros = new ArrayList<String>();
                 parametros.add(directory+"/../../algoritmos/raffleTools");
                 parametros.add("-o");
-                if(jTextField3.getText().equals("")) return; // TODO warning
                 parametros.add(jTextField3.getText());
                 parametros.add("-u");
                 if(jTable1.getValueAt(0, 1) == null){
-                    return; //TODO warning
+                    //TODO warning
+                    Dialog.msgError("Verifique se o tipo da distribuição e os parâmetros da duração estão corretos.", "Parâmetros incorretos");
+                    return;
                 } else{
                     parametros.add(jTable1.getValueAt(0, 1).toString());
                     parametros.add("-r");
                     param = this.getParams(0, jTable1.getValueAt(0, 1).toString());
-                    if(param.equals("error")) return; // TODO warning
+                    if(param.equals("error")){ // TODO warning
+                        Dialog.msgError("Verifique se o tipo da distribuição e os parâmetros estão corretos.", "Parâmetros incorretos");
+                        return;
+                    }
                     parametros.add(param);
                     parametros.add("-e");
                     parametros.add(jSpinner1.getValue().toString());
                     for(int i = 1; i < ((DefaultTableModel)jTable1.getModel()).getRowCount(); i++){
                         parametros.add("-d");
+                        if(jTable1.getValueAt(i, 1) == null){
+                            Dialog.msgError("Verifique se o tipo da distribuição está correto.", "Parâmetros incorretos");
+                            return;
+                        }
                         param = this.getParams(i, jTable1.getValueAt(i, 1).toString());
-                        if(param.equals("error")) return; // TODO warning
+                        if(param.equals("error")){ // TODO warning
+                            Dialog.msgError("Verifique se os parâmetros da distribuição estão corretos.", "Parâmetros incorretos");
+                            return;
+                        }
                         parametros.add(jTable1.getValueAt(i, 1).toString());
                         parametros.add("-p");
                         parametros.add(param);
                     }
                     for(int i = 0; i < parametros.size(); ++i) System.out.println(parametros.get(i));
                     //Process p = new ProcessBuilder(directory + "/../../algoritmos/raffleTools", "-o", "pbuilder.rff", "-u", "constant", "-r", "2", "-e", "100", "-d", "uniform", "-p", "1,5").start();
-                    // TODO warning confirmação!
-                    Process p = new ProcessBuilder(parametros).start();
+                    // TODO warning pedir confirmação!
+                    if(Dialog.question("Gerar arquivo?", "Confirmação")){
+                        Process p = new ProcessBuilder(parametros).start();
+                        // TODO warning confirmar: deu certo!
+                        Dialog.msgInfo("Arquivo gerado com sucesso.", "Confirmação");
+                    }
                 }
             } catch(java.io.IOException e){
                 System.out.println("Erro io");
@@ -581,6 +597,7 @@ public class Ferramentas extends javax.swing.JFrame {
             }
         } else{
             // TODO Display warning
+            Dialog.msgError("Verifique o nome do arquivo a ser gerado.", "Arquivo de saída");
         }
     }//GEN-LAST:event_jButton12ActionPerformed
 
