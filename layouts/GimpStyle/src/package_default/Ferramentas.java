@@ -248,7 +248,8 @@ public class Ferramentas extends javax.swing.JFrame {
 
     jTabbedPane1.addTab("Gerador de Artefatos", jLayeredPane1);
 
-    jTextField9.setText("Digite algum termo relacionado ao vídeo que deseja procurar");
+    jTextField9.setText("Busca");
+    jTextField9.setToolTipText("Digite um termo para busca e pressione enter.");
     jTextField9.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             jTextField9ActionPerformed(evt);
@@ -257,11 +258,11 @@ public class Ferramentas extends javax.swing.JFrame {
 
     jScrollPane5.setPreferredSize(new java.awt.Dimension(200, 200));
 
-    jTable2.setModel(new CustomTableModel(
+    tableAvaliador1 = new CustomTableModel(
         CustomTableModel.VIDEO_DATA,
         bridge.ServiceBridge.queryMediaList(new Media())
-    )
     );
+    jTable2.setModel(tableAvaliador1);
     jScrollPane5.setViewportView(jTable2);
 
     jButton5.setText("H");
@@ -282,7 +283,8 @@ public class Ferramentas extends javax.swing.JFrame {
     );
     jScrollPane8.setViewportView(jTable5);
 
-    jTextField11.setText("Digite algum termo relacionado ao vídeo que deseja procurar");
+    jTextField11.setText("Busca");
+    jTextField11.setToolTipText("Digite um termo para busca e pressione enter.");
     jTextField11.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             jTextField11ActionPerformed(evt);
@@ -492,6 +494,11 @@ public class Ferramentas extends javax.swing.JFrame {
 
     private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
         // TODO add your handling code here:
+        //buscar tableAvaliador1
+        Media m = new Media();
+        m.setTitle(jTextField9.getText());
+        tableAvaliador1.refresh(bridge.ServiceBridge.queryMediaList(m));
+        jTable2.repaint();
     }//GEN-LAST:event_jTextField9ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
@@ -725,6 +732,7 @@ public class Ferramentas extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private CustomTableModel tableAvaliador1;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable5;
