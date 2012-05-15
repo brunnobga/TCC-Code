@@ -5,6 +5,8 @@
 package package_default;
 
 import entity.Media;
+import entity.Metric;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -273,13 +275,19 @@ public class Ferramentas extends javax.swing.JFrame {
     });
 
     jButton10.setText("Iniciar");
+    jButton10.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton10ActionPerformed(evt);
+        }
+    });
 
     jScrollPane8.setPreferredSize(new java.awt.Dimension(200, 200));
 
-    jTable5.setModel(new CustomTableModel(
+    tableAvaliador2 = new CustomTableModel(
         CustomTableModel.VIDEO_DATA,
         bridge.ServiceBridge.queryMediaList(new Media())
-    )
+    );
+    jTable5.setModel(tableAvaliador2
     );
     jScrollPane8.setViewportView(jTable5);
 
@@ -293,14 +301,18 @@ public class Ferramentas extends javax.swing.JFrame {
 
     jScrollPane9.setPreferredSize(new java.awt.Dimension(200, 200));
 
-    jTable6.setModel(new CustomTableModel(
-        CustomTableModel.VIDEO_DATA,
-        bridge.ServiceBridge.queryMediaList(new Media())
-    )
+    avaliadorTask = new ArrayList();
+    tableAvaliadorTask = new CustomTableModel(
+        CustomTableModel.METRIC_TASK,
+        avaliadorTask);
+    jTable6.setModel(tableAvaliadorTask
     );
     jScrollPane9.setViewportView(jTable6);
 
-    jComboBox1.setModel(new CustomComboBoxModel(CustomComboBoxModel.METRIC_DATA, bridge.ServiceBridge.queryMetricList()));
+    comboAvaliador = new CustomComboBoxModel(
+        CustomComboBoxModel.METRIC_DATA,
+        bridge.ServiceBridge.queryMetricList());
+    jComboBox1.setModel(comboAvaliador);
     jComboBox1.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             jComboBox1ActionPerformed(evt);
@@ -308,6 +320,11 @@ public class Ferramentas extends javax.swing.JFrame {
     });
 
     jButton11.setText("Adicionar");
+    jButton11.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton11ActionPerformed(evt);
+        }
+    });
 
     javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
     jPanel1.setLayout(jPanel1Layout);
@@ -490,6 +507,7 @@ public class Ferramentas extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+	tableAvaliadorTask.printDebugData();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
@@ -537,6 +555,10 @@ public class Ferramentas extends javax.swing.JFrame {
 
     private void jTextField11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField11ActionPerformed
         // TODO add your handling code here:
+        Media m = new Media();
+        m.setTitle(jTextField11.getText());
+        tableAvaliador2.refresh(bridge.ServiceBridge.queryMediaList(m));
+        jTable5.repaint();
     }//GEN-LAST:event_jTextField11ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -656,6 +678,68 @@ public class Ferramentas extends javax.swing.JFrame {
         jTextField3.setText(caminho);
     }//GEN-LAST:event_jButton13ActionPerformed
 
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+	//botao adicionar do Avaliador
+	//TODO: verificar se tamanhos sao iguais
+	//TODO: verificar se tem video selecionado
+	Media video, reference;
+	Metric metric;
+	video = (Media)tableAvaliador1.getAuxData(jTable2.getSelectedRow());
+	reference = (Media)tableAvaliador2.getAuxData(jTable5.getSelectedRow());
+	metric = (Metric)comboAvaliador.getAuxData(jComboBox1.getSelectedIndex());
+	avaliadorTask.add(new MetricTask(video, reference, metric));
+	tableAvaliadorTask.refresh(avaliadorTask);
+	jTable6.repaint();
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+	// TODO add your handling code here:
+	// botao iniciar Avaliador
+	MetricTask task;
+	String directory = System.getProperty("user.dir");
+	List<String> params;
+	for (Object taskObj : avaliadorTask) {
+	    try{
+	    task = (MetricTask) taskObj;
+	    params = new ArrayList<String>();
+	    params.add(directory+"/../../algoritmos/metricTool");
+	    params.add("-s");
+	    params.add(task.getVideo().getWidth() + "x" + task.getVideo().getHeigth());
+	    params.add("-i");
+	    params.add(task.getVideo().getPath());
+	    params.add("-r");
+	    params.add(task.getReference().getPath());
+	    params.add("-m");
+	    params.add(task.getMetric().getName());
+	    Process p = new ProcessBuilder(params).start();
+	    InputStream pi = p.getInputStream();
+	    System.out.println("Exit Status " + p.waitFor());
+	    System.out.println(printProcessOutput(pi));
+	    } catch (IOException ex){
+		ex.printStackTrace();
+	    } catch (InterruptedException ex){
+		ex.printStackTrace();
+	    }
+	}
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    public static String printProcessOutput(InputStream is) {
+	if(is != null){
+	    Writer writer = new StringWriter();
+	    
+	    char[] buffer = new char[1024];
+	    try{
+		Reader reader = new BufferedReader(new InputStreamReader(is, "UtF-8"));
+		int n;
+		while((n = reader.read(buffer)) != -1){
+		    writer.write(buffer, 0, n);
+		}
+	    }catch (IOException ex){
+	    }
+	    return writer.toString();
+	}
+	else return "";
+    }
     /**
      * @param args the command line arguments
      */
@@ -712,6 +796,7 @@ public class Ferramentas extends javax.swing.JFrame {
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JComboBox jComboBox1;
+    private CustomComboBoxModel comboAvaliador;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -736,7 +821,10 @@ public class Ferramentas extends javax.swing.JFrame {
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable5;
+    private CustomTableModel tableAvaliador2;
     private javax.swing.JTable jTable6;
+    private CustomTableModel tableAvaliadorTask;
+    private ArrayList avaliadorTask;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;

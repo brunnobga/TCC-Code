@@ -18,16 +18,20 @@ public class CustomTableModel extends AbstractTableModel {
 	public static final int VIDEO_DATA = 1;
 	public static final int ARTIFACT_DATA = 2;
 	public static final int DEVICE_DATA = 3;
+        public static final int METRIC_TASK = 4;
 
 	private int dataType;
 	private ArrayList currentData;
 
 	private String[][] columnNames = {
-		{"!", "Title", "format", "description"},
-		{"Title", "format", "description"},
-		{""}
+		{"!", "Title", "Format", "Description"},
+		{"Title", "Format", "Description"},
+		{""},
+                {""},
+                {"Video", "Reference", "Metric"}
 	};
 	private Object[][] data;
+        private int[] auxData;
 
 	public CustomTableModel(int dataType, ArrayList queryData) {
 		this.dataType = dataType;
@@ -38,10 +42,12 @@ public class CustomTableModel extends AbstractTableModel {
 		this.currentData = newData;
 		int i;
 		data = new Object[newData.size()][columnNames[dataType].length];
+                auxData = new int[newData.size()];
 		switch(dataType){
 			case VIDEO_DATA_SELECT:
 				for(i = 0; i < newData.size(); i++){
 					Media a = (Media) newData.get(i);
+                                        auxData[i] = a.getId();
 					data[i][0] = false;
 					data[i][1] = a.getTitle();
 					data[i][2] = a.getFormat();
@@ -51,15 +57,28 @@ public class CustomTableModel extends AbstractTableModel {
 			case VIDEO_DATA:
 				for(i = 0; i < newData.size(); i++){
 					Media a = (Media) newData.get(i);
+                                        auxData[i] = a.getId();
 					data[i][0] = a.getTitle();
 					data[i][1] = a.getFormat();
 					data[i][2] = a.getDescription();
+				}
+				break;
+                        case METRIC_TASK:
+				for(i = 0; i < newData.size(); i++){
+					MetricTask a = (MetricTask) newData.get(i);
+					data[i][0] = a.getVideo().getTitle();
+					data[i][1] = a.getReference().getTitle();
+					data[i][2] = a.getMetric().getName();
 				}
 				break;
 			default:
 				break;
 		}
 	}
+        
+        public Object getAuxData(int a){
+            return currentData.get(a);
+        }
 
 	public void setTableData(){
 	}
@@ -97,7 +116,7 @@ public class CustomTableModel extends AbstractTableModel {
 		fireTableCellUpdated(row, col);
 	}
 
-	private void printDebugData() {
+	public void printDebugData() {
 		int numRows = getRowCount();
 		int numCols = getColumnCount();
 

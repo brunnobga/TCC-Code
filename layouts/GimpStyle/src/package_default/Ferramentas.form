@@ -436,6 +436,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Iniciar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton10ActionPerformed"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane8">
               <Properties>
@@ -452,9 +455,13 @@
                 <Component class="javax.swing.JTable" name="jTable5">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="new CustomTableModel(&#xa;    CustomTableModel.VIDEO_DATA,&#xa;    bridge.ServiceBridge.queryMediaList(new Media())&#xa;    )&#xa;" type="code"/>
+                      <Connection code="tableAvaliador2&#xa;    " type="code"/>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="private CustomTableModel tableAvaliador2;"/>
+                    <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="tableAvaliador2 = new CustomTableModel(&#xa;    CustomTableModel.VIDEO_DATA,&#xa;    bridge.ServiceBridge.queryMediaList(new Media())&#xa;);"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>
@@ -482,26 +489,37 @@
                 <Component class="javax.swing.JTable" name="jTable6">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="new CustomTableModel(&#xa;    CustomTableModel.VIDEO_DATA,&#xa;    bridge.ServiceBridge.queryMediaList(new Media())&#xa;    )&#xa;" type="code"/>
+                      <Connection code="tableAvaliadorTask&#xa;    " type="code"/>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="private CustomTableModel tableAvaliadorTask;&#xa;private ArrayList avaliadorTask;"/>
+                    <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="avaliadorTask = new ArrayList();&#xa;tableAvaliadorTask = new CustomTableModel(&#xa;    CustomTableModel.METRIC_TASK,&#xa;    avaliadorTask);"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>
             <Component class="javax.swing.JComboBox" name="jComboBox1">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new CustomComboBoxModel(CustomComboBoxModel.METRIC_DATA, bridge.ServiceBridge.queryMetricList())" type="code"/>
+                  <Connection code="comboAvaliador" type="code"/>
                 </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox1ActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="private CustomComboBoxModel comboAvaliador;"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="comboAvaliador = new CustomComboBoxModel(&#xa;    CustomComboBoxModel.METRIC_DATA, &#xa;    bridge.ServiceBridge.queryMetricList());"/>
+              </AuxValues>
             </Component>
             <Component class="javax.swing.JButton" name="jButton11">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Adicionar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton11ActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

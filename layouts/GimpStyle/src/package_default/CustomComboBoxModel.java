@@ -23,6 +23,7 @@ public class CustomComboBoxModel implements ComboBoxModel {
 	private Object[] data;
 	private ArrayList currentData;
 	private int selectedIndex;
+	private int[] auxData;
 
 	public CustomComboBoxModel(int dataType, ArrayList queryData){
 		this.dataType = dataType;
@@ -33,16 +34,22 @@ public class CustomComboBoxModel implements ComboBoxModel {
 		this.currentData = newData;
 		int i;
 		data = new Object[newData.size()];
+		auxData = new int[newData.size()];
 		switch(dataType){
 			case METRIC_DATA:
 				for(i = 0; i < newData.size(); i++){
 					Metric a = (Metric) newData.get(i);
 					data[i] = a.getName();
+					auxData[i] = a.getId();
 				}
 				break;
 			default:
 				break;
 		}
+	}
+	
+	public Object getAuxData(int i){
+	    return currentData.get(i);
 	}
 
 	public void setSelectedItem(Object anItem) {
