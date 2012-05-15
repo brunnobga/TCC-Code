@@ -37,6 +37,7 @@ public class Ajuda extends javax.swing.JFrame {
 
         setTitle("Ajuda");
         setBounds(new java.awt.Rectangle(200, 100, 0, 0));
+        setIconImage((new javax.swing.ImageIcon(getClass().getResource("/package_default/imgs/icon_ajuda.png"))).getImage());
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);

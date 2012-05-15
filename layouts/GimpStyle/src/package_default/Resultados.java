@@ -28,6 +28,7 @@ public class Resultados extends javax.swing.JFrame {
 
         setTitle("Resultados");
         setBounds(new java.awt.Rectangle(200, 100, 0, 0));
+        setIconImage((new javax.swing.ImageIcon(getClass().getResource("/package_default/imgs/icon_results.png"))).getImage());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

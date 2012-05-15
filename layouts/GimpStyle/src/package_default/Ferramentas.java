@@ -6,6 +6,7 @@ package package_default;
 
 import entity.Media;
 import entity.Metric;
+import java.awt.Toolkit;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,6 @@ public class Ferramentas extends javax.swing.JFrame {
     private void initComponents() {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jLayeredPane1 = new javax.swing.JLayeredPane();
         jPanel2 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -48,12 +48,6 @@ public class Ferramentas extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        jTextField10 = new javax.swing.JTextField();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jTextField9 = new javax.swing.JTextField();
         jScrollPane5 = new javax.swing.JScrollPane();
@@ -81,6 +75,7 @@ public class Ferramentas extends javax.swing.JFrame {
 
         setTitle("Ferramentas");
         setBounds(new java.awt.Rectangle(400, 200, 0, 0));
+        setIconImage((new javax.swing.ImageIcon(getClass().getResource("/package_default/imgs/icon_tools.png"))).getImage());
         setPreferredSize(new java.awt.Dimension(579, 411));
         setResizable(false);
 
@@ -109,11 +104,6 @@ public class Ferramentas extends javax.swing.JFrame {
     });
 
     jButton1.setText("Voltar");
-    jButton1.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jButton1ActionPerformed(evt);
-        }
-    });
 
     jButton2.setText("Remover");
 
@@ -180,81 +170,22 @@ public class Ferramentas extends javax.swing.JFrame {
             .addContainerGap())
     );
 
-    jPanel2.setBounds(0, 0, 574, 379);
-    jLayeredPane1.add(jPanel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+    jTabbedPane1.addTab("Gerador de Artefatos", jPanel2);
     jPanel2.setVisible(false);
-
-    jTextField10.setText("Digite algum termo relacionado ao vídeo que deseja procurar");
-    jTextField10.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jTextField10ActionPerformed(evt);
-        }
-    });
-
-    jScrollPane6.setPreferredSize(new java.awt.Dimension(200, 200));
-
-    jTable3.setModel(new CustomTableModel(
-        CustomTableModel.VIDEO_DATA,
-        bridge.ServiceBridge.queryMediaList(new Media())
-    )
-    );
-    jScrollPane6.setViewportView(jTable3);
-
-    jButton6.setText("H");
-    jButton6.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jButton6ActionPerformed(evt);
-        }
-    });
-
-    jButton7.setText("Próximo");
-    jButton7.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jButton7ActionPerformed(evt);
-        }
-    });
-
-    javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-    jPanel3.setLayout(jPanel3Layout);
-    jPanel3Layout.setHorizontalGroup(
-        jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(jPanel3Layout.createSequentialGroup()
-            .addContainerGap()
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 498, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE))
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jButton7)))
-            .addContainerGap())
-    );
-    jPanel3Layout.setVerticalGroup(
-        jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(jPanel3Layout.createSequentialGroup()
-            .addContainerGap()
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jButton6))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
-            .addGap(12, 12, 12)
-            .addComponent(jButton7)
-            .addContainerGap())
-    );
-
-    jPanel3.setBounds(0, 0, 574, 379);
-    jLayeredPane1.add(jPanel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-    jTabbedPane1.addTab("Gerador de Artefatos", jLayeredPane1);
 
     jTextField9.setText("Busca");
     jTextField9.setToolTipText("Digite um termo para busca e pressione enter.");
     jTextField9.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             jTextField9ActionPerformed(evt);
+        }
+    });
+    jTextField9.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jTextField9FocusGained(evt);
+        }
+        public void focusLost(java.awt.event.FocusEvent evt) {
+            jTextField9FocusLost(evt);
         }
     });
 
@@ -296,6 +227,14 @@ public class Ferramentas extends javax.swing.JFrame {
     jTextField11.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             jTextField11ActionPerformed(evt);
+        }
+    });
+    jTextField11.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jTextField11FocusGained(evt);
+        }
+        public void focusLost(java.awt.event.FocusEvent evt) {
+            jTextField11FocusLost(evt);
         }
     });
 
@@ -520,31 +459,9 @@ public class Ferramentas extends javax.swing.JFrame {
         jTable2.repaint();
     }//GEN-LAST:event_jTextField9ActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
-        jLayeredPane1.moveToFront(jPanel2);
-        jPanel2.setVisible(true);
-        jPanel3.setVisible(false);
-    }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void jTextField10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField10ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField10ActionPerformed
-
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton8ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        jLayeredPane1.moveToFront(jPanel3);
-        jPanel2.setVisible(false);
-        jPanel3.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
@@ -726,6 +643,26 @@ public class Ferramentas extends javax.swing.JFrame {
 	}
     }//GEN-LAST:event_jButton10ActionPerformed
 
+    private void jTextField9FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField9FocusGained
+        // TODO add your handling code here:
+        jTextField9.setText("");
+    }//GEN-LAST:event_jTextField9FocusGained
+
+    private void jTextField9FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField9FocusLost
+        // TODO add your handling code here:
+        jTextField9.setText("Busca");
+    }//GEN-LAST:event_jTextField9FocusLost
+
+    private void jTextField11FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField11FocusGained
+        // TODO add your handling code here:
+        jTextField11.setText("");
+    }//GEN-LAST:event_jTextField11FocusGained
+
+    private void jTextField11FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField11FocusLost
+        // TODO add your handling code here:
+        jTextField11.setText("Busca");
+    }//GEN-LAST:event_jTextField11FocusLost
+
     public static String printProcessOutput(InputStream is) {
 	if(is != null){
 	    Writer writer = new StringWriter();
@@ -794,8 +731,6 @@ public class Ferramentas extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JComboBox jComboBox1;
@@ -803,15 +738,12 @@ public class Ferramentas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
@@ -821,7 +753,6 @@ public class Ferramentas extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private CustomTableModel tableAvaliador1;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable5;
     private CustomTableModel tableAvaliador2;
@@ -829,7 +760,6 @@ public class Ferramentas extends javax.swing.JFrame {
     private CustomTableModel tableAvaliadorTask;
     private ArrayList avaliadorTask;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField9;

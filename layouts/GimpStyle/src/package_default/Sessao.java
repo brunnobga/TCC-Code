@@ -59,6 +59,7 @@ public class Sessao extends javax.swing.JFrame {
 
         setTitle("Sessão");
         setBounds(new java.awt.Rectangle(300, 200, 0, 0));
+        setIconImage((new javax.swing.ImageIcon(getClass().getResource("/package_default/imgs/icon_sessao.png"))).getImage());
         setResizable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Cadastro"));

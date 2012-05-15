@@ -58,6 +58,7 @@ public class Configuracao extends javax.swing.JFrame {
 
         setTitle("Configuração");
         setBounds(new java.awt.Rectangle(600, 200, 0, 0));
+        setIconImage((new javax.swing.ImageIcon(getClass().getResource("/package_default/imgs/icon_config.png"))).getImage());
         setResizable(false);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Visual"));
