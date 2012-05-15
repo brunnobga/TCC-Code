@@ -516,6 +516,7 @@ public class Ferramentas extends javax.swing.JFrame {
         Media m = new Media();
         m.setTitle(jTextField9.getText());
         tableAvaliador1.refresh(bridge.ServiceBridge.queryMediaList(m));
+	jTable2.revalidate();
         jTable2.repaint();
     }//GEN-LAST:event_jTextField9ActionPerformed
 
@@ -558,6 +559,7 @@ public class Ferramentas extends javax.swing.JFrame {
         Media m = new Media();
         m.setTitle(jTextField11.getText());
         tableAvaliador2.refresh(bridge.ServiceBridge.queryMediaList(m));
+	jTable5.revalidate();
         jTable5.repaint();
     }//GEN-LAST:event_jTextField11ActionPerformed
 
@@ -689,6 +691,7 @@ public class Ferramentas extends javax.swing.JFrame {
 	metric = (Metric)comboAvaliador.getAuxData(jComboBox1.getSelectedIndex());
 	avaliadorTask.add(new MetricTask(video, reference, metric));
 	tableAvaliadorTask.refresh(avaliadorTask);
+	jTable6.revalidate();
 	jTable6.repaint();
     }//GEN-LAST:event_jButton11ActionPerformed
 

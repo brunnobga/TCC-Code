@@ -5,14 +5,15 @@
 package package_default;
 
 import entity.Media;
+import entity.Metric;
 import java.util.ArrayList;
-import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author caio
  */
-public class CustomTableModel extends AbstractTableModel {
+public class CustomTableModel extends DefaultTableModel {
 
 	public static final int VIDEO_DATA_SELECT = 0;
 	public static final int VIDEO_DATA = 1;
@@ -23,7 +24,7 @@ public class CustomTableModel extends AbstractTableModel {
 	private int dataType;
 	private ArrayList currentData;
 
-	private String[][] columnNames = {
+	private static String[][] columnNames = {
 		{"!", "Title", "Format", "Description"},
 		{"Title", "Format", "Description"},
 		{""},
@@ -34,8 +35,8 @@ public class CustomTableModel extends AbstractTableModel {
         private int[] auxData;
 
 	public CustomTableModel(int dataType, ArrayList queryData) {
-		this.dataType = dataType;
-		refresh(queryData);
+	    this.dataType = dataType;
+	    refresh(queryData);
 	}
 
 	public void refresh(ArrayList newData){
@@ -80,15 +81,14 @@ public class CustomTableModel extends AbstractTableModel {
             return currentData.get(a);
         }
 
-	public void setTableData(){
-	}
-
 	public int getColumnCount() {
-		return columnNames[dataType].length;
+	    if(columnNames == null) return 0;
+	    return columnNames[dataType].length;
 	}
 
 	public int getRowCount() {
-		return data.length;
+	    if(data == null) return 0;
+	    return data.length;
 	}
 
 	public String getColumnName(int col) {
