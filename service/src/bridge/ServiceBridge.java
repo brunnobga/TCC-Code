@@ -237,4 +237,16 @@ public class ServiceBridge {
 	public static ArrayList<UserRate> queryUserRateList(){
 		return (ArrayList<UserRate>) mif.listAllUserRates();
 	}
+	
+	public static void SaveOrUpdateSoftRate(SoftwareRate sr){
+		mif.saveOrUpdateSoftwareRate(sr);
+	}
+	
+	public static void SaveOrUpdateUserRate(UserRate ur){
+		mif.saveOrUpdateUserRate(ur);
+	}
+	
+	public static void SaveOrUpdateMedia(Media m){
+		mif.saveOrUpdateMedia(m);
+	}
 }

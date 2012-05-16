@@ -6,6 +6,7 @@ package package_default;
 
 import entity.Media;
 import entity.Metric;
+import entity.SoftwareRate;
 import java.awt.Toolkit;
 import java.io.*;
 import java.util.ArrayList;
@@ -599,13 +600,19 @@ public class Ferramentas extends javax.swing.JFrame {
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
 	//botao adicionar do Avaliador
-	//TODO: verificar se tamanhos sao iguais
-	//TODO: verificar se tem video selecionado
 	Media video, reference;
 	Metric metric;
+	if(jTable2.getSelectedRowCount() != 1 || jTable5.getSelectedRowCount() != 1){
+	    Dialog.msgWarning("Selecione um vídeo em cada tabela!", "Aviso");
+	    return;
+	}
 	video = (Media)tableAvaliador1.getAuxData(jTable2.getSelectedRow());
 	reference = (Media)tableAvaliador2.getAuxData(jTable5.getSelectedRow());
 	metric = (Metric)comboAvaliador.getAuxData(jComboBox1.getSelectedIndex());
+	if(video.getWidth().compareTo(reference.getWidth()) != 0 || video.getHeigth().compareTo(reference.getHeigth()) != 0){
+	    Dialog.msgWarning("As dimensões dos vídeos selecionados são diferentes!", "Aviso");
+	    return;
+	}
 	avaliadorTask.add(new MetricTask(video, reference, metric));
 	tableAvaliadorTask.refresh(avaliadorTask);
 	jTable6.revalidate();
@@ -617,7 +624,9 @@ public class Ferramentas extends javax.swing.JFrame {
 	// botao iniciar Avaliador
 	MetricTask task;
 	String directory = System.getProperty("user.dir");
+	String result;
 	List<String> params;
+	int exit;
 	for (Object taskObj : avaliadorTask) {
 	    try{
 	    task = (MetricTask) taskObj;
@@ -633,14 +642,30 @@ public class Ferramentas extends javax.swing.JFrame {
 	    params.add(task.getMetric().getName());
 	    Process p = new ProcessBuilder(params).start();
 	    InputStream pi = p.getInputStream();
-	    System.out.println("Exit Status " + p.waitFor());
-	    System.out.println(printProcessOutput(pi));
+	    exit = p.waitFor();
+	    if(exit != 0){
+		Dialog.msgError(printProcessOutput(pi), "Exit status " + exit);
+		continue;
+	    }
+	    //TODO: capturar nota e salvar no banco
+	    SoftwareRate sr = new SoftwareRate();
+	    sr.setMedia(task.getVideo());
+	    sr.setReferenceMedia(task.getReference());
+	    sr.setMetric(task.getMetric());
+	    result = printProcessOutput(pi);
+	    sr.setValue(Double.parseDouble(result.substring(result.indexOf(':')+1)));
+	    bridge.ServiceBridge.SaveOrUpdateSoftRate(sr);
+	    Dialog.msgInfo("Métrica gravada com sucesso!", "Sucesso");
 	    } catch (IOException ex){
 		ex.printStackTrace();
 	    } catch (InterruptedException ex){
 		ex.printStackTrace();
 	    }
 	}
+	avaliadorTask.clear();
+	tableAvaliadorTask.refresh(avaliadorTask);
+	jTable6.revalidate();
+	jTable6.repaint();
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jTextField9FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField9FocusGained
