@@ -20,6 +20,7 @@ public class CustomTableModel extends DefaultTableModel {
 	public static final int ARTIFACT_DATA = 2;
 	public static final int DEVICE_DATA = 3;
         public static final int METRIC_TASK = 4;
+        public static final int GERADOR_TASK = 5;
 
 	private int dataType;
 	private ArrayList currentData;
@@ -29,7 +30,8 @@ public class CustomTableModel extends DefaultTableModel {
 		{"Title", "Format", "Description"},
 		{""},
                 {""},
-                {"Video", "Reference", "Metric"}
+                {"Vídeo", "Reference", "Metric"},
+                {"Vídeo", "Artefato", "Raffle", "Parâmetros"},
 	};
 	private Object[][] data;
         private int[] auxData;
@@ -70,6 +72,20 @@ public class CustomTableModel extends DefaultTableModel {
 					data[i][0] = a.getVideo().getTitle();
 					data[i][1] = a.getReference().getTitle();
 					data[i][2] = a.getMetric().getName();
+				}
+				break;
+                        case GERADOR_TASK:
+				for(i = 0; i < newData.size(); i++){
+					GeradorTask a = (GeradorTask) newData.get(i);
+					data[i][0] = a.getVideo().getTitle();
+                                        data[i][1] = a.getArtefato();
+                                        data[i][2] = a.getRaffleFile();
+                                        String param = "";
+                                        java.util.List<String> paramList = a.getParams();
+                                        for(int j = 0; j < paramList.size(); ++j){
+                                            param += paramList.get(i) + " ";
+                                        }
+                                        data[i][3] = a.getParams();
 				}
 				break;
 			default:
