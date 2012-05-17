@@ -1,35 +1,47 @@
 CC=g++
 CFLAGS=-c -Wall
 
-all: filterTool metricTool
+#all programs
+all: block blur metric netsim raffle
 
-metricTool: metricTool.o
-	$(CC) metricTool.o -o metricTool
+#separate programs
+blur: blurTools.o blur.o
+	$(CC) blurTools.o blur.o -o blur
 
-metricTool.o: metricTool.cpp
-	$(CC) $(CFLAGS) metricTool.cpp
+block: blockTools.o dctTools.o
+	$(CC) blockTools.o dctTools.o -o block
 
-filterTool: filterTool.o dctTools.o raffleTools.o blurTools.o commons.h dctTools.h raffleTools.h
-	$(CC) filterTool.o dctTools.o raffleTools.o blurTools.o -o filterTool
+metric: metricTool.o
+	$(CC) metricTool.o -o metric
 
-testes: testes.o dctTools.o
-	$(CC) testes.o dctTools.o -o testes
+netsim: NetSimTool.o
+	$(CC) NetSimTool.o -o netsim
 
-filterTool.o: filterTool.cpp dctTools.h raffleTools.h commons.h
-	$(CC) $(CFLAGS) filterTool.cpp
+raffle: raffleTools.o
+	$(CC) raffleTools.o -o raffle
 
-testes.o: testes.cpp dctTools.h commons.h
-	$(CC) $(CFLAGS) testes.cpp
+#object files
+blur.o: blur.cpp blur.h commons.h
+	$(CC) $(CFLAGS) blur.cpp
+
+blurTools.o: blurTools.cpp blur.h commons.h
+	$(CC) $(CFLAGS) blurTools.cpp
+
+blockTools.o: blockTools.cpp dctTools.h commons.h
+	$(CC) $(CFLAGS) blockTools.cpp
 
 dctTools.o: dctTools.cpp dctTools.h commons.h
 	$(CC) $(CFLAGS) dctTools.cpp
 
-raffleTools.o: raffleTools.cpp raffleTools.h commons.h
+metricTool.o: metricTool.cpp
+	$(CC) $(CFLAGS) metricTool.cpp
+
+NetSimTool.o: NetSimTool.cpp
+	$(CC) $(CFLAGS) NetSimTool.cpp
+
+raffleTools.o: raffleTools.cpp
 	$(CC) $(CFLAGS) raffleTools.cpp
 
-blurTools.o: blurTools.cpp blurTools.h commons.h
-	$(CC) $(CFLAGS) blurTools.cpp
-
 clean:
-	rm -rf *.o testes filterTool metricTool
+	rm -rf *.o blur block metric netsim raffle
 

@@ -202,7 +202,7 @@ x = b - sqrt((1 - u) * (b - a) * (b - c)), for fc <= u < 1
 	
 	int normal(int mean, int variance){
 		// box-mueller method. m.ean v.ariance
-		double z0, z1, u, v, s;
+		double z0, u, v, s;
 		do {
 			u = ((double)rand()/((double)(RAND_MAX+1.)));
 			u = 2*u - 1;
@@ -259,7 +259,7 @@ int main(int argc, char* argv[]){
 	// 1. Process options
 	// 2. verify if there are enough arguments
 	RaffleTool r(argc, argv);
-	if(!r.askedHelp()){
+	// TODO if(!r.askedHelp()){
 		// 3. Open IO
 		r.performIO();
 	
@@ -268,6 +268,6 @@ int main(int argc, char* argv[]){
 
 		// 5. Close IO
 		r.closeIO();
-	}
+	//}
 	return 0;
 }

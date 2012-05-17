@@ -5,8 +5,8 @@
 #include <getopt.h>
 #include <fstream>
 
-#define DEBUG_INPUT
-#define DEBUG_OUTPUT
+//#define DEBUG_INPUT
+//#define DEBUG_OUTPUT
 
 #define L 255
 
