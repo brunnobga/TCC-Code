@@ -7,7 +7,6 @@ package package_default;
 import entity.Media;
 import entity.Metric;
 import entity.SoftwareRate;
-import java.awt.Toolkit;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -960,6 +959,9 @@ public class Ferramentas extends javax.swing.JFrame {
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
         // TODO add your handling code here:
+        
+        // ---->>> BLUR BUTTON
+        
         if(jTable3.getSelectionModel().isSelectionEmpty()){
             Dialog.msgWarning("Selecione um vídeo da tabela para continuar.", "Vídeo");
             return;
@@ -984,6 +986,7 @@ public class Ferramentas extends javax.swing.JFrame {
         Media video;
         video = (Media) tableGerador1.getAuxData(jTable3.getSelectedRow());
         java.util.List<String> params = new java.util.ArrayList<String>();
+        params.add(System.getProperty("user.dir") + "/../../algoritmos/block");
         params.add("-i");
         params.add(video.getPath());
         params.add("-o");
@@ -1003,8 +1006,33 @@ public class Ferramentas extends javax.swing.JFrame {
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
         // TODO add your handling code here:
         if (Dialog.question("Prosseguir e aplicar os artefatos aos vídeos selecionados?", "Confirmação")) {
-            Dialog.msgInfo("Arquivo gerado com sucesso.", "Confirmação");
+            GeradorTask task;
+            String directory = System.getProperty("user.dir");
+            String result;
+            int exit;
+            for (Object taskObj : geradorTask) {
+                try {
+                    task = (GeradorTask) taskObj;
+                    Process p = new ProcessBuilder(task.getParams()).start();
+                    InputStream pi = p.getInputStream();
+                    exit = p.waitFor();
+                    if (exit != 0) {
+                        Dialog.msgError(printProcessOutput(pi), "Exit status " + exit);
+                        continue;
+                    }
+                    //TODO: Adicionar o novo vídeo no banco de dados
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            }
         }
+        Dialog.msgInfo("Vídeos gerados com sucesso!", "Geração de vídeos");
+        geradorTask.clear();
+        tableGeradorTask.refresh(avaliadorTask);
+        jTable8.revalidate();
+        jTable8.repaint();
     }//GEN-LAST:event_jButton15ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -1045,6 +1073,9 @@ public class Ferramentas extends javax.swing.JFrame {
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
         // TODO add your handling code here:
+        
+        // ---->>> BLOCK BUTTON
+        
         // video não selecionado
         if(jTable3.getSelectionModel().isSelectionEmpty()){
             Dialog.msgWarning("Selecione um vídeo da tabela para continuar.", "Vídeo");
@@ -1101,6 +1132,7 @@ public class Ferramentas extends javax.swing.JFrame {
         Media video;
         video = (Media) tableGerador1.getAuxData(jTable3.getSelectedRow());
         java.util.List<String> params = new java.util.ArrayList<String>();
+        params.add(System.getProperty("user.dir") + "/../../algoritmos/blur");
         params.add("-i");
         params.add(video.getPath());
         params.add("-o");
