@@ -114,17 +114,17 @@ public class Ferramentas extends javax.swing.JFrame {
 
         jTextField10.setText("Procure vídeos");
         jTextField10.setToolTipText("Digite um termo para busca e pressione enter.");
-        jTextField10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField10ActionPerformed(evt);
-            }
-        });
         jTextField10.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jTextField10FocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextField10FocusLost(evt);
+            }
+        });
+        jTextField10.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField10KeyReleased(evt);
             }
         });
 
@@ -166,8 +166,6 @@ public class Ferramentas extends javax.swing.JFrame {
 
         jLabel4.setText("Raffle:");
 
-        jTextField2.setText("size do vídeo ta no bd ;)");
-
         jLabel5.setText("Resultado:");
 
         jButton1.setText("...");
@@ -188,6 +186,7 @@ public class Ferramentas extends javax.swing.JFrame {
             }
         });
 
+        jSpinner3.setValue(1);
         jSpinner3.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSpinner3StateChanged(evt);
@@ -279,6 +278,7 @@ public class Ferramentas extends javax.swing.JFrame {
 
         jLabel10.setText("Tamanho:");
 
+        jSpinner4.setValue(3);
         jSpinner4.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSpinner4StateChanged(evt);
@@ -340,6 +340,7 @@ public class Ferramentas extends javax.swing.JFrame {
                         .addGap(0, 61, Short.MAX_VALUE)
                         .addComponent(jButton14))
                     .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
                             .addComponent(jSpinner4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -458,7 +459,7 @@ public class Ferramentas extends javax.swing.JFrame {
                         .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jTabbedPane2))
+                    .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -474,17 +475,17 @@ public class Ferramentas extends javax.swing.JFrame {
 
         jTextField9.setText("Busca");
         jTextField9.setToolTipText("Digite um termo para busca e pressione enter.");
-        jTextField9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField9ActionPerformed(evt);
-            }
-        });
         jTextField9.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jTextField9FocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextField9FocusLost(evt);
+            }
+        });
+        jTextField9.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField9KeyReleased(evt);
             }
         });
 
@@ -524,17 +525,17 @@ public class Ferramentas extends javax.swing.JFrame {
 
         jTextField11.setText("Busca");
         jTextField11.setToolTipText("Digite um termo para busca e pressione enter.");
-        jTextField11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField11ActionPerformed(evt);
-            }
-        });
         jTextField11.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jTextField11FocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextField11FocusLost(evt);
+            }
+        });
+        jTextField11.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField11KeyReleased(evt);
             }
         });
 
@@ -883,15 +884,6 @@ public class Ferramentas extends javax.swing.JFrame {
         jTextField11.setText("");
     }//GEN-LAST:event_jTextField11FocusGained
 
-    private void jTextField11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField11ActionPerformed
-        // TODO add your handling code here:
-        Media m = new Media();
-        m.setTitle(jTextField11.getText());
-        tableAvaliador2.refresh(bridge.ServiceBridge.queryMediaList(m));
-        jTable5.revalidate();
-        jTable5.repaint();
-    }//GEN-LAST:event_jTextField11ActionPerformed
-
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         // TODO add your handling code here:
         // botao iniciar Avaliador
@@ -956,26 +948,6 @@ public class Ferramentas extends javax.swing.JFrame {
         jTextField9.setText("");
     }//GEN-LAST:event_jTextField9FocusGained
 
-    private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
-        // TODO add your handling code here:
-        //buscar tableAvaliador1
-        Media m = new Media();
-        m.setTitle(jTextField9.getText());
-        tableAvaliador1.refresh(bridge.ServiceBridge.queryMediaList(m));
-        jTable2.revalidate();
-        jTable2.repaint();
-    }//GEN-LAST:event_jTextField9ActionPerformed
-
-    private void jTextField10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField10ActionPerformed
-        // TODO add your handling code here:
-        //buscar tableAvaliador1
-        Media m = new Media();
-        m.setTitle(jTextField10.getText());
-        tableGerador1.refresh(bridge.ServiceBridge.queryMediaList(m));
-        jTable3.revalidate();
-        jTable3.repaint();
-    }//GEN-LAST:event_jTextField10ActionPerformed
-
     private void jTextField10FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField10FocusGained
         // TODO add your handling code here:
         jTextField10.setText("");
@@ -989,10 +961,25 @@ public class Ferramentas extends javax.swing.JFrame {
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
         // TODO add your handling code here:
         if(jTable3.getSelectionModel().isSelectionEmpty()){
+            Dialog.msgWarning("Selecione um vídeo da tabela para continuar.", "Vídeo");
+            return;
+        }
+        if(jTextField5.getText().length() == 0){
+            Dialog.msgWarning("Escolha o nome do arquivo a ser gerado.", "Arquivo de saída");
             return;
         }
         if(jComboBox2.getSelectedIndex() == 0){
+            Dialog.msgWarning("Filtro não selecionado.", "Filtro");
             return;
+        }
+//        COLOCAR NO LISTENER DO BOTAO INICIAR??
+//        // check if file already exists
+        File f = new File(jTextField5.getText());
+        if(f.exists()){
+            if(!Dialog.question("Arquivo já existe. Deseja sobrescrevê-lo?", "Arquivo existente")){
+                jTextField5.setText("");
+                return;
+            }
         }
         Media video;
         video = (Media) tableGerador1.getAuxData(jTable3.getSelectedRow());
@@ -1030,7 +1017,7 @@ public class Ferramentas extends javax.swing.JFrame {
 
     private void jSpinner3StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner3StateChanged
         // TODO add your handling code here:
-        if(Integer.valueOf(jSpinner3.getValue().toString()) < 0 ) jSpinner3.setValue(0);
+        if(Integer.valueOf(jSpinner3.getValue().toString()) < 1 ) jSpinner3.setValue(1);
     }//GEN-LAST:event_jSpinner3StateChanged
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -1053,13 +1040,63 @@ public class Ferramentas extends javax.swing.JFrame {
 
     private void jSpinner4StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner4StateChanged
         // TODO add your handling code here:
-        if(Integer.valueOf(jSpinner4.getValue().toString()) < 0 ) jSpinner4.setValue(0);
+        if(Integer.valueOf(jSpinner4.getValue().toString()) < 3 ) jSpinner4.setValue(3);
     }//GEN-LAST:event_jSpinner4StateChanged
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
         // TODO add your handling code here:
+        // video não selecionado
         if(jTable3.getSelectionModel().isSelectionEmpty()){
+            Dialog.msgWarning("Selecione um vídeo da tabela para continuar.", "Vídeo");
             return;
+        }
+        // output vazio
+        if(jTextField2.getText().length() == 0){
+            Dialog.msgWarning("Escolha o nome do arquivo a ser gerado.", "Arquivo de saída");
+            return;
+        }
+//        COLOCAR NO LISTENER DO BOTAO INICIAR??
+        // output ja existe
+        File f = new File(jTextField2.getText());
+        if(f.exists()){
+            if(!Dialog.question("Arquivo de saída já existe. Deseja sobrescrevê-lo?", "Arquivo existente")){
+                jTextField2.setText("");
+                return;
+            }
+        }
+        // raffle vazio
+        if(jTextField1.getText().length() == 0){
+            Dialog.msgWarning("Escolha o arquivo raffle a ser utilizado.", "Arquivo raffle");
+            return;
+        }
+        // raffle não existe
+        f = new File(jTextField1.getText());
+        if(!f.exists()){
+            Dialog.msgWarning("Arquivo raffle não existe.", "Arquivo raffle");
+            return;
+        }
+        // niveis dct separados por vírgula?
+        String dct = jTextField4.getText();
+        if(dct.length() == 0){
+            Dialog.msgWarning("Escolha os níveis DCT a serem eliminados, \nseparando-os por vírgula.", "Níveis DCT");
+            return;
+        } else {
+            for(int i = 0; i < dct.length(); ++i){
+                if(!Character.isDigit(dct.charAt(i)) && !(dct.charAt(i) == ',')){
+                    Dialog.msgWarning("Parâmetros DCT incorretos. Digite os \nníveis separado-os por vírgula.", "Níveis DCT");
+                    return;
+                }
+            }
+        }
+        // verificar se os níveis são válidos
+        String niveis[] = dct.split(",");
+        int limite = Integer.valueOf(jSpinner3.getValue().toString());
+        limite = 2*limite - 1;
+        for(int i = 0; i < niveis.length; ++i){
+            if(Integer.valueOf(niveis[i]) > limite){
+                Dialog.msgWarning("Nível DCT inválido. Para a janela \n selecionada, o limite é " + limite + ".", "Níveis DCT");
+                return;
+            }
         }
         Media video;
         video = (Media) tableGerador1.getAuxData(jTable3.getSelectedRow());
@@ -1104,6 +1141,34 @@ public class Ferramentas extends javax.swing.JFrame {
         jTable8.revalidate();
         jTable8.repaint();
     }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jTextField10KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField10KeyReleased
+        // TODO add your handling code here:
+        Media m = new Media();
+        m.setTitle(jTextField10.getText());
+        tableGerador1.refresh(bridge.ServiceBridge.queryMediaList(m));
+        jTable3.revalidate();
+        jTable3.repaint();
+    }//GEN-LAST:event_jTextField10KeyReleased
+
+    private void jTextField9KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField9KeyReleased
+        // TODO add your handling code here:
+        //buscar tableAvaliador1
+        Media m = new Media();
+        m.setTitle(jTextField9.getText());
+        tableAvaliador1.refresh(bridge.ServiceBridge.queryMediaList(m));
+        jTable2.revalidate();
+        jTable2.repaint();
+    }//GEN-LAST:event_jTextField9KeyReleased
+
+    private void jTextField11KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField11KeyReleased
+        // TODO add your handling code here:
+        Media m = new Media();
+        m.setTitle(jTextField11.getText());
+        tableAvaliador2.refresh(bridge.ServiceBridge.queryMediaList(m));
+        jTable5.revalidate();
+        jTable5.repaint();
+    }//GEN-LAST:event_jTextField11KeyReleased
 
     private String getParams(int row, String dist){
         String acc = "";

@@ -22,11 +22,6 @@ public class GeradorTask {
         this.raffleFile = raffleFile;
         this.parametros = parametros;
     }
-    public GeradorTask(Media video, String artefato, String raffleFile){
-	this.video = video;
-        this.artefato = artefato;
-        this.raffleFile = raffleFile;
-    }
 
     public Media getVideo() {
 	return this.video;
