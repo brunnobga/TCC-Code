@@ -997,7 +997,7 @@ public class Ferramentas extends javax.swing.JFrame {
         params.add(jComboBox2.getSelectedItem().toString());
         params.add("-w");
         params.add(jSpinner4.getValue().toString());
-        geradorTask.add(new GeradorTask(video, "blur", jTextField2.getText(), params));
+        geradorTask.add(new GeradorTask(video, "blur", jTextField2.getText(), params, jTextField5.getText()));
         tableGeradorTask.refresh(geradorTask);
         jTable8.revalidate();
         jTable8.repaint();
@@ -1009,6 +1009,7 @@ public class Ferramentas extends javax.swing.JFrame {
             GeradorTask task;
             String directory = System.getProperty("user.dir");
             String result;
+	    Media m;
             int exit;
             for (Object taskObj : geradorTask) {
                 try {
@@ -1021,6 +1022,10 @@ public class Ferramentas extends javax.swing.JFrame {
                         continue;
                     }
                     //TODO: Adicionar o novo vídeo no banco de dados
+		    m = new Media();
+		    m.setTitle("nova midia");
+		    m.setPath(task.getNewPath());
+		    bridge.ServiceBridge.SaveOrUpdateMedia(m);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 } catch (InterruptedException ex) {
@@ -1145,7 +1150,7 @@ public class Ferramentas extends javax.swing.JFrame {
         params.add(jTextField4.getText());
         params.add("-s");
         params.add(video.getWidth() + "x" + video.getHeigth());
-        geradorTask.add(new GeradorTask(video, "block", jTextField2.getText(), params));
+        geradorTask.add(new GeradorTask(video, "block", jTextField2.getText(), params, jTextField2.getText()));
         tableGeradorTask.refresh(geradorTask);
         jTable8.revalidate();
         jTable8.repaint();

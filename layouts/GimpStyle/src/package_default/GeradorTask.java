@@ -13,18 +13,22 @@ import java.util.List;
  */
 public class GeradorTask {
     private Media video;
-    private String artefato, raffleFile;
+    private String artefato, raffleFile, newPath;
     private List<String> parametros;
     
-    public GeradorTask(Media video, String artefato, String raffleFile, List<String> parametros){
+    public GeradorTask(Media video, String artefato, String raffleFile, List<String> parametros, String newPath){
 	this.video = video;
         this.artefato = artefato;
         this.raffleFile = raffleFile;
         this.parametros = parametros;
+	this.newPath = newPath;
     }
 
     public Media getVideo() {
 	return this.video;
+    }
+    public String getNewPath(){
+	return newPath;
     }
     public String getArtefato(){
         return this.artefato;
