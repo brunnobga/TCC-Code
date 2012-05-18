@@ -797,7 +797,7 @@ public class Ferramentas extends javax.swing.JFrame {
             try {
                 String param = "";
                 List<String> parametros = new ArrayList<String>();
-                parametros.add(directory + "/../../algoritmos/raffleTools");
+                parametros.add(directory + "/../../algoritmos/raffle");
                 parametros.add("-o");
                 parametros.add(jTextField3.getText());
                 parametros.add("-u");
@@ -895,7 +895,7 @@ public class Ferramentas extends javax.swing.JFrame {
             try {
                 task = (MetricTask) taskObj;
                 params = new ArrayList<String>();
-                params.add(directory + "/../../algoritmos/metricTool");
+                params.add(directory + "/../../algoritmos/metric");
                 params.add("-s");
                 params.add(task.getVideo().getWidth() + "x" + task.getVideo().getHeigth());
                 params.add("-i");
@@ -986,7 +986,7 @@ public class Ferramentas extends javax.swing.JFrame {
         Media video;
         video = (Media) tableGerador1.getAuxData(jTable3.getSelectedRow());
         java.util.List<String> params = new java.util.ArrayList<String>();
-        params.add(System.getProperty("user.dir") + "/../../algoritmos/block");
+        params.add(System.getProperty("user.dir") + "/../../algoritmos/blur");
         params.add("-i");
         params.add(video.getPath());
         params.add("-o");
@@ -1132,7 +1132,7 @@ public class Ferramentas extends javax.swing.JFrame {
         Media video;
         video = (Media) tableGerador1.getAuxData(jTable3.getSelectedRow());
         java.util.List<String> params = new java.util.ArrayList<String>();
-        params.add(System.getProperty("user.dir") + "/../../algoritmos/blur");
+        params.add(System.getProperty("user.dir") + "/../../algoritmos/block");
         params.add("-i");
         params.add(video.getPath());
         params.add("-o");

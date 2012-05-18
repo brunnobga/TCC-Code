@@ -25,6 +25,23 @@ static struct option long_options[] =
 
 static char short_options[] = "i:o:s:w:p:l:r:";
 
+bool compara(Raffle s1, Raffle s2){
+	if(s1.f < s2.f) return true;
+	else{
+		if(s1.f == s2.f){
+			if(s1.x < s2.x) return true;
+			else{
+				if(s1.x == s2.x){
+					if(s1.y < s2.y) return true;
+					else return false;
+				}
+				else return false;
+			}
+		}
+		else return false;
+	}
+}
+
 #include "dctTools.h"
 
 #define DURATIONDIST 0
@@ -145,13 +162,14 @@ public:
 	void readRaffleList(){
 		// TODO Ler arquivo com os pontos sorteados
 		int tmpF, tmpX, tmpY;
-		while(raffleFile >> tmpF >> tmpX >> tmpY){
+		while(raffleFile >> tmpF >> tmpY >> tmpX){
 			Raffle *tmpRaffle = new Raffle();
 			(*tmpRaffle).f = tmpF;
-			(*tmpRaffle).x = tmpX/blockSize;
-			(*tmpRaffle).y = tmpY/blockSize;
+			(*tmpRaffle).x = tmpX;
+			(*tmpRaffle).y = tmpY;
 			pixelList.push_back(*tmpRaffle);
 		}
+		pixelList.sort(compara);
 		#ifdef DEBUG_RAFFLE
 			list<Raffle>::iterator it;
 			printf("RAFFLE RESULT:\n");
