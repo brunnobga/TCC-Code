@@ -98,6 +98,15 @@ public class Media implements Serializable {
     public Media(Integer id) {
         this.id = id;
     }
+    
+    public Media(Media m){
+    	this.size = m.getSize();
+    	this.length = m.getLength();
+    	this.format = m.getFormat();
+    	this.width = m.getWidth();
+    	this.heigth = m.getHeigth();
+    	this.type = m.getType();
+    }
 
     public Integer getId() {
         return id;

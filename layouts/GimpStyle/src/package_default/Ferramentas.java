@@ -958,8 +958,6 @@ public class Ferramentas extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField10FocusLost
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        // TODO add your handling code here:
-        
         // ---->>> BLUR BUTTON
         
         if(jTable3.getSelectionModel().isSelectionEmpty()){
@@ -974,7 +972,6 @@ public class Ferramentas extends javax.swing.JFrame {
             Dialog.msgWarning("Filtro não selecionado.", "Filtro");
             return;
         }
-//        COLOCAR NO LISTENER DO BOTAO INICIAR??
 //        // check if file already exists
         File f = new File(jTextField5.getText());
         if(f.exists()){
@@ -997,7 +994,7 @@ public class Ferramentas extends javax.swing.JFrame {
         params.add(jComboBox2.getSelectedItem().toString());
         params.add("-w");
         params.add(jSpinner4.getValue().toString());
-        geradorTask.add(new GeradorTask(video, "blur", jTextField2.getText(), params, jTextField5.getText()));
+        geradorTask.add(new GeradorTask(video, "blur", "", params, jTextField5.getText()));
         tableGeradorTask.refresh(geradorTask);
         jTable8.revalidate();
         jTable8.repaint();
@@ -1022,7 +1019,7 @@ public class Ferramentas extends javax.swing.JFrame {
                         continue;
                     }
                     //TODO: Adicionar o novo vídeo no banco de dados
-		    m = new Media();
+		    m = new Media(task.getVideo());
 		    m.setTitle("nova midia");
 		    m.setPath(task.getNewPath());
 		    bridge.ServiceBridge.SaveOrUpdateMedia(m);
@@ -1077,8 +1074,6 @@ public class Ferramentas extends javax.swing.JFrame {
     }//GEN-LAST:event_jSpinner4StateChanged
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
-        // TODO add your handling code here:
-        
         // ---->>> BLOCK BUTTON
         
         // video não selecionado
@@ -1150,22 +1145,71 @@ public class Ferramentas extends javax.swing.JFrame {
         params.add(jTextField4.getText());
         params.add("-s");
         params.add(video.getWidth() + "x" + video.getHeigth());
-        geradorTask.add(new GeradorTask(video, "block", jTextField2.getText(), params, jTextField2.getText()));
+        geradorTask.add(new GeradorTask(video, "block", jTextField1.getText(), params, jTextField2.getText()));
         tableGeradorTask.refresh(geradorTask);
         jTable8.revalidate();
         jTable8.repaint();
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
-        // TODO add your handling code here:
+        // ---->>> Netsim BUTTON
+        
+        // video não selecionado
+        if(jTable3.getSelectionModel().isSelectionEmpty()){
+            Dialog.msgWarning("Selecione um vídeo da tabela para continuar.", "Vídeo");
+            return;
+        }
+        // output vazio
+        if(jTextField6.getText().length() == 0){
+            Dialog.msgWarning("Escolha o nome do arquivo a ser gerado.", "Arquivo de saída");
+            return;
+        }
+        // output ja existe
+        File f = new File(jTextField6.getText());
+        if(f.exists()){
+            if(!Dialog.question("Arquivo de saída já existe. Deseja sobrescrevê-lo?", "Arquivo existente")){
+                jTextField6.setText("");
+                return;
+            }
+        }
+        // raffle vazio
+        if(jTextField7.getText().length() == 0){
+            Dialog.msgWarning("Escolha o arquivo raffle a ser utilizado.", "Arquivo raffle");
+            return;
+        }
+        // raffle não existe
+        f = new File(jTextField7.getText());
+        if(!f.exists()){
+            Dialog.msgWarning("Arquivo raffle não existe.", "Arquivo raffle");
+            return;
+        }
+	
+	Media video;
+        video = (Media) tableGerador1.getAuxData(jTable3.getSelectedRow());
+        java.util.List<String> params = new java.util.ArrayList<String>();
+        params.add(System.getProperty("user.dir") + "/../../algoritmos/netsim");
+        params.add("-i");
+        params.add(video.getPath());
+        params.add("-o");
+        params.add(jTextField6.getText());
+        params.add("-r");
+        params.add(jTextField7.getText());
+        geradorTask.add(new GeradorTask(video, "netsim", jTextField7.getText(), params, jTextField6.getText()));
+        tableGeradorTask.refresh(geradorTask);
+        jTable8.revalidate();
+        jTable8.repaint();
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        //Caminho NetSim
+	String caminho = Dialog.getFile(Dialog.TipoGetFile.Abrir);
+	jTextField6.setText(caminho);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
+        //raffle NetSim
+	String caminho = Dialog.getFile(Dialog.TipoGetFile.Abrir);
+	jTextField7.setText(caminho);
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
