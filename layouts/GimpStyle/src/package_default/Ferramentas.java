@@ -982,6 +982,10 @@ public class Ferramentas extends javax.swing.JFrame {
         }
         Media video;
         video = (Media) tableGerador1.getAuxData(jTable3.getSelectedRow());
+	if(video.getType().getId() != 2){
+	    Dialog.msgWarning("Formato inválido para o tipo de degradação", "Formato");
+            return;
+	}
         java.util.List<String> params = new java.util.ArrayList<String>();
         params.add(System.getProperty("user.dir") + "/../../algoritmos/blur");
         params.add("-i");
@@ -1131,6 +1135,10 @@ public class Ferramentas extends javax.swing.JFrame {
         }
         Media video;
         video = (Media) tableGerador1.getAuxData(jTable3.getSelectedRow());
+	if(video.getType().getId() != 1){
+	    Dialog.msgWarning("Formato inválido para o tipo de degradação", "Formato");
+            return;
+	}
         java.util.List<String> params = new java.util.ArrayList<String>();
         params.add(System.getProperty("user.dir") + "/../../algoritmos/block");
         params.add("-i");
@@ -1183,9 +1191,13 @@ public class Ferramentas extends javax.swing.JFrame {
             Dialog.msgWarning("Arquivo raffle não existe.", "Arquivo raffle");
             return;
         }
-	
+	//TODO verificar se o formato eh valido
 	Media video;
         video = (Media) tableGerador1.getAuxData(jTable3.getSelectedRow());
+	if(video.getType().getId() != 2){
+	    Dialog.msgWarning("Formato inválido para o tipo de degradação", "Formato");
+            return;
+	}
         java.util.List<String> params = new java.util.ArrayList<String>();
         params.add(System.getProperty("user.dir") + "/../../algoritmos/netsim");
         params.add("-i");
