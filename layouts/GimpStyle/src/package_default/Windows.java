@@ -6,10 +6,6 @@ package package_default;
 
 import bridge.ServiceBridge;
 import communication.Monitor;
-import java.awt.Toolkit;
-import java.awt.event.WindowEvent;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -22,6 +18,8 @@ public class Windows extends javax.swing.JFrame {
      */
     public Windows() {
         initComponents();
+        Util.setDefaultOutputDirectory(System.getProperty("user.dir"));
+        Util.setDefaultVideosDirectory(System.getProperty("user.dir"));
         s = new Sessao();
         f = new Ferramentas();
         c = new Configuracao();

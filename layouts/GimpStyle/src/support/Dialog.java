@@ -15,6 +15,16 @@ public class Dialog {
 		Abrir, Salvar
 	}
 	
+	public static String getDirectory(TipoGetFile tp){
+		JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		int result = fileChooser.showDialog(null, tp.toString());
+		if(result == JFileChooser.CANCEL_OPTION){   
+			return "";
+		} else {   
+			return fileChooser.getSelectedFile().getPath();
+		}
+	}
 	public static String getFile(TipoGetFile tp){
 		JFileChooser fileChooser = new JFileChooser();
 		int result = fileChooser.showDialog(null, tp.toString());
