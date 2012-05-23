@@ -5,6 +5,8 @@
 package package_default;
 
 import entity.Media;
+import entity.Session;
+import java.sql.Date;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import support.Dialog;
@@ -533,6 +535,8 @@ public class Sessao extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(Dialog.question("Deseja iniciar sessão?", "Sessão")){
             // TODO play videos
+            // pegar dados e construir lists
+            bridge.ServiceBridge.operationStartSession(playerTask, playerTask, playerTask);
         }
     }//GEN-LAST:event_jButton9ActionPerformed
 

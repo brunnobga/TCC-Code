@@ -1,0 +1,21 @@
+#header {
+	background-color: #bbbbff;
+	width:auto;
+	height:40px;
+	border:1px solid #000;
+}
+#conteudo{
+	background-color: #ddddff;
+	width: auto;
+	height: auto;
+	border: 1px solid #000;
+}
+#footer{
+	background-color: #bbbbff;
+	width: auto;
+	height: 30px;
+	border: 1px solid #000;
+}
+h2 {
+	margin-left: 30px;
+}

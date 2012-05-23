@@ -6,8 +6,10 @@ package package_default;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
  *
@@ -19,14 +21,13 @@ public class Ajuda extends javax.swing.JFrame {
      * Creates new form Ajuda
      */
     public Ajuda() {
-        try {
-            initComponents();
-            jEditorPane1.setPage(new File(Util.getUserDirectory()+"/src/helpdocs/index.html").toURI().toURL());
-            //http://docs.oracle.com/javase/tutorial/uiswing/components/editorpane.html
-            //http://docs.oracle.com/javase/tutorial/uiswing/components/editorpane.html
-        } catch (IOException ex) {
-            Logger.getLogger(Ajuda.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        initComponents();
+        //jEditorPane1.setPage(new File(Util.getUserDirectory()+"/src/helpdocs/index.html").toURI().toURL());
+        displayURL("SASQV");
+        //http://docs.oracle.com/javase/tutorial/uiswing/components/editorpane.html
+        //http://docs.oracle.com/javase/tutorial/uiswing/components/editorpane.html
+
+        // =>> http://docs.oracle.com/javase/tutorial/uiswing/components/tree.html
     }
 
     /**
@@ -64,6 +65,36 @@ public class Ajuda extends javax.swing.JFrame {
 
         jTextField1.setText("jTextField1");
 
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("SASQV");
+        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Introdução");
+        javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Interface");
+        treeNode2.add(treeNode3);
+        treeNode1.add(treeNode2);
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Sessão");
+        treeNode1.add(treeNode2);
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Ferramentas");
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Gerador de Artefatos");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Avaliador Objetivo");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("RaffleTools");
+        treeNode2.add(treeNode3);
+        treeNode1.add(treeNode2);
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Banco de Dados");
+        treeNode1.add(treeNode2);
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Resultados");
+        treeNode1.add(treeNode2);
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Configurações");
+        treeNode1.add(treeNode2);
+        jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        for (int i = 0; i < jTree1.getRowCount(); i++) {
+            jTree1.expandRow(i);
+        }
+        jTree1.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+                jTree1ValueChanged(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTree1);
 
         jButton1.setText("jButton1");
@@ -121,6 +152,21 @@ public class Ajuda extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jTree1ValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_jTree1ValueChanged
+        // TODO add your handling code here:
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode)jTree1.getLastSelectedPathComponent();
+        if (node == null) return;
+        displayURL(node.getUserObject().toString());
+    }//GEN-LAST:event_jTree1ValueChanged
+
+    public void displayURL(String page){
+        try {
+            if(page.equals("SASQV")) jEditorPane1.setPage(new File(Util.getUserDirectory()+"/src/helpdocs/index.html").toURI().toURL());
+            if(page.equals("Introdução")) jEditorPane1.setPage(new File(Util.getUserDirectory()+"/src/helpdocs/introducao.html").toURI().toURL());
+            if(page.equals("Interface")) jEditorPane1.setPage(new File(Util.getUserDirectory()+"/src/helpdocs/interface.html").toURI().toURL());
+            
+        } catch (IOException ex) {}
+    }
     /**
      * @param args the command line arguments
      */

@@ -20,6 +20,7 @@ public class Windows extends javax.swing.JFrame {
         initComponents();
         Util.setDefaultOutputDirectory(System.getProperty("user.dir"));
         Util.setDefaultVideosDirectory(System.getProperty("user.dir"));
+        Util.setUserDirectory(System.getProperty("user.dir"));
         s = new Sessao();
         f = new Ferramentas();
         c = new Configuracao();
