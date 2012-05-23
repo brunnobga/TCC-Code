@@ -156,7 +156,7 @@ public:
 
 	}
 
-	bool asketHelp(){
+	bool askedHelp(){
 		return help;
 	}
 
@@ -259,7 +259,7 @@ int main(int argc, char* argv[]){
 	// 1. Process options
 	// 2. verify if there are enough arguments
 	RaffleTool r(argc, argv);
-	// TODO if(!r.askedHelp()){
+	if(!r.askedHelp()){
 		// 3. Open IO
 		r.performIO();
 	
@@ -268,6 +268,6 @@ int main(int argc, char* argv[]){
 
 		// 5. Close IO
 		r.closeIO();
-	//}
+	}
 	return 0;
 }
