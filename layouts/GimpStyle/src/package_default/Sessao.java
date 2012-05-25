@@ -4,6 +4,7 @@
  */
 package package_default;
 
+import entity.Device;
 import entity.Media;
 import entity.Session;
 import java.sql.Date;
@@ -168,8 +169,8 @@ public class Sessao extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel6)
-                        .addGap(0, 40, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addGap(0, 41, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton8)
                 .addContainerGap())
@@ -214,10 +215,10 @@ public class Sessao extends javax.swing.JFrame {
 
         jScrollPane11.setPreferredSize(new java.awt.Dimension(200, 200));
 
-        playerTask = new ArrayList();
+        sessionMedias = new ArrayList();
         tablePlayerTask = new CustomTableModel(
             CustomTableModel.VIDEO_DATA,
-            playerTask);
+            sessionMedias);
         jTable8.setModel(tablePlayerTask);
         jScrollPane11.setViewportView(jTable8);
 
@@ -266,7 +267,7 @@ public class Sessao extends javax.swing.JFrame {
                         .addComponent(jButton6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton7)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 12, Short.MAX_VALUE))
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -299,7 +300,7 @@ public class Sessao extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel2.setBounds(0, 0, 520, 331);
+        jPanel2.setBounds(0, 0, 520, 317);
         jLayeredPane1.add(jPanel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Seleção"));
@@ -307,9 +308,9 @@ public class Sessao extends javax.swing.JFrame {
         jTextField5.setText("Procurar");
 
         jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Device 1", "Device 2", "Device 3", "Device 4", "Device 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
+            ArrayList<Device> devices = bridge.ServiceBridge.queryDeviceList();
+            public int getSize() { return devices.size(); }
+            public Object getElementAt(int i) { return devices.get(i).getName() + " at " + devices.get(i).getAddress(); }
         });
         jScrollPane2.setViewportView(jList1);
 
@@ -327,6 +328,7 @@ public class Sessao extends javax.swing.JFrame {
             }
         });
 
+        sessionDevices = new ArrayList();
         jList2.setModel(new DefaultListModel());
         jScrollPane3.setViewportView(jList2);
 
@@ -356,8 +358,8 @@ public class Sessao extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -390,7 +392,7 @@ public class Sessao extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel3.setBounds(0, 0, 520, 329);
+        jPanel3.setBounds(0, 0, 520, 313);
         jLayeredPane1.add(jPanel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -444,19 +446,19 @@ public class Sessao extends javax.swing.JFrame {
         }
 	Media video;
         video = (Media) tablePlayer1.getAuxData(jTable1.getSelectedRow());
-        playerTask.add(video);
-        tablePlayerTask.refresh(playerTask);
+        sessionMedias.add(video);
+        tablePlayerTask.refresh(sessionMedias);
         jTable8.revalidate();
         jTable8.repaint();        
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
-        if(jTable8.getSelectionModel().isSelectionEmpty() || jTable8.getSelectedRow() >= playerTask.size()){
+        if(jTable8.getSelectionModel().isSelectionEmpty() || jTable8.getSelectedRow() >= sessionMedias.size()){
             return;
         }
-        playerTask.remove(jTable8.getSelectedRow());
-        tablePlayerTask.refresh(playerTask);
+        sessionMedias.remove(jTable8.getSelectedRow());
+        tablePlayerTask.refresh(sessionMedias);
         jTable8.revalidate();
         jTable8.repaint();
     }//GEN-LAST:event_jButton7ActionPerformed
@@ -487,7 +489,7 @@ public class Sessao extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        if(playerTask.isEmpty()){
+        if(sessionMedias.isEmpty()){
             Dialog.msgWarning("Não foram selecionados\nvídeos para a sessão.", "Sessão");
             return;
         }
@@ -518,7 +520,9 @@ public class Sessao extends javax.swing.JFrame {
             for(int j = 0; j < jList2.getModel().getSize(); ++j){
                 if(jList2.getModel().getElementAt(j).equals(selected[i])) alreadyIn = true;
             }
-            if(!alreadyIn) ((DefaultListModel)jList2.getModel()).addElement(selected[i]);
+            if(!alreadyIn) {
+		((DefaultListModel)jList2.getModel()).addElement(selected[i]);
+	    }
             alreadyIn = false;
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -532,12 +536,20 @@ public class Sessao extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // TODO add your handling code here:
+        //Botao Iniciar sessão
+	Session s;
+	ArrayList sessionArgs = new ArrayList();
+	sessionArgs.add(jTextField1.getText()); //titulo
+	sessionArgs.add(0);//tipo
+	sessionArgs.add(bridge.ServiceBridge.queryMetricList().get(0));//metrica
+	sessionArgs.add(Integer.parseInt(jSpinner1.getValue().toString()));// espectadores
+	sessionArgs.add(jTextArea1.getText());//descricao
         if(Dialog.question("Deseja iniciar sessão?", "Sessão")){
             // TODO play videos
             // pegar dados e construir lists
-            bridge.ServiceBridge.operationStartSession(playerTask, playerTask, playerTask);
-        }
+            s = bridge.ServiceBridge.operationStartSession(sessionArgs, sessionMedias, bridge.ServiceBridge.queryDeviceList());
+	    System.out.println("Session ID -> " + s.getId());
+	}
     }//GEN-LAST:event_jButton9ActionPerformed
 
     /**
@@ -604,6 +616,7 @@ public class Sessao extends javax.swing.JFrame {
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JList jList1;
     private javax.swing.JList jList2;
+    ArrayList sessionDevices;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -617,7 +630,7 @@ public class Sessao extends javax.swing.JFrame {
     private CustomTableModel tablePlayer1;
     private javax.swing.JTable jTable8;
     private CustomTableModel tablePlayerTask;
-    private ArrayList playerTask;
+    private ArrayList sessionMedias;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField5;

@@ -127,7 +127,7 @@
                               <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="41" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" pref="94" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jButton8" min="-2" max="-2" attributes="0"/>
@@ -254,7 +254,7 @@
                               <Component id="jButton6" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jButton7" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="12" max="32767" attributes="0"/>
                           </Group>
                           <Component id="jScrollPane4" alignment="0" pref="211" max="32767" attributes="0"/>
                       </Group>
@@ -364,8 +364,8 @@
                     </Property>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="private CustomTableModel tablePlayerTask;&#xa;private ArrayList playerTask;"/>
-                    <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="playerTask = new ArrayList();&#xa;tablePlayerTask = new CustomTableModel(&#xa;    CustomTableModel.VIDEO_DATA,&#xa;    playerTask);"/>
+                    <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="private CustomTableModel tablePlayerTask;&#xa;private ArrayList sessionMedias;"/>
+                    <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="sessionMedias = new ArrayList();&#xa;tablePlayerTask = new CustomTableModel(&#xa;    CustomTableModel.VIDEO_DATA,&#xa;    sessionMedias);"/>
                   </AuxValues>
                 </Component>
               </SubComponents>
@@ -431,8 +431,8 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="jButton2" pref="240" max="32767" attributes="0"/>
-                                  <Component id="jScrollPane2" max="32767" attributes="0"/>
+                                  <Component id="jButton2" pref="242" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane2" pref="0" max="32767" attributes="0"/>
                                   <Component id="jTextField5" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -492,14 +492,8 @@
               <SubComponents>
                 <Component class="javax.swing.JList" name="jList1">
                   <Properties>
-                    <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
-                      <StringArray count="5">
-                        <StringItem index="0" value="Device 1"/>
-                        <StringItem index="1" value="Device 2"/>
-                        <StringItem index="2" value="Device 3"/>
-                        <StringItem index="3" value="Device 4"/>
-                        <StringItem index="4" value="Device 5"/>
-                      </StringArray>
+                    <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="new javax.swing.AbstractListModel() {&#xa;    ArrayList&lt;Device&gt; devices = bridge.ServiceBridge.queryDeviceList();&#xa;    public int getSize() { return devices.size(); }&#xa;    public Object getElementAt(int i) { return devices.get(i).getName() + &quot; at &quot; + devices.get(i).getAddress(); }&#xa;}" type="code"/>
                     </Property>
                   </Properties>
                 </Component>
@@ -534,6 +528,10 @@
                       <Connection code="new DefaultListModel()" type="code"/>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="ArrayList sessionDevices;"/>
+                    <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="sessionDevices = new ArrayList();"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>

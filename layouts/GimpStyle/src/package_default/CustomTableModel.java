@@ -4,8 +4,8 @@
  */
 package package_default;
 
+import entity.Device;
 import entity.Media;
-import entity.Metric;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
@@ -29,12 +29,11 @@ public class CustomTableModel extends DefaultTableModel {
 		{"!", "Title", "Format", "Description"},
 		{"Title", "Format", "Description"},
 		{""},
-                {""},
+                {"Name", "Port"},
                 {"Vídeo", "Reference", "Metric"},
                 {"Vídeo", "Artefato", "Raffle", "Parâmetros"},
 	};
 	private Object[][] data;
-        private int[] auxData;
 
 	public CustomTableModel(int dataType, ArrayList queryData) {
 	    this.dataType = dataType;
@@ -45,12 +44,10 @@ public class CustomTableModel extends DefaultTableModel {
 		this.currentData = newData;
 		int i;
 		data = new Object[newData.size()][columnNames[dataType].length];
-                auxData = new int[newData.size()];
 		switch(dataType){
 			case VIDEO_DATA_SELECT:
 				for(i = 0; i < newData.size(); i++){
 					Media a = (Media) newData.get(i);
-                                        auxData[i] = a.getId();
 					data[i][0] = false;
 					data[i][1] = a.getTitle();
 					data[i][2] = a.getFormat();
@@ -60,7 +57,6 @@ public class CustomTableModel extends DefaultTableModel {
 			case VIDEO_DATA:
 				for(i = 0; i < newData.size(); i++){
 					Media a = (Media) newData.get(i);
-                                        auxData[i] = a.getId();
 					data[i][0] = a.getTitle();
 					data[i][1] = a.getFormat();
 					data[i][2] = a.getDescription();
@@ -74,6 +70,13 @@ public class CustomTableModel extends DefaultTableModel {
 					data[i][2] = a.getMetric().getName();
 				}
 				break;
+			case DEVICE_DATA:
+			    for(i = 0; i < newData.size(); i++){
+				Device a = (Device) newData.get(i);
+				data[i][0] = a.getName();
+				data[i][1] = a.getAddress();
+			    }
+			    break;
                         case GERADOR_TASK:
 				for(i = 0; i < newData.size(); i++){
 					GeradorTask a = (GeradorTask) newData.get(i);
