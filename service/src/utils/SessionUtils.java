@@ -15,8 +15,8 @@ public class SessionUtils {
 			s.setTitle(String.valueOf(args.get(0)));
 			s.setType((Integer)(args.get(1)));
 			s.setMetric((Metric)(args.get(2)));
-			s.setDescription(String.valueOf(args.get(3)));
-			s.setSpectorsCount((Integer)(args.get(4)));
+			s.setDescription(String.valueOf(args.get(4)));
+			s.setSpectorsCount((Integer)(args.get(3)));
 			s.setStartDate(Calendar.getInstance().getTime());
 			s.setState(0);
 			return s;

@@ -24,7 +24,7 @@ public class Main {
 	private static Monitor m;
 	
 	public static void main(String[] args) {
-		PropertyConfigurator.configure("log4j.properties");
+		//PropertyConfigurator.configure("log4j.properties");
 		
 		
 		m = new Monitor();
@@ -32,10 +32,11 @@ public class Main {
 		ServiceBridge.init(m);
 		//new MsgHandler(m);
 		
-		//System.out.println("Numero de objetos em mydb.Artifact: " + ServiceBridge.queryArtifactList().size());
-		System.out.println("Numero de objetos em mydb.Metric: " + ServiceBridge.queryMetricList().size());
-		//System.out.println("Numero de objetos em mydb.SoftwareRate: " + ServiceBridge.querySoftwareRateList().size());
-		//System.out.println("Numero de objetos em mydb.Media: " + ServiceBridge.queryMediaList(null).size());
+		Device d = ServiceBridge.queryDeviceList().get(0);
+		Connection c = new Connection(d);
+		c.start();
+		m.addConnection(c);
+		ServiceBridge.operationDefineMetric(0);
 		System.out.println("Fim!");
 		
 		System.exit(0);

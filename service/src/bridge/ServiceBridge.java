@@ -108,6 +108,7 @@ public class ServiceBridge {
 			boolean queryResult = 
 				mif.saveOrUpdateSession(session);
 			if(queryResult) {
+				System.out.println("OK!");
 				boolean queryResultAux = false;
 				int index = 0;
 				for(Object o : medias) {
@@ -122,6 +123,7 @@ public class ServiceBridge {
 					}
 				}
 				if(queryResult) {
+					System.out.println("OK!!");
 					for(Object o : devices) {
 						Device d = (Device) o;
 						Connection c = new Connection(d);
@@ -132,7 +134,9 @@ public class ServiceBridge {
 				}
 			} else {
 			}
-		} catch (Exception ex) {}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 		return session;
 	}
 	

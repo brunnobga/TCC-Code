@@ -23,7 +23,7 @@ public class Connection extends Thread {
     public Connection(Device device) {
         this.device = device;
         timeOut = device.getTimeOut();
-        serialCom = new ComunicacaoSerial("COM8",
+        serialCom = new ComunicacaoSerial("/dev/ttyS0",
                 9600, true, true);
         dataBuffer = new ArrayList<DataBuffer>();
         rateBuffer = new ArrayList<DataBuffer>();
