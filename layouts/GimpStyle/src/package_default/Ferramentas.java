@@ -552,11 +552,6 @@ public class Ferramentas extends javax.swing.JFrame {
             CustomComboBoxModel.METRIC_DATA,
             bridge.ServiceBridge.queryMetricList());
         jComboBox1.setModel(comboAvaliador);
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
 
         jButton11.setText("Adicionar");
         jButton11.addActionListener(new java.awt.event.ActionListener() {
@@ -868,10 +863,6 @@ public class Ferramentas extends javax.swing.JFrame {
         jTable6.revalidate();
         jTable6.repaint();
     }//GEN-LAST:event_jButton11ActionPerformed
-
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jTextField11FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField11FocusLost
         // TODO add your handling code here:

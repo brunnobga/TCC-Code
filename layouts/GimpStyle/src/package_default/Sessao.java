@@ -7,9 +7,15 @@ package package_default;
 import entity.Device;
 import entity.Media;
 import entity.Session;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import sun.tools.jar.resources.jar;
 import support.Dialog;
 
 /**
@@ -96,8 +102,12 @@ public class Sessao extends javax.swing.JFrame {
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "", "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "", "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboSessaoMetrica = new CustomComboBoxModel(
+            CustomComboBoxModel.METRIC_DATA,
+            bridge.ServiceBridge.queryMetricList());
+        jComboBox2.setModel(comboSessaoMetrica);
 
+        jSpinner1.setValue(1);
         jSpinner1.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSpinner1StateChanged(evt);
@@ -169,8 +179,8 @@ public class Sessao extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel6)
-                        .addGap(0, 41, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE))
+                        .addGap(0, 40, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton8)
                 .addContainerGap())
@@ -210,7 +220,7 @@ public class Sessao extends javax.swing.JFrame {
             bridge.ServiceBridge.queryMediaList(new Media())
         );
         jTable1.setModel(tablePlayer1);
-        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         jScrollPane4.setViewportView(jTable1);
 
         jScrollPane11.setPreferredSize(new java.awt.Dimension(200, 200));
@@ -300,7 +310,7 @@ public class Sessao extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel2.setBounds(0, 0, 520, 317);
+        jPanel2.setBounds(0, 0, 520, 329);
         jLayeredPane1.add(jPanel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Seleção"));
@@ -359,7 +369,7 @@ public class Sessao extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
                             .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -392,7 +402,7 @@ public class Sessao extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel3.setBounds(0, 0, 520, 313);
+        jPanel3.setBounds(0, 0, 520, 329);
         jLayeredPane1.add(jPanel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -415,7 +425,7 @@ public class Sessao extends javax.swing.JFrame {
 
     private void jSpinner1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner1StateChanged
         // TODO add your handling code here:
-        if(Integer.valueOf(jSpinner1.getValue().toString()) < 0 ) jSpinner1.setValue(0);
+        if(Integer.valueOf(jSpinner1.getValue().toString()) < 1 ) jSpinner1.setValue(1);
     }//GEN-LAST:event_jSpinner1StateChanged
 
     private void jTextField8FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField8FocusGained
@@ -444,9 +454,18 @@ public class Sessao extends javax.swing.JFrame {
             Dialog.msgWarning("Selecione um vídeo da tabela para continuar.", "Vídeo");
             return;
         }
-	Media video;
-        video = (Media) tablePlayer1.getAuxData(jTable1.getSelectedRow());
-        sessionMedias.add(video);
+        if(jComboBox2.getModel().getSelectedItem().toString().equals("DSIS")){
+            if(jTable1.getSelectedRowCount()%2 != 0){
+                Dialog.msgWarning("Para a métrica DSIS, é necessário\num número par de vídeos.", "Vídeo");
+                return;
+            }
+        }
+        int selected[] = jTable1.getSelectedRows();
+        for(int i = 0; i < selected.length; ++i){
+            Media video;
+            video = (Media) tablePlayer1.getAuxData(selected[i]);
+            sessionMedias.add(video);
+        }
         tablePlayerTask.refresh(sessionMedias);
         jTable8.revalidate();
         jTable8.repaint();        
@@ -471,10 +490,6 @@ public class Sessao extends javax.swing.JFrame {
         }
         if(jComboBox1.getSelectedIndex() == 0){
             Dialog.msgWarning("Escolha um tipo.", "Sessão");
-            return;
-        }
-        if(jComboBox2.getSelectedIndex() == 0){
-            Dialog.msgWarning("Escolha uma métrica.", "Sessão");
             return;
         }
         if(Integer.valueOf(jSpinner1.getValue().toString()) == 0){
@@ -537,18 +552,24 @@ public class Sessao extends javax.swing.JFrame {
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         //Botao Iniciar sessão
+        if(jList2.getModel().getSize() == 0){
+            Dialog.msgWarning("Selecione algum dispositivo\npara continuar.", "Sessão");
+            return;
+        }
 	Session s;
 	ArrayList sessionArgs = new ArrayList();
 	sessionArgs.add(jTextField1.getText()); //titulo
-	sessionArgs.add(0);//tipo
-	sessionArgs.add(bridge.ServiceBridge.queryMetricList().get(0));//metrica
+	sessionArgs.add(jComboBox1.getModel().getSelectedItem().toString());//tipo
+	sessionArgs.add(jComboBox2.getModel().getSelectedItem().toString());//metrica
 	sessionArgs.add(Integer.parseInt(jSpinner1.getValue().toString()));// espectadores
 	sessionArgs.add(jTextArea1.getText());//descricao
         if(Dialog.question("Deseja iniciar sessão?", "Sessão")){
-            // TODO play videos
-            // pegar dados e construir lists
             s = bridge.ServiceBridge.operationStartSession(sessionArgs, sessionMedias, bridge.ServiceBridge.queryDeviceList());
-	    System.out.println("Session ID -> " + s.getId());
+	    if(jComboBox2.getModel().getSelectedItem().toString().equals("DSIS")){
+                PlayVideo playVideo = new PlayVideo(sessionMedias);
+                new javax.swing.Timer(100, playVideo).start();
+            }
+            System.out.println("Session ID -> " + s.getId());
 	}
     }//GEN-LAST:event_jButton9ActionPerformed
 
@@ -606,6 +627,7 @@ public class Sessao extends javax.swing.JFrame {
     private javax.swing.JButton jButton9;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
+    private CustomComboBoxModel comboSessaoMetrica;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -636,4 +658,156 @@ public class Sessao extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField8;
     // End of variables declaration//GEN-END:variables
+}
+
+class Painel extends javax.swing.JPanel{
+    private String str;
+    private String exit = "ESC para interromper";
+    public Painel(){
+        this.setLayout(null);
+        this.setOpaque(false);
+        this.setSize(Util.getScreenSize());
+        this.setBackground(Color.red);
+        this.setForeground(Color.WHITE);
+    }
+    public void setString(String s){
+        this.str = s;
+        repaint();
+    }
+    @Override
+    protected void paintComponent(java.awt.Graphics g){
+        super.paintComponent(g);
+        java.awt.Graphics2D g2d = ((java.awt.Graphics2D) g);
+        g2d.setColor(Color.black);
+        g2d.fillRect(0, 0, this.getWidth(), this.getHeight());
+        if(str.length() > 0){
+            // draw main string
+            g2d.setColor(Color.white);
+            g2d.setFont(new java.awt.Font("Serif", java.awt.Font.PLAIN, 80));
+            int slen = (int)g2d.getFontMetrics().getStringBounds(str, g2d).getWidth();
+            int start = this.getWidth()/2 - slen/2;
+            g2d.drawString(str, 0+start, this.getHeight()/2);
+            // draw exit
+            g2d.setFont(new java.awt.Font("Serif", java.awt.Font.PLAIN, 20));
+            slen = (int)g2d.getFontMetrics().getStringBounds(exit, g2d).getWidth();
+            start = this.getWidth()/2 - slen/2;
+            g2d.drawString(exit, 0+start, this.getHeight()-20-(int)g2d.getFontMetrics().getStringBounds(exit, g2d).getHeight());
+        }
+        this.revalidate();
+    }
+    }
+    class PlayVideo extends javax.swing.AbstractAction{
+    private int CONFIGS = -1, INICIO = 0, PLAYING1 = 1, PLAYING2 = 2, AVALIACAO = 3, FIMSESSAO = 4, INTERROMPER = 5;
+    private String cmd;
+    private ArrayList medias;
+    private javax.swing.JFrame blackScreen;
+    private Painel blackPanel;
+    private java.awt.GraphicsDevice gd;
+    private int estado = CONFIGS;
+    private int mediaPlaying = 0;
+
+    public PlayVideo(ArrayList al){
+        medias = al; 
+        gd = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        blackScreen = new javax.swing.JFrame();
+        blackScreen.setUndecorated(true);
+        blackScreen.setSize(Util.getScreenSize());
+        //blackScreen.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+        blackScreen.setAlwaysOnTop(true);
+        blackScreen.setLocationRelativeTo(null);
+        blackScreen.addKeyListener(new java.awt.event.KeyListener(){
+            @Override
+            public void keyTyped(KeyEvent ke) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent ke) {
+            }
+
+            @Override
+            public void keyReleased(KeyEvent ke) {
+                if(ke.getKeyCode() == 27){
+                    estado = INTERROMPER;
+                    blackScreen.setVisible(false);
+                }
+            }
+        });
+        blackPanel = new Painel();
+        blackScreen.setLayout(null);
+        blackScreen.add(blackPanel);
+    }
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+        /* Sequencia http://docs.oracle.com/javase/tutorial/extra/fullscreen/exclusivemode.html
+         *  painel com titulo por X segundos
+         *  video
+         *  troca titulo painel
+         *  loop
+         */
+        ((javax.swing.Timer)ae.getSource()).stop();
+        if(estado == CONFIGS){
+            blackScreen.setVisible(true);
+            gd.setFullScreenWindow(blackScreen);
+            estado = INICIO;
+        }
+        if(estado == FIMSESSAO){
+            blackScreen.setVisible(false);
+        }
+        if(estado == INTERROMPER){
+            return;
+        }
+        if(mediaPlaying < medias.size()){
+            if(estado == INICIO){
+                blackPanel.setString(((Media)medias.get(mediaPlaying)).getTitle());
+                ((javax.swing.Timer)ae.getSource()).setInitialDelay(2000);
+                ((javax.swing.Timer)ae.getSource()).restart();
+                estado = PLAYING1;
+            } else if(estado == PLAYING1){
+                blackPanel.setString("");
+                cmd = "mplayer -slave -quiet -fs ";
+                cmd += "-demuxer rawvideo -rawvideo ";
+                cmd += "w=" + ((Media)medias.get(mediaPlaying)).getWidth();
+                cmd += ":h=" + ((Media)medias.get(mediaPlaying)).getHeigth();
+                cmd += " " + ((Media)medias.get(mediaPlaying)).getPath();
+                // apaga texto da blackScreen
+                try {
+                    Process mplayerProcess = Runtime.getRuntime().exec(cmd);
+                    mplayerProcess.waitFor();
+                } catch (InterruptedException ex) {
+                } catch (java.io.IOException ex){
+                }
+                ((javax.swing.Timer)ae.getSource()).setInitialDelay(10);
+                ((javax.swing.Timer)ae.getSource()).restart();
+                estado = PLAYING2;
+            } else if(estado == PLAYING2){
+                /* APRESENTAÇÃO DO SEGUNDO VIDEO: METRICA DSIS */
+                cmd = "mplayer -slave -quiet -fs ";
+                cmd += "-demuxer rawvideo -rawvideo ";
+                cmd += "w=" + ((Media)medias.get(mediaPlaying+1)).getWidth();
+                cmd += ":h=" + ((Media)medias.get(mediaPlaying+1)).getHeigth();
+                cmd += " " + ((Media)medias.get(mediaPlaying+1)).getPath();
+                try {
+                    Process mplayerProcess = Runtime.getRuntime().exec(cmd);
+                    mplayerProcess.waitFor();
+                } catch (InterruptedException ex) {
+                } catch (java.io.IOException ex){
+                }
+                blackPanel.setString("Avaliação " + ((Media)medias.get(mediaPlaying)).getTitle());
+                ((javax.swing.Timer)ae.getSource()).setInitialDelay(7000);
+                ((javax.swing.Timer)ae.getSource()).restart();
+                estado = AVALIACAO;
+            } else if(estado == AVALIACAO){
+                // Metrica DSIS toca dois videos por vez para analisar o segundo
+                mediaPlaying+=2;
+                ((javax.swing.Timer)ae.getSource()).setInitialDelay(50);
+                ((javax.swing.Timer)ae.getSource()).restart();
+                estado = INICIO;
+            }
+        } else {
+            blackPanel.setString("Fim da Sessão");
+            ((javax.swing.Timer)ae.getSource()).setInitialDelay(2000);
+            ((javax.swing.Timer)ae.getSource()).restart();
+            estado = FIMSESSAO;
+        }
+    }
 }

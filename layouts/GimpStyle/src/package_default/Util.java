@@ -4,6 +4,8 @@
  */
 package package_default;
 
+import java.awt.Dimension;
+
 /**
  *
  * @author caio
@@ -13,6 +15,11 @@ public class Util {
     private static String defaultOutputDirectory = System.getProperty("user.dir");
     private static String userDirectory = System.getProperty("user.dir");
     
+    public static Dimension getScreenSize(){
+        java.awt.Toolkit toolkit =  java.awt.Toolkit.getDefaultToolkit ();
+        Dimension dim = toolkit.getScreenSize();
+        return dim;
+    }
     public static void setDefaultVideosDirectory(String folder){
         defaultVideosDirectory = folder;
         defaultOutputDirectory = folder;

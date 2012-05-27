@@ -833,9 +833,6 @@
                   <Connection code="comboAvaliador" type="code"/>
                 </Property>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox1ActionPerformed"/>
-              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="private CustomComboBoxModel comboAvaliador;"/>
                 <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="comboAvaliador = new CustomComboBoxModel(&#xa;    CustomComboBoxModel.METRIC_DATA, &#xa;    bridge.ServiceBridge.queryMetricList());"/>
