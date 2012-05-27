@@ -6,6 +6,7 @@ package package_default;
 
 import entity.Device;
 import entity.Media;
+import entity.Metric;
 import entity.Session;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -42,6 +43,7 @@ public class Sessao extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -71,14 +73,20 @@ public class Sessao extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jTextField5 = new javax.swing.JTextField();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jScrollPane12 = new javax.swing.JScrollPane();
+        jTable9 = new javax.swing.JTable();
+        jLabel8 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jTextField2 = new javax.swing.JTextField();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jButton11 = new javax.swing.JButton();
 
         setTitle("Sessão");
         setBounds(new java.awt.Rectangle(300, 200, 0, 0));
@@ -179,14 +187,14 @@ public class Sessao extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel6)
-                        .addGap(0, 40, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE))
+                        .addGap(0, 51, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton8)
                 .addContainerGap())
         );
 
-        jPanel1.setBounds(0, 0, 520, 330);
+        jPanel1.setBounds(0, 0, 530, 340);
         jLayeredPane1.add(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Seleção de Vídeos"));
@@ -206,7 +214,7 @@ public class Sessao extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setText("H");
+        jButton4.setText("?");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -267,26 +275,32 @@ public class Sessao extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jTextField8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jButton6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton7)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jTextField8))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(159, 159, 159)
+                                .addComponent(jButton5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jButton4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton7)
-                        .addGap(0, 12, Short.MAX_VALUE))
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)))
+                        .addGap(0, 12, Short.MAX_VALUE)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -299,8 +313,8 @@ public class Sessao extends javax.swing.JFrame {
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
-                    .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton6)
@@ -310,37 +324,39 @@ public class Sessao extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel2.setBounds(0, 0, 520, 329);
+        jPanel2.setBounds(0, 0, 530, 340);
         jLayeredPane1.add(jPanel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Seleção"));
 
-        jTextField5.setText("Procurar");
-
-        jList1.setModel(new javax.swing.AbstractListModel() {
-            ArrayList<Device> devices = bridge.ServiceBridge.queryDeviceList();
-            public int getSize() { return devices.size(); }
-            public Object getElementAt(int i) { return devices.get(i).getName() + " at " + devices.get(i).getAddress(); }
+        jTextField5.setText("Procurar dispositivos");
+        jTextField5.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextField5FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextField5FocusLost(evt);
+            }
         });
-        jScrollPane2.setViewportView(jList1);
+        jTextField5.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField5KeyReleased(evt);
+            }
+        });
 
-        jButton2.setText("Selecionar >>");
+        jButton2.setText("Adicionar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
-        jButton3.setText("<< Retirar");
+        jButton3.setText("Remover");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
-
-        sessionDevices = new ArrayList();
-        jList2.setModel(new DefaultListModel());
-        jScrollPane3.setViewportView(jList2);
 
         jButton9.setText("Iniciar");
         jButton9.setMaximumSize(new java.awt.Dimension(69, 30));
@@ -359,61 +375,134 @@ public class Sessao extends javax.swing.JFrame {
             }
         });
 
+        jScrollPane6.setPreferredSize(new java.awt.Dimension(200, 200));
+
+        tableDeviceAll = new CustomTableModel(
+            CustomTableModel.DEVICE_DATA,
+            bridge.ServiceBridge.queryDeviceList()
+        );
+        jTable3.setModel(tableDeviceAll);
+        jTable3.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        jScrollPane6.setViewportView(jTable3);
+
+        jScrollPane12.setPreferredSize(new java.awt.Dimension(200, 200));
+
+        sessionDevices = new ArrayList();
+        tableDeviceSelected = new CustomTableModel(
+            CustomTableModel.DEVICE_DATA,
+            sessionDevices);
+        jTable9.setModel(tableDeviceSelected);
+        jTable9.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        jScrollPane12.setViewportView(jTable9);
+
+        jLabel8.setText("<html><u>Dispositivos</u></html>");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3))
+                    .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton2))
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
+                    .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton10))
+                    .addComponent(jButton10)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
                 .addContainerGap())
         );
 
-        jPanel3.setBounds(0, 0, 520, 329);
+        jPanel3.setBounds(0, 0, 530, 340);
         jLayeredPane1.add(jPanel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        jTabbedPane1.addTab("Nova", jLayeredPane1);
+
+        jTextField2.setText("Digite o nome da sessão");
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane5.setViewportView(jTable2);
+
+        jButton11.setText("Iniciar");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton11)))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton11)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Recarregar", jPanel4);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 542, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -454,12 +543,6 @@ public class Sessao extends javax.swing.JFrame {
             Dialog.msgWarning("Selecione um vídeo da tabela para continuar.", "Vídeo");
             return;
         }
-        if(jComboBox2.getModel().getSelectedItem().toString().equals("DSIS")){
-            if(jTable1.getSelectedRowCount()%2 != 0){
-                Dialog.msgWarning("Para a métrica DSIS, é necessário\num número par de vídeos.", "Vídeo");
-                return;
-            }
-        }
         int selected[] = jTable1.getSelectedRows();
         for(int i = 0; i < selected.length; ++i){
             Media video;
@@ -468,7 +551,7 @@ public class Sessao extends javax.swing.JFrame {
         }
         tablePlayerTask.refresh(sessionMedias);
         jTable8.revalidate();
-        jTable8.repaint();        
+        jTable8.repaint();
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
@@ -476,7 +559,10 @@ public class Sessao extends javax.swing.JFrame {
         if(jTable8.getSelectionModel().isSelectionEmpty() || jTable8.getSelectedRow() >= sessionMedias.size()){
             return;
         }
-        sessionMedias.remove(jTable8.getSelectedRow());
+        int selected[] = jTable8.getSelectedRows();
+        for(int i = 0; i < selected.length; ++i){
+            sessionMedias.remove(selected[i]-i);
+        }
         tablePlayerTask.refresh(sessionMedias);
         jTable8.revalidate();
         jTable8.repaint();
@@ -508,6 +594,12 @@ public class Sessao extends javax.swing.JFrame {
             Dialog.msgWarning("Não foram selecionados\nvídeos para a sessão.", "Sessão");
             return;
         }
+        if(jComboBox2.getModel().getSelectedItem().toString().equals("DSIS")){
+            if(sessionMedias.size()%2 != 0){
+                Dialog.msgWarning("Para a métrica DSIS, é necessário\num número par de vídeos.", "Sessão");
+                return;
+            }
+        }
         jPanel1.setVisible(false);
         jPanel2.setVisible(false);
         jPanel3.setVisible(true);
@@ -529,49 +621,108 @@ public class Sessao extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        Object selected[] = jList1.getSelectedValues();
-        boolean alreadyIn = false;
-        for(int i = 0; i < selected.length; ++i){
-            for(int j = 0; j < jList2.getModel().getSize(); ++j){
-                if(jList2.getModel().getElementAt(j).equals(selected[i])) alreadyIn = true;
-            }
-            if(!alreadyIn) {
-		((DefaultListModel)jList2.getModel()).addElement(selected[i]);
-	    }
-            alreadyIn = false;
+        if(jTable3.getSelectionModel().isSelectionEmpty()){
+            Dialog.msgWarning("Selecione um vídeo da tabela para continuar.", "Vídeo");
+            return;
         }
+        int selected[] = jTable3.getSelectedRows();
+        for(int i = 0; i < selected.length; ++i){
+            Device device;
+            device = (Device) tableDeviceAll.getAuxData(selected[i]);
+            sessionDevices.add(device);
+        }
+        tableDeviceSelected.refresh(sessionDevices);
+        jTable9.revalidate();
+        jTable9.repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        int selected[] = jList2.getSelectedIndices();
-        for(int i = 0; i < selected.length; ++i){
-            ((DefaultListModel)jList2.getModel()).removeElementAt(selected[i]-i);
+        if(jTable9.getSelectionModel().isSelectionEmpty() || jTable9.getSelectedRow() >= sessionDevices.size()){
+            return;
         }
+        int selected[] = jTable9.getSelectedRows();
+        for(int i = 0; i < selected.length; ++i){
+            sessionDevices.remove(selected[i]-i);
+        }
+        tableDeviceSelected.refresh(sessionDevices);
+        jTable9.revalidate();
+        jTable9.repaint();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         //Botao Iniciar sessão
-        if(jList2.getModel().getSize() == 0){
+        if(jTable9.getRowCount() == 0){
             Dialog.msgWarning("Selecione algum dispositivo\npara continuar.", "Sessão");
             return;
         }
 	Session s;
 	ArrayList sessionArgs = new ArrayList();
 	sessionArgs.add(jTextField1.getText()); //titulo
-	sessionArgs.add(jComboBox1.getModel().getSelectedItem().toString());//tipo
-	sessionArgs.add(jComboBox2.getModel().getSelectedItem().toString());//metrica
+	sessionArgs.add(jComboBox1.getSelectedIndex());//tipo
+	sessionArgs.add((Metric) comboSessaoMetrica.getAuxData(jComboBox2.getSelectedIndex()));//metrica
 	sessionArgs.add(Integer.parseInt(jSpinner1.getValue().toString()));// espectadores
 	sessionArgs.add(jTextArea1.getText());//descricao
         if(Dialog.question("Deseja iniciar sessão?", "Sessão")){
-            s = bridge.ServiceBridge.operationStartSession(sessionArgs, sessionMedias, bridge.ServiceBridge.queryDeviceList());
+            //s = bridge.ServiceBridge.operationStartSession(sessionArgs, sessionMedias, bridge.ServiceBridge.queryDeviceList());
 	    if(jComboBox2.getModel().getSelectedItem().toString().equals("DSIS")){
                 PlayVideo playVideo = new PlayVideo(sessionMedias);
                 new javax.swing.Timer(100, playVideo).start();
             }
-            System.out.println("Session ID -> " + s.getId());
+            //System.out.println("Session ID -> " + s.getId());
+//            // Mostrar painel inicial novamente
+//            jPanel1.setVisible(true);
+//            jPanel2.setVisible(false);
+//            jPanel3.setVisible(false);
+//            // Selecionar valores padroes
+//            // painel inicial
+//            jTextField1.setText("");
+//            jComboBox1.setSelectedIndex(0);
+//            jComboBox2.setSelectedIndex(0);
+//            jSpinner1.setValue(1);
+//            jTextArea1.setText("");
+//            // painel intermediario
+//            jTextField8.setText("Procure vídeos");
+//            for(int i = 0; !sessionMedias.isEmpty(); ++i) sessionMedias.remove(0);
+//            tablePlayerTask.refresh(sessionMedias);
+//            jTable8.revalidate();
+//            jTable8.repaint();
+//            Media m = new Media();
+//            m.setTitle("");
+//            tablePlayer1.refresh(bridge.ServiceBridge.queryMediaList(m));
+//            jTable1.revalidate();
+//            jTable1.repaint();
+//            // painel devices
+//            jTextField5.setText("Procurar dispositivos");
+//            for(int i = 0; !sessionDevices.isEmpty(); ++i) sessionDevices.remove(0);
+//            tableDeviceAll.refresh(bridge.ServiceBridge.queryDeviceList());
+//            jTable3.revalidate();
+//            jTable3.repaint();
 	}
     }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jTextField5FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField5FocusGained
+        // TODO add your handling code here:
+        if(jTextField5.getText().equals("Procurar dispositivos")) jTextField5.setText("");
+    }//GEN-LAST:event_jTextField5FocusGained
+
+    private void jTextField5FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField5FocusLost
+        // TODO add your handling code here:
+        if(jTextField5.getText().equals("")) jTextField5.setText("Procurar dispositivos");
+    }//GEN-LAST:event_jTextField5FocusLost
+
+    private void jTextField5KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField5KeyReleased
+        // TODO add your handling code here:
+        ArrayList devices = bridge.ServiceBridge.queryDeviceList();
+        for(int i = 0; i < devices.size(); ++i){
+            if(!((Device)devices.get(i)).getName().toLowerCase().contains(jTextField5.getText())){
+                devices.remove(i);
+            }
+        }
+        tableDeviceAll.refresh(devices);
+        jTable3.revalidate();
+        jTable3.repaint();
+    }//GEN-LAST:event_jTextField5KeyReleased
 
     /**
      * @param args the command line arguments
@@ -617,6 +768,7 @@ public class Sessao extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -635,26 +787,34 @@ public class Sessao extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLayeredPane jLayeredPane1;
-    private javax.swing.JList jList1;
-    private javax.swing.JList jList2;
-    ArrayList sessionDevices;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane11;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private CustomTableModel tablePlayer1;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
+    private CustomTableModel tableDeviceAll;
     private javax.swing.JTable jTable8;
     private CustomTableModel tablePlayerTask;
     private ArrayList sessionMedias;
+    private javax.swing.JTable jTable9;
+    private CustomTableModel tableDeviceSelected;
+    private ArrayList sessionDevices;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField8;
     // End of variables declaration//GEN-END:variables

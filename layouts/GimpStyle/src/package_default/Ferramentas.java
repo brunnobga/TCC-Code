@@ -88,6 +88,7 @@ public class Ferramentas extends javax.swing.JFrame {
         jTable6 = new javax.swing.JTable();
         jComboBox1 = new javax.swing.JComboBox();
         jButton11 = new javax.swing.JButton();
+        jButton18 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -104,7 +105,6 @@ public class Ferramentas extends javax.swing.JFrame {
         setTitle("Ferramentas");
         setBounds(new java.awt.Rectangle(400, 200, 0, 0));
         setIconImage((new javax.swing.ImageIcon(getClass().getResource("/package_default/imgs/icon_tools.png"))).getImage());
-        setPreferredSize(new java.awt.Dimension(579, 411));
         setResizable(false);
 
         jTabbedPane1.setPreferredSize(new java.awt.Dimension(574, 329));
@@ -560,6 +560,13 @@ public class Ferramentas extends javax.swing.JFrame {
             }
         });
 
+        jButton18.setText("Remover");
+        jButton18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton18ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -571,6 +578,8 @@ public class Ferramentas extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton10))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -608,7 +617,8 @@ public class Ferramentas extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton10)
-                    .addComponent(jButton5))
+                    .addComponent(jButton5)
+                    .addComponent(jButton18))
                 .addContainerGap())
         );
 
@@ -886,7 +896,7 @@ public class Ferramentas extends javax.swing.JFrame {
             try {
                 task = (MetricTask) taskObj;
                 params = new ArrayList<String>();
-                params.add(directory + "/../../algoritmos/metric");
+                params.add(directory + "/../../algoritmos/metricTool");
                 params.add("-s");
                 params.add(task.getVideo().getWidth() + "x" + task.getVideo().getHeigth());
                 params.add("-i");
@@ -1254,6 +1264,20 @@ public class Ferramentas extends javax.swing.JFrame {
         jTable5.repaint();
     }//GEN-LAST:event_jTextField11KeyReleased
 
+    private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
+        // TODO add your handling code here:
+        if(jTable6.getSelectionModel().isSelectionEmpty() || jTable6.getSelectedRow() >= avaliadorTask.size()){
+            return;
+        }
+        int selected[] = jTable6.getSelectedRows();
+        for(int i = 0; i < selected.length; ++i){
+            avaliadorTask.remove(selected[i]-i);
+        }
+        tableAvaliadorTask.refresh(avaliadorTask);
+        jTable6.revalidate();
+        jTable6.repaint();
+    }//GEN-LAST:event_jButton18ActionPerformed
+
     private String getParams(int row, String dist){
         String acc = "";
         if(dist.equals("constant")){
@@ -1337,6 +1361,7 @@ public class Ferramentas extends javax.swing.JFrame {
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton17;
+    private javax.swing.JButton jButton18;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
