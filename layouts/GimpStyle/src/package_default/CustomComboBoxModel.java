@@ -5,6 +5,7 @@
 package package_default;
 
 import entity.Metric;
+import entity.Session;
 import java.util.ArrayList;
 import javax.swing.ComboBoxModel;
 import javax.swing.event.ListDataListener;
@@ -17,6 +18,7 @@ public class CustomComboBoxModel implements ComboBoxModel {
 
     public static final int SMETRIC_DATA = 0;
     public static final int OMETRIC_DATA = 1;
+    public static final int SESSION_DATA = 2;
     private int dataType;
     private Object[] data;
     private ArrayList currentData;
@@ -54,6 +56,12 @@ public class CustomComboBoxModel implements ComboBoxModel {
 		for (i = 0; i < currentData.size(); i++) {
 		    Metric a = (Metric) currentData.get(i);
 		    data[i] = a.getName();
+		}
+		break;
+	    case SESSION_DATA:
+		for (i = 0; i < currentData.size(); i++) {
+		    Session a = (Session) currentData.get(i);
+		    data[i] = a.getTitle();
 		}
 		break;
 	    default:

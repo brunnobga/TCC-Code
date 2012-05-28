@@ -3,6 +3,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import utils.HibernateUtil;
 import dao.ArtifactDAO;
 import dao.DeviceDAO;
 import dao.MediaDAO;
@@ -12,7 +13,6 @@ import dao.MetricDAO;
 import dao.SessionDAO;
 import dao.SoftwareRateDAO;
 import dao.UserRateDAO;
-
 import entity.Artifact;
 import entity.Device;
 import entity.Media;
@@ -21,8 +21,6 @@ import entity.MediaType;
 import entity.Metric;
 import entity.SoftwareRate;
 import entity.UserRate;
-
-import utils.HibernateUtil;
 
 
 public class ModelImplFacade implements ModelFacade {
@@ -93,6 +91,10 @@ public class ModelImplFacade implements ModelFacade {
 	
 	public List<UserRate> listAllUserRates() {
 		return new UserRateDAO(openSession()).list();
+	}
+	
+	public List<entity.Session> listAllSessions(){
+		return new SessionDAO(openSession()).list();
 	}
 	
 	public boolean saveOrUpdateSession(entity.Session session) {

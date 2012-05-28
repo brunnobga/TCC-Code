@@ -242,6 +242,10 @@ public class ServiceBridge {
 		return (ArrayList<UserRate>) mif.listAllUserRates();
 	}
 	
+	public static ArrayList<Session> querySessionList(){
+		return (ArrayList<Session>) mif.listAllSessions();
+	}
+	
 	public static void SaveOrUpdateSoftRate(SoftwareRate sr){
 		mif.saveOrUpdateSoftwareRate(sr);
 	}
