@@ -102,10 +102,10 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jScrollPane6" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jTabbedPane2" pref="0" max="32767" attributes="0"/>
+                          <Component id="jTabbedPane2" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jScrollPane11" pref="56" max="32767" attributes="0"/>
+                      <Component id="jScrollPane11" pref="81" max="32767" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jButton15" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -247,7 +247,7 @@
                                               <Group type="103" groupAlignment="0" attributes="0">
                                                   <Group type="102" attributes="0">
                                                       <Component id="jSpinner3" min="-2" pref="76" max="-2" attributes="0"/>
-                                                      <EmptySpace min="0" pref="27" max="32767" attributes="0"/>
+                                                      <EmptySpace min="0" pref="28" max="32767" attributes="0"/>
                                                   </Group>
                                                   <Component id="jTextField1" max="32767" attributes="0"/>
                                               </Group>
@@ -301,7 +301,7 @@
                                   <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jTextField4" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="12" max="32767" attributes="0"/>
                               <Component id="jButton16" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -538,7 +538,7 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
-                                      <Component id="jTextField7" pref="103" max="32767" attributes="0"/>
+                                      <Component id="jTextField7" pref="104" max="32767" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jButton8" min="-2" pref="38" max="-2" attributes="0"/>
                                   </Group>
@@ -563,7 +563,7 @@
                                   <Component id="jTextField7" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jButton8" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="50" max="32767" attributes="0"/>
+                              <EmptySpace pref="66" max="32767" attributes="0"/>
                               <Component id="jButton17" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -654,7 +654,7 @@
                               <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jTextField11" pref="0" max="32767" attributes="0"/>
-                                  <Component id="jScrollPane8" alignment="1" pref="270" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane8" alignment="1" pref="273" max="32767" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jComboBox1" max="32767" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -689,7 +689,7 @@
                           </Group>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jScrollPane9" pref="56" max="32767" attributes="0"/>
+                      <Component id="jScrollPane9" pref="81" max="32767" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jButton10" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -835,7 +835,7 @@
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="private CustomComboBoxModel comboAvaliador;"/>
-                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="comboAvaliador = new CustomComboBoxModel(&#xa;    CustomComboBoxModel.METRIC_DATA, &#xa;    bridge.ServiceBridge.queryMetricList());"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="comboAvaliador = new CustomComboBoxModel(&#xa;    CustomComboBoxModel.OMETRIC_DATA, &#xa;    bridge.ServiceBridge.queryMetricList());"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JButton" name="jButton11">
@@ -871,7 +871,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane1" pref="547" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" pref="550" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="jButton7" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
@@ -920,7 +920,7 @@
                           <Component id="jSpinner2" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="226" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="255" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jButton12" alignment="3" min="-2" max="-2" attributes="0"/>
