@@ -877,9 +877,11 @@ class Painel extends javax.swing.JPanel{
             } else if(estado == PLAYING1){
                 blackPanel.setString("");
                 cmd = "mplayer -slave -quiet -fs ";
-                cmd += "-demuxer rawvideo -rawvideo ";
-                cmd += "w=" + ((Media)medias.get(mediaPlaying)).getWidth();
-                cmd += ":h=" + ((Media)medias.get(mediaPlaying)).getHeigth();
+                if(((Media)medias.get(mediaPlaying)).getPath().toLowerCase().contains(".yuv")){
+                    cmd += "-demuxer rawvideo -rawvideo ";
+                    cmd += "w=" + ((Media)medias.get(mediaPlaying)).getWidth();
+                    cmd += ":h=" + ((Media)medias.get(mediaPlaying)).getHeigth();
+                }
                 cmd += " " + ((Media)medias.get(mediaPlaying)).getPath();
                 // apaga texto da blackScreen
                 try {
@@ -894,9 +896,11 @@ class Painel extends javax.swing.JPanel{
             } else if(estado == PLAYING2){
                 /* APRESENTAÇÃO DO SEGUNDO VIDEO: METRICA DSIS */
                 cmd = "mplayer -slave -quiet -fs ";
-                cmd += "-demuxer rawvideo -rawvideo ";
-                cmd += "w=" + ((Media)medias.get(mediaPlaying+1)).getWidth();
-                cmd += ":h=" + ((Media)medias.get(mediaPlaying+1)).getHeigth();
+                if(((Media)medias.get(mediaPlaying)).getPath().toLowerCase().contains(".yuv")){
+                    cmd += "-demuxer rawvideo -rawvideo ";
+                    cmd += "w=" + ((Media)medias.get(mediaPlaying+1)).getWidth();
+                    cmd += ":h=" + ((Media)medias.get(mediaPlaying+1)).getHeigth();
+                }
                 cmd += " " + ((Media)medias.get(mediaPlaying+1)).getPath();
                 try {
                     Process mplayerProcess = Runtime.getRuntime().exec(cmd);
