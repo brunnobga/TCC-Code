@@ -116,4 +116,8 @@ public class ModelImplFacade implements ModelFacade {
 	public MediaType findMediaTypeById(int value) {
 		return new MediaTypeDAO(openSession()).findById(value);
 	}
+	
+	public Media findMediaById(int value){
+		return new MediaDAO(openSession()).findById(value);
+	}
 }

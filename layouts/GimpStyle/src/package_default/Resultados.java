@@ -4,13 +4,22 @@
  */
 package package_default;
 
+import entity.Session;
+import entity.UserRate;
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Vector;
 import javax.swing.JFrame;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.StatisticalBarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.Dataset;
+import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
 
 /**
  *
@@ -184,15 +193,55 @@ public class Resultados extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 	// Botao Atualizar
-	((ChartPanel)jPanel1).setChart(createResultChart());
+	if(jTabbedPane1.getSelectedIndex() == 0)
+	    ((ChartPanel)jPanel1).setChart(createSessionResultChart());
+	else
+	    ((ChartPanel)jPanel1).setChart(createMediaResultChart());
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private JFreeChart createResultChart(){
-	DefaultCategoryDataset data = new DefaultCategoryDataset();
-	JFreeChart chart = ChartFactory.createLineChart3D("Chart", "X", "Y",
-		data, PlotOrientation.HORIZONTAL, true, false, false);
+    private DefaultStatisticalCategoryDataset resultsFromSession(ArrayList<UserRate> result) {
+	DefaultStatisticalCategoryDataset data = new DefaultStatisticalCategoryDataset();
+	ArrayList<MeanAndDeviation> stats = new ArrayList<MeanAndDeviation>();
+	for (UserRate userRate : result) {
+	    MeanAndDeviation m = new MeanAndDeviation(userRate.getMedia().getId());
+	    if(!stats.contains(m)) {
+		m.addValue(userRate.getValue());
+		stats.add(m);
+	    } else stats.get(stats.indexOf(m)).addValue(userRate.getValue());
+	}
+	for (MeanAndDeviation md : stats) {
+	    data.add(md.getMean(), md.getDeviation(), "", bridge.ServiceBridge.queryMediaById(md.getId()).getTitle());
+	}
+	return data;
+    }
+    
+    private JFreeChart createSessionResultChart(){
+	Session session = (Session)comboSession.getAuxData(jComboBox2.getSelectedIndex());
+	ArrayList<UserRate> ur = (ArrayList<UserRate>)bridge.ServiceBridge.queryUserRateList();
+	ArrayList<UserRate> results = new ArrayList<UserRate>();
+	for (UserRate userRate : ur) {
+	    if(userRate.getSession().getId() == session.getId()) results.add(userRate);
+	}
+	DefaultStatisticalCategoryDataset data = resultsFromSession(results);
+	//data.addValue(value, metrica, media);
+	JFreeChart chart = ChartFactory.createBarChart(session.getTitle(), "Vídeos", "Nota",
+		data, PlotOrientation.VERTICAL, false, false, false);
+	CategoryPlot plot = chart.getCategoryPlot();
+	plot.getRangeAxis().setUpperBound(5.5);
+	StatisticalBarRenderer rend = new StatisticalBarRenderer();
+	rend.setErrorIndicatorPaint(Color.BLACK);
+	rend.setSeriesPaint(0, Color.GREEN);
+	rend.setMaximumBarWidth(0.10);
+	plot.setRenderer(rend);
+	
 	return chart;
     }
+
+    private JFreeChart createMediaResultChart(){
+	JFreeChart chart;
+	return null;
+    }
+    
     /**
      * @param args the command line arguments
      */

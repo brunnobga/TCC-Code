@@ -246,6 +246,10 @@ public class ServiceBridge {
 		return (ArrayList<Session>) mif.listAllSessions();
 	}
 	
+	public static Media queryMediaById(int pk){
+		return mif.findMediaById(pk);
+	}
+	
 	public static void SaveOrUpdateSoftRate(SoftwareRate sr){
 		mif.saveOrUpdateSoftwareRate(sr);
 	}
