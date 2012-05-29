@@ -11,11 +11,15 @@ import java.util.Vector;
 import javax.swing.JFrame;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.StatisticalBarRenderer;
+import org.jfree.chart.renderer.xy.XYErrorRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.Dataset;
 import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
@@ -248,6 +252,7 @@ public class Resultados extends javax.swing.JFrame {
     }
     
     private YIntervalSeries getSeriesByReference(ArrayList<SoftwareRate> sr){
+	if(sr.isEmpty()) return new YIntervalSeries("");
 	YIntervalSeries series = new YIntervalSeries(sr.get(0).getReferenceMedia().getTitle());
 	ArrayList<UserRate> userRates;
 	MeanAndDeviation m;
@@ -259,6 +264,7 @@ public class Resultados extends javax.swing.JFrame {
 	    for (UserRate ur : userRates) {
 		m.addValue(ur.getValue());
 	    }
+	    java.lang.System.out.println(m.getMean() + " dev " + m.getDeviation());
 	    series.add(rate.getValue(), m.getMean(), m.getMean() - m.getDeviation(), m.getMean() + m.getDeviation());
 	}
 	return series;
@@ -287,6 +293,15 @@ public class Resultados extends javax.swing.JFrame {
 	}
 	//configurando chart
 	JFreeChart chart = ChartFactory.createXYLineChart("Title", objMetric.getName(), "MOS", data, PlotOrientation.VERTICAL, true, false, false);
+	XYPlot plot = chart.getXYPlot();
+	NumberAxis rangeAxis = (NumberAxis)plot.getRangeAxis();
+	rangeAxis.setAutoRangeIncludesZero(true);
+	XYErrorRenderer rend = new XYErrorRenderer();
+	rend.setBaseLinesVisible(true);
+	rend.setUseFillPaint(true);
+	rend.setBaseFillPaint(Color.white);
+	plot.setRenderer(rend);
+	ChartUtilities.applyCurrentTheme(chart);
 	return chart;
     }
     
