@@ -4,8 +4,7 @@
  */
 package package_default;
 
-import entity.Session;
-import entity.UserRate;
+import entity.*;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -20,6 +19,8 @@ import org.jfree.chart.renderer.category.StatisticalBarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.Dataset;
 import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
+import org.jfree.data.xy.YIntervalSeries;
+import org.jfree.data.xy.YIntervalSeriesCollection;
 
 /**
  *
@@ -236,10 +237,57 @@ public class Resultados extends javax.swing.JFrame {
 	
 	return chart;
     }
+    
+    private ArrayList<UserRate> getUserRatesByMedia(int id){
+	ArrayList<UserRate> result = new ArrayList<UserRate>();
+	for (UserRate userRate : bridge.ServiceBridge.queryUserRateList()) {
+	    if(userRate.getMedia().getId() == id)
+		result.add(userRate);
+	}
+	return result;
+    }
+    
+    private YIntervalSeries getSeriesByReference(ArrayList<SoftwareRate> sr){
+	YIntervalSeries series = new YIntervalSeries(sr.get(0).getReferenceMedia().getTitle());
+	ArrayList<UserRate> userRates;
+	MeanAndDeviation m;
+	int id;
+	for (SoftwareRate rate : sr) {
+	    id = rate.getMedia().getId();
+	    userRates = getUserRatesByMedia(id);
+	    m = new MeanAndDeviation(id);
+	    for (UserRate ur : userRates) {
+		m.addValue(ur.getValue());
+	    }
+	    series.add(rate.getValue(), m.getMean(), m.getMean() - m.getDeviation(), m.getMean() + m.getDeviation());
+	}
+	return series;
+    }
 
     private JFreeChart createMediaResultChart(){
-	JFreeChart chart;
-	return null;
+	YIntervalSeriesCollection data = new YIntervalSeriesCollection();
+	Metric subMetric = (Metric)comboSubjetiva.getAuxData(jComboBox3.getSelectedIndex());
+	Metric objMetric = (Metric)comboObjetiva.getAuxData(jComboBox4.getSelectedIndex());
+	ArrayList<Media> referenceMedias = new ArrayList<Media>();
+	ArrayList<SoftwareRate> allSRates = bridge.ServiceBridge.querySoftwareRateList(),
+		resultByReference = new ArrayList<SoftwareRate>();
+	// TODO pegar as midias neste array
+	referenceMedias.add(bridge.ServiceBridge.queryMediaById(1));
+	
+	for (Media reference : referenceMedias) {
+	    for (SoftwareRate allSR : allSRates) {
+		java.lang.System.out.println(allSR.getReferenceMedia().getId() +" "+ reference.getId() +" "+ allSR.getMetric().getId() +" "+ objMetric.getId());
+		if(allSR.getReferenceMedia().getId() == reference.getId() && allSR.getMetric().getId() == objMetric.getId()){
+		    resultByReference.add(allSR);
+		}
+	    }
+	    YIntervalSeries series = getSeriesByReference(resultByReference);
+	    data.addSeries(series);
+	    resultByReference.clear();
+	}
+	//configurando chart
+	JFreeChart chart = ChartFactory.createXYLineChart("Title", objMetric.getName(), "MOS", data, PlotOrientation.VERTICAL, true, false, false);
+	return chart;
     }
     
     /**
