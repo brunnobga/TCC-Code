@@ -624,7 +624,7 @@ public class Sessao extends javax.swing.JFrame {
         if(Dialog.question("Deseja iniciar sessão?", "Sessão")){
             //s = bridge.ServiceBridge.operationStartSession(sessionArgs, sessionMedias, bridge.ServiceBridge.queryDeviceList());
 	    if(jComboBox2.getModel().getSelectedItem().toString().equals("DSIS")){
-                PlayVideo playVideo = new PlayVideo(sessionMedias);
+                PlayVideo playVideo = new PlayVideo(sessionMedias, true);
                 new javax.swing.Timer(100, playVideo).start();
             }
             //System.out.println("Session ID -> " + s.getId());
@@ -807,25 +807,27 @@ class Painel extends javax.swing.JPanel{
         }
         this.revalidate();
     }
-    }
-    class PlayVideo extends javax.swing.AbstractAction{
+}
+class PlayVideo extends javax.swing.AbstractAction{
     private int CONFIGS = -1, INICIO = 0, PLAYING1 = 1, PLAYING2 = 2, AVALIACAO = 3, FIMSESSAO = 4, INTERROMPER = 5;
-    private String cmd;
+    private String cmd1, cmd2;
     private ArrayList medias;
     private javax.swing.JFrame blackScreen;
     private Painel blackPanel;
     private java.awt.GraphicsDevice gd;
     private int estado = CONFIGS;
     private int mediaPlaying = 0;
+    private boolean simultaneously = false;
 
-    public PlayVideo(ArrayList al){
-        medias = al; 
+    public PlayVideo(ArrayList al, boolean simultaneously){
+        medias = al;
+        this.simultaneously = simultaneously;
         gd = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         blackScreen = new javax.swing.JFrame();
         blackScreen.setUndecorated(true);
         blackScreen.setSize(Util.getScreenSize());
         //blackScreen.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
-        blackScreen.setAlwaysOnTop(true);
+        //blackScreen.setAlwaysOnTop(true);
         blackScreen.setLocationRelativeTo(null);
         blackScreen.addKeyListener(new java.awt.event.KeyListener(){
             @Override
@@ -858,8 +860,8 @@ class Painel extends javax.swing.JPanel{
          */
         ((javax.swing.Timer)ae.getSource()).stop();
         if(estado == CONFIGS){
-            blackScreen.setVisible(true);
-            gd.setFullScreenWindow(blackScreen);
+            //blackScreen.setVisible(true);
+            //gd.setFullScreenWindow(blackScreen);
             estado = INICIO;
         }
         if(estado == FIMSESSAO){
@@ -876,42 +878,66 @@ class Painel extends javax.swing.JPanel{
                 estado = PLAYING1;
             } else if(estado == PLAYING1){
                 blackPanel.setString("");
-                cmd = "mplayer -slave -quiet -fs ";
-                if(((Media)medias.get(mediaPlaying)).getPath().toLowerCase().contains(".yuv")){
-                    cmd += "-demuxer rawvideo -rawvideo ";
-                    cmd += "w=" + ((Media)medias.get(mediaPlaying)).getWidth();
-                    cmd += ":h=" + ((Media)medias.get(mediaPlaying)).getHeigth();
+                if(simultaneously){
+                    cmd1 = "mplayer -slave -ontop -udp-slave ";
+                    cmd2 = "mplayer -slave -ontop -udp-master -udp-ip 127.0.0.1 ";
+                    cmd1 += "-geometry +" + (int)(Util.getScreenSize().getWidth()/2-((Media)medias.get(mediaPlaying)).getWidth());
+                    cmd2 += "-geometry +" + (int)(Util.getScreenSize().getWidth()/2);
+                } else {
+                    cmd1 = "mplayer -slave -quiet -ontop ";
+                    cmd2 = "mplayer -slave -quiet -ontop ";
+                    cmd1 += "-geometry +" + (int)(Util.getScreenSize().getWidth()/2-((Media)medias.get(mediaPlaying)).getWidth()/2);
+                    cmd2 += "-geometry +" + (int)(Util.getScreenSize().getWidth()/2-((Media)medias.get(mediaPlaying+1)).getWidth()/2);
                 }
-                cmd += " " + ((Media)medias.get(mediaPlaying)).getPath();
+                cmd1 += "+" + (int)(Util.getScreenSize().getHeight()/2-((Media)medias.get(mediaPlaying)).getHeigth()/2);
+                cmd2 += "+" + (int)(Util.getScreenSize().getHeight()/2-((Media)medias.get(mediaPlaying+1)).getHeigth()/2);
+                if(((Media)medias.get(mediaPlaying)).getPath().toLowerCase().contains(".yuv")){
+                    cmd1 += " -demuxer rawvideo -rawvideo ";
+                    cmd1 += "w=" + ((Media)medias.get(mediaPlaying)).getWidth();
+                    cmd1 += ":h=" + ((Media)medias.get(mediaPlaying)).getHeigth();
+                }
+                if(((Media)medias.get(mediaPlaying+1)).getPath().toLowerCase().contains(".yuv")){
+                    cmd2 += " -demuxer rawvideo -rawvideo ";
+                    cmd2 += "w=" + ((Media)medias.get(mediaPlaying+1)).getWidth();
+                    cmd2 += ":h=" + ((Media)medias.get(mediaPlaying+1)).getHeigth();
+                }
+                cmd1 += " " + ((Media)medias.get(mediaPlaying)).getPath();
+                cmd2 += " " + ((Media)medias.get(mediaPlaying+1)).getPath();
                 // apaga texto da blackScreen
                 try {
-                    Process mplayerProcess = Runtime.getRuntime().exec(cmd);
-                    mplayerProcess.waitFor();
+                    System.out.println(cmd1 +"\n"+cmd2);
+                    Process mplayerProcess1 = Runtime.getRuntime().exec(cmd1);
+                    if(!simultaneously) mplayerProcess1.waitFor();
+                    Process mplayerProcess2 = Runtime.getRuntime().exec(cmd2);
+                    mplayerProcess2.waitFor();
                 } catch (InterruptedException ex) {
                 } catch (java.io.IOException ex){
                 }
                 ((javax.swing.Timer)ae.getSource()).setInitialDelay(10);
                 ((javax.swing.Timer)ae.getSource()).restart();
-                estado = PLAYING2;
-            } else if(estado == PLAYING2){
-                /* APRESENTAÇÃO DO SEGUNDO VIDEO: METRICA DSIS */
-                cmd = "mplayer -slave -quiet -fs ";
-                if(((Media)medias.get(mediaPlaying)).getPath().toLowerCase().contains(".yuv")){
-                    cmd += "-demuxer rawvideo -rawvideo ";
-                    cmd += "w=" + ((Media)medias.get(mediaPlaying+1)).getWidth();
-                    cmd += ":h=" + ((Media)medias.get(mediaPlaying+1)).getHeigth();
-                }
-                cmd += " " + ((Media)medias.get(mediaPlaying+1)).getPath();
-                try {
-                    Process mplayerProcess = Runtime.getRuntime().exec(cmd);
-                    mplayerProcess.waitFor();
-                } catch (InterruptedException ex) {
-                } catch (java.io.IOException ex){
-                }
-                blackPanel.setString("Avaliação " + ((Media)medias.get(mediaPlaying)).getTitle());
-                ((javax.swing.Timer)ae.getSource()).setInitialDelay(7000);
-                ((javax.swing.Timer)ae.getSource()).restart();
                 estado = AVALIACAO;
+//            } else if(estado == PLAYING2){
+//                /* APRESENTAÇÃO DO SEGUNDO VIDEO: METRICA DSIS */
+//                cmd = "mplayer -slave -quiet -ontop ";
+//                cmd += "-geometry +" + (int)(Util.getScreenSize().getWidth()/2-((Media)medias.get(mediaPlaying+1)).getWidth()/2);
+//                cmd += "+" + (int)(Util.getScreenSize().getHeight()/2-((Media)medias.get(mediaPlaying+1)).getHeigth()/2);
+//                if(((Media)medias.get(mediaPlaying+1)).getPath().toLowerCase().contains(".yuv")){
+//                    cmd += " -demuxer rawvideo -rawvideo ";
+//                    cmd += "w=" + ((Media)medias.get(mediaPlaying+1)).getWidth();
+//                    cmd += ":h=" + ((Media)medias.get(mediaPlaying+1)).getHeigth();
+//                }
+//                cmd += " " + ((Media)medias.get(mediaPlaying+1)).getPath();
+//                try {
+//                    System.out.println(cmd);
+//                    Process mplayerProcess = Runtime.getRuntime().exec(cmd);
+//                    mplayerProcess.waitFor();
+//                } catch (InterruptedException ex) {
+//                } catch (java.io.IOException ex){
+//                }
+//                blackPanel.setString("Avaliação " + ((Media)medias.get(mediaPlaying)).getTitle());
+//                ((javax.swing.Timer)ae.getSource()).setInitialDelay(7000);
+//                ((javax.swing.Timer)ae.getSource()).restart();
+//                estado = AVALIACAO;
             } else if(estado == AVALIACAO){
                 // Metrica DSIS toca dois videos por vez para analisar o segundo
                 mediaPlaying+=2;
