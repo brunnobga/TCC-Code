@@ -69,6 +69,7 @@ public:
 	RaffleTool(int argc, char* argv[]){
 		help = false;
 		elements = 0;
+		srand(time(NULL));
 		while((c = getopt_long(argc, argv, short_options, long_options, &opt_index)) != -1){
 			switch(c){
 				case 'o':
@@ -179,6 +180,7 @@ public:
 	}
 
 	int triangular(int a, int b, int c){
+		c++; // correcao do pico
 		/* Distribuição triangular {{{*/
 
 		/* Sorteio de variavel numa distribuicao triangular
@@ -222,23 +224,42 @@ x = b - sqrt((1 - u) * (b - a) * (b - c)), for fc <= u < 1
 		int dur = 9, i = 0;
 		int values[dist.size()];
 		for(; elements;){
-			for(i = 0, distIt = dist.begin(); distIt != dist.end() && elements; ++i, ++distIt){
-				if((*distIt).type == CONSTANT) values[i] = (*distIt).a;
-				else if((*distIt).type == UNIFORM) values[i] = uniform((*distIt).a, (*distIt).b);
-				else if((*distIt).type == NORMAL) values[i] = normal((*distIt).a, (*distIt).b);
-				else if((*distIt).type == TRIANGULAR) values[i] = triangular((*distIt).a, (*distIt).b, (*distIt).c);
-			}
 			// sortear duração
 			if(duration->type == CONSTANT) dur = duration->a;
 			else if(duration->type == UNIFORM) dur = uniform(duration->a, duration->b);
 			else if(duration->type == NORMAL) dur = normal(duration->a, duration->b);
 			else if(duration->type == TRIANGULAR) dur = triangular(duration->a, duration->b, duration->c);
-			for(int j = 0; j < dur && elements; --elements, j++){
-				for(int i = 0; i < dist.size(); ++i){
-					if(i == 0) output << values[i]+j << " ";
-					else output << values[i] << " ";
+			// sortear um elemento (linha completa)
+			for(i = 0, distIt = dist.begin(); distIt != dist.end() && elements; ++i, ++distIt){
+				//do{
+					if((*distIt).type == CONSTANT) values[i] = (*distIt).a;
+					if(i == 0){
+						if((*distIt).type == UNIFORM) values[i] = uniform((*distIt).a+1-dur, (*distIt).b);
+						else if((*distIt).type == NORMAL) values[i] = normal((*distIt).a+1-dur, (*distIt).b);
+						else if((*distIt).type == TRIANGULAR) values[i] = triangular((*distIt).a+1-dur, (*distIt).b, (*distIt).c);
+					} else {
+						if((*distIt).type == UNIFORM) values[i] = uniform((*distIt).a, (*distIt).b);
+						else if((*distIt).type == NORMAL) values[i] = normal((*distIt).a, (*distIt).b);
+						else if((*distIt).type == TRIANGULAR) values[i] = triangular((*distIt).a, (*distIt).b, (*distIt).c);
+					}
+				//}while(values[i]+dur >= (*distIt).b);
+			}
+			// output
+			bool exceeded = false;
+			for(int j = 0; j < dur && elements && !exceeded; --elements, j++){
+				for(i = 0, distIt = dist.begin(); !exceeded && i < dist.size(); ++i, ++distIt){
+					if(i == 0){
+						if((*distIt).a <= values[i]+j && (*distIt).b > values[i]+j) output << values[i]+j << " ";
+						else{
+							exceeded = true;
+							elements++;
+						}
+					}
+					else {
+						output << values[i] << " ";
+					}
 				}
-				output << endl;
+				if(!exceeded) output << endl;
 			}
 		}
 	}
@@ -252,7 +273,16 @@ x = b - sqrt((1 - u) * (b - a) * (b - c)), for fc <= u < 1
 	void closeIO(){
 		output.close();
 	}
-
+	int maxElements(){
+		if(dist.empty()) return 0;
+		int totalElements = 1;
+		for(distIt = dist.begin(); distIt != dist.end(); ++distIt){
+			if((*distIt).type != CONSTANT){
+				totalElements *= ((*distIt).b-(*distIt).a);
+			}
+		}
+		return totalElements;
+	}
 }; /*end of class RaffleTools*/
 
 int main(int argc, char* argv[]){
@@ -265,6 +295,8 @@ int main(int argc, char* argv[]){
 	
 		// 4. Raffle values
 		r.raffle();
+
+		printf("maximo = %d\n\n", r.maxElements());
 
 		// 5. Close IO
 		r.closeIO();
