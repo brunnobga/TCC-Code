@@ -14,6 +14,7 @@ public class Util {
     private static String defaultVideosDirectory = System.getProperty("user.dir");
     private static String defaultOutputDirectory = System.getProperty("user.dir");
     private static String userDirectory = System.getProperty("user.dir");
+    private static boolean backscreen = true;
     
     public static Dimension getScreenSize(){
         java.awt.Toolkit toolkit =  java.awt.Toolkit.getDefaultToolkit ();
@@ -29,6 +30,12 @@ public class Util {
     }
     public static void setUserDirectory(String folder){
         userDirectory = folder;
+    }
+    public static void setSessionBackscreenVisible(boolean b){
+        backscreen = b;
+    }
+    public static boolean isSessionBackscreenVisible(){
+        return backscreen;
     }
     public static String getDefaultVideosDirectory(){
         return defaultVideosDirectory;

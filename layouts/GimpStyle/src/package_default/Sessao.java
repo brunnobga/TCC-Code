@@ -11,12 +11,8 @@ import entity.Session;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
-import sun.tools.jar.resources.jar;
+import java.util.Collections;
 import support.Dialog;
 
 /**
@@ -70,6 +66,7 @@ public class Sessao extends javax.swing.JFrame {
         jButton7 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jTextField5 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
@@ -181,14 +178,14 @@ public class Sessao extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel6)
-                        .addGap(0, 61, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE))
+                        .addGap(0, 79, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton8)
                 .addContainerGap())
         );
 
-        jPanel1.setBounds(0, 0, 530, 350);
+        jPanel1.setBounds(0, 0, 530, 330);
         jLayeredPane1.add(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Seleção de Vídeos"));
@@ -264,37 +261,44 @@ public class Sessao extends javax.swing.JFrame {
             }
         });
 
+        jButton11.setText("Sortear");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jButton6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton7)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jTextField8))
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(159, 159, 159)
-                                .addComponent(jButton5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(jButton4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jButton6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton7)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 12, Short.MAX_VALUE)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(jTextField8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton4))
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton11)))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -304,11 +308,12 @@ public class Sessao extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton11))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
-                    .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
+                    .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton6)
@@ -318,7 +323,7 @@ public class Sessao extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel2.setBounds(0, 0, 530, 350);
+        jPanel2.setBounds(0, 0, 530, 330);
         jLayeredPane1.add(jPanel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Seleção"));
@@ -402,19 +407,19 @@ public class Sessao extends javax.swing.JFrame {
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton3))
-                    .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE))
+                    .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+                    .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -426,31 +431,29 @@ public class Sessao extends javax.swing.JFrame {
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
                     .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton10)
                     .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addContainerGap())
+                    .addComponent(jButton3)
+                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(17, 17, 17))
         );
 
-        jPanel3.setBounds(0, 0, 530, 350);
+        jPanel3.setBounds(0, 0, 530, 330);
         jLayeredPane1.add(jPanel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 529, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 532, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 12, Short.MAX_VALUE))
+            .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -547,6 +550,11 @@ public class Sessao extends javax.swing.JFrame {
                 Dialog.msgWarning("Para a métrica DSIS, é necessário\num número par de vídeos.", "Sessão");
                 return;
             }
+        }else if(jComboBox2.getModel().getSelectedItem().toString().equals("DSCQS")){
+            if(sessionMedias.size()%2 != 0){
+                Dialog.msgWarning("Para a métrica DSCQS, é necessário\num número par de vídeos.", "Sessão");
+                return;
+            }
         }
         jPanel1.setVisible(false);
         jPanel2.setVisible(false);
@@ -622,9 +630,12 @@ public class Sessao extends javax.swing.JFrame {
 	sessionArgs.add(Integer.parseInt(jSpinner1.getValue().toString()));// espectadores
 	sessionArgs.add(jTextArea1.getText());//descricao
         if(Dialog.question("Deseja iniciar sessão?", "Sessão")){
-            //s = bridge.ServiceBridge.operationStartSession(sessionArgs, sessionMedias, bridge.ServiceBridge.queryDeviceList());
+            s = bridge.ServiceBridge.operationStartSession(sessionArgs, sessionMedias, bridge.ServiceBridge.queryDeviceList());
 	    if(jComboBox2.getModel().getSelectedItem().toString().equals("DSIS")){
-                PlayVideo playVideo = new PlayVideo(sessionMedias, true);
+                PlayVideo playVideo = new PlayVideo(sessionMedias, s, false);
+                new javax.swing.Timer(100, playVideo).start();
+            } else if(jComboBox2.getModel().getSelectedItem().toString().equals("DSCQS")){
+                PlayVideo playVideo = new PlayVideo(sessionMedias, s, true);
                 new javax.swing.Timer(100, playVideo).start();
             }
             //System.out.println("Session ID -> " + s.getId());
@@ -682,6 +693,42 @@ public class Sessao extends javax.swing.JFrame {
         jTable3.repaint();
     }//GEN-LAST:event_jTextField5KeyReleased
 
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        // TODO add your handling code here:
+        // Sortear ordem de execução de pares de vídeos
+        if(sessionMedias.isEmpty()){
+            Dialog.msgWarning("Não foram selecionados\nvídeos para a sessão.", "Sessão");
+            return;
+        }
+        if(jComboBox2.getModel().getSelectedItem().toString().equals("DSIS")){
+            if(sessionMedias.size()%2 != 0){
+                Dialog.msgWarning("Para a métrica DSIS, é necessário\num número par de vídeos.", "Sessão");
+                return;
+            }
+        } else if(jComboBox2.getModel().getSelectedItem().toString().equals("DSCQS")){
+            if(sessionMedias.size()%2 != 0){
+                Dialog.msgWarning("Para a métrica DSCQS, é necessário\num número par de vídeos.", "Sessão");
+                return;
+            }
+        }
+        ArrayList sorteio = new ArrayList();
+        ArrayList<Media> medias = new ArrayList<Media>();
+        for(int i = 0; i < sessionMedias.size()/2; ++i){
+            sorteio.add(i);
+        }
+        Collections.shuffle(sorteio);
+        for(int i = 0; i < sorteio.size(); ++i) System.out.print(sorteio.get(i)+" ");
+        for(int i = 0; i < sessionMedias.size(); ++i) medias.add((Media)sessionMedias.get(i));
+        sessionMedias.clear();
+        for(int i = 0; i < sorteio.size(); ++i){
+            sessionMedias.add((Media)medias.get(2*Integer.valueOf(sorteio.get(i).toString())));
+            sessionMedias.add((Media)medias.get(1+2*Integer.valueOf(sorteio.get(i).toString())));
+        }
+        tablePlayerTask.refresh(sessionMedias);
+        jTable8.revalidate();
+        jTable8.repaint();
+    }//GEN-LAST:event_jButton11ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -726,6 +773,7 @@ public class Sessao extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -790,7 +838,7 @@ class Painel extends javax.swing.JPanel{
     protected void paintComponent(java.awt.Graphics g){
         super.paintComponent(g);
         java.awt.Graphics2D g2d = ((java.awt.Graphics2D) g);
-        g2d.setColor(Color.black);
+        g2d.setColor(new Color(117, 117, 117)); // recomendação ITU-R BT.500 - mid-grey
         g2d.fillRect(0, 0, this.getWidth(), this.getHeight());
         if(str.length() > 0){
             // draw main string
@@ -798,7 +846,7 @@ class Painel extends javax.swing.JPanel{
             g2d.setFont(new java.awt.Font("Serif", java.awt.Font.PLAIN, 80));
             int slen = (int)g2d.getFontMetrics().getStringBounds(str, g2d).getWidth();
             int start = this.getWidth()/2 - slen/2;
-            g2d.drawString(str, 0+start, this.getHeight()/2);
+            g2d.drawString(str, 0+start, (int)g2d.getFontMetrics().getStringBounds(str, g2d).getHeight());
             // draw exit
             g2d.setFont(new java.awt.Font("Serif", java.awt.Font.PLAIN, 20));
             slen = (int)g2d.getFontMetrics().getStringBounds(exit, g2d).getWidth();
@@ -812,6 +860,7 @@ class PlayVideo extends javax.swing.AbstractAction{
     private int CONFIGS = -1, INICIO = 0, PLAYING1 = 1, PLAYING2 = 2, AVALIACAO = 3, FIMSESSAO = 4, INTERROMPER = 5;
     private String cmd1, cmd2;
     private ArrayList medias;
+    private Session session;
     private javax.swing.JFrame blackScreen;
     private Painel blackPanel;
     private java.awt.GraphicsDevice gd;
@@ -819,14 +868,15 @@ class PlayVideo extends javax.swing.AbstractAction{
     private int mediaPlaying = 0;
     private boolean simultaneously = false;
 
-    public PlayVideo(ArrayList al, boolean simultaneously){
-        medias = al;
+    public PlayVideo(ArrayList ml, Session session, boolean simultaneously){
+        medias = ml;
+        this.session = session;
         this.simultaneously = simultaneously;
         gd = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         blackScreen = new javax.swing.JFrame();
         blackScreen.setUndecorated(true);
         blackScreen.setSize(Util.getScreenSize());
-        //blackScreen.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+        blackScreen.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         //blackScreen.setAlwaysOnTop(true);
         blackScreen.setLocationRelativeTo(null);
         blackScreen.addKeyListener(new java.awt.event.KeyListener(){
@@ -860,8 +910,10 @@ class PlayVideo extends javax.swing.AbstractAction{
          */
         ((javax.swing.Timer)ae.getSource()).stop();
         if(estado == CONFIGS){
-            //blackScreen.setVisible(true);
-            //gd.setFullScreenWindow(blackScreen);
+            if(Util.isSessionBackscreenVisible()){
+                blackScreen.setVisible(true);
+                gd.setFullScreenWindow(blackScreen);
+            }
             estado = INICIO;
         }
         if(estado == FIMSESSAO){
@@ -879,7 +931,7 @@ class PlayVideo extends javax.swing.AbstractAction{
             } else if(estado == PLAYING1){
                 blackPanel.setString("");
                 if(simultaneously){
-                    cmd1 = "mplayer -slave -ontop -udp-slave ";
+                cmd1 = "mplayer -slave -ontop -udp-slave ";
                     cmd2 = "mplayer -slave -ontop -udp-master -udp-ip 127.0.0.1 ";
                     cmd1 += "-geometry +" + (int)(Util.getScreenSize().getWidth()/2-((Media)medias.get(mediaPlaying)).getWidth());
                     cmd2 += "-geometry +" + (int)(Util.getScreenSize().getWidth()/2);
@@ -905,7 +957,7 @@ class PlayVideo extends javax.swing.AbstractAction{
                 cmd2 += " " + ((Media)medias.get(mediaPlaying+1)).getPath();
                 // apaga texto da blackScreen
                 try {
-                    System.out.println(cmd1 +"\n"+cmd2);
+                    bridge.ServiceBridge.operationDefineMetric(0);
                     Process mplayerProcess1 = Runtime.getRuntime().exec(cmd1);
                     if(!simultaneously) mplayerProcess1.waitFor();
                     Process mplayerProcess2 = Runtime.getRuntime().exec(cmd2);
@@ -913,7 +965,8 @@ class PlayVideo extends javax.swing.AbstractAction{
                 } catch (InterruptedException ex) {
                 } catch (java.io.IOException ex){
                 }
-                ((javax.swing.Timer)ae.getSource()).setInitialDelay(10);
+                blackPanel.setString("Avaliação " + ((Media)medias.get(mediaPlaying)).getTitle());
+                ((javax.swing.Timer)ae.getSource()).setInitialDelay(50);
                 ((javax.swing.Timer)ae.getSource()).restart();
                 estado = AVALIACAO;
 //            } else if(estado == PLAYING2){
@@ -940,6 +993,7 @@ class PlayVideo extends javax.swing.AbstractAction{
 //                estado = AVALIACAO;
             } else if(estado == AVALIACAO){
                 // Metrica DSIS toca dois videos por vez para analisar o segundo
+                bridge.ServiceBridge.operationEnableRate(session, (Media)medias.get(mediaPlaying+1));
                 mediaPlaying+=2;
                 ((javax.swing.Timer)ae.getSource()).setInitialDelay(50);
                 ((javax.swing.Timer)ae.getSource()).restart();
@@ -947,7 +1001,7 @@ class PlayVideo extends javax.swing.AbstractAction{
             }
         } else {
             blackPanel.setString("Fim da Sessão");
-            ((javax.swing.Timer)ae.getSource()).setInitialDelay(2000);
+            ((javax.swing.Timer)ae.getSource()).setInitialDelay(10000);
             ((javax.swing.Timer)ae.getSource()).restart();
             estado = FIMSESSAO;
         }
