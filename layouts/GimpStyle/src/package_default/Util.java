@@ -14,6 +14,7 @@ public class Util {
     private static String defaultVideosDirectory = System.getProperty("user.dir");
     private static String defaultOutputDirectory = System.getProperty("user.dir");
     private static String userDirectory = System.getProperty("user.dir");
+    private static String raffleDirectory = System.getProperty("user.dir");
     private static boolean backscreen = true;
     
     public static Dimension getScreenSize(){
@@ -31,6 +32,9 @@ public class Util {
     public static void setUserDirectory(String folder){
         userDirectory = folder;
     }
+    public static void setDefaultRaffleDirectory(String folder){
+        raffleDirectory = folder;
+    }
     public static void setSessionBackscreenVisible(boolean b){
         backscreen = b;
     }
@@ -45,5 +49,8 @@ public class Util {
     }
     public static String getUserDirectory(){
         return userDirectory;
+    }
+    public static String getDefaultRaffleDirectory(){
+        return raffleDirectory;
     }
 }

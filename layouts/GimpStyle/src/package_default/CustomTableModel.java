@@ -21,6 +21,7 @@ public class CustomTableModel extends DefaultTableModel {
 	public static final int DEVICE_DATA = 3;
         public static final int METRIC_TASK = 4;
         public static final int GERADOR_TASK = 5;
+        public static final int RAFFLE_FILES = 6;
 
 	private int dataType;
 	private ArrayList currentData;
@@ -32,6 +33,7 @@ public class CustomTableModel extends DefaultTableModel {
                 {"Name", "Port"},
                 {"Vídeo", "Reference", "Metric"},
                 {"Vídeo", "Artefato", "Raffle", "Parâmetros"},
+                {"Arquivos Raffle"},
 	};
 	private Object[][] data;
 
@@ -91,6 +93,11 @@ public class CustomTableModel extends DefaultTableModel {
                                         data[i][3] = a.getParams();
 				}
 				break;
+                        case RAFFLE_FILES:
+                                for(i = 0; i < newData.size(); i++){
+                                        data[i][0] = newData.get(i);
+                                }
+                                break;
 			default:
 				break;
 		}
@@ -123,11 +130,16 @@ public class CustomTableModel extends DefaultTableModel {
 	}
 
 	public boolean isCellEditable(int row, int col) {
-		if (col > 0) {
-			return false;
-		} else {
-			return true;
-		}
+            switch(dataType){
+                case RAFFLE_FILES:
+                    return false;
+                default:
+                    if (col > 0) {
+                            return false;
+                    } else {
+                            return true;
+                    }
+            }
 	}
 
 	public void setValueAt(Object value, int row, int col) {
