@@ -993,7 +993,7 @@ class PlayVideo extends javax.swing.AbstractAction{
 //                estado = AVALIACAO;
             } else if(estado == AVALIACAO){
                 // Metrica DSIS toca dois videos por vez para analisar o segundo
-                bridge.ServiceBridge.operationEnableRate(session, (Media)medias.get(mediaPlaying+1));
+                bridge.ServiceBridge.operatioEnableRate(session, (Media)medias.get(mediaPlaying+1));
                 mediaPlaying+=2;
                 ((javax.swing.Timer)ae.getSource()).setInitialDelay(50);
                 ((javax.swing.Timer)ae.getSource()).restart();

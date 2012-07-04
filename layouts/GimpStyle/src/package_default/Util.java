@@ -16,6 +16,9 @@ public class Util {
     private static String userDirectory = System.getProperty("user.dir");
     private static String raffleDirectory = System.getProperty("user.dir");
     private static boolean backscreen = true;
+    private static String operatingSystem;
+    private static String fileSeparator;
+    private static String toolsDirectory;
     
     public static Dimension getScreenSize(){
         java.awt.Toolkit toolkit =  java.awt.Toolkit.getDefaultToolkit ();
@@ -24,7 +27,6 @@ public class Util {
     }
     public static void setDefaultVideosDirectory(String folder){
         defaultVideosDirectory = folder;
-        defaultOutputDirectory = folder;
     }
     public static void setDefaultOutputDirectory(String folder){
         defaultOutputDirectory = folder;
@@ -38,8 +40,26 @@ public class Util {
     public static void setSessionBackscreenVisible(boolean b){
         backscreen = b;
     }
+    public static void setOperatingSystem(String os){
+        operatingSystem = os;
+    }
+    public static void setFileSeparator(String fSeparator){
+        fileSeparator = fSeparator;
+    }
+    public static void setDefaultToolsDirectory(String folder){
+        toolsDirectory = folder;
+    }
     public static boolean isSessionBackscreenVisible(){
         return backscreen;
+    }
+    public static String getDefaultToolsDirectory(){
+        return toolsDirectory;
+    }
+    public static String getOperatingSystem(){
+        return operatingSystem;
+    }
+    public static String getFileSeparator(){
+        return fileSeparator;
     }
     public static String getDefaultVideosDirectory(){
         return defaultVideosDirectory;

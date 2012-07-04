@@ -44,6 +44,15 @@ public class Dialog {
 			return fileChooser.getSelectedFile().getPath();
 		}
 	}
+	public static String getFile(TipoGetFile tp, String path){
+		JFileChooser fileChooser = new JFileChooser(path);
+		int result = fileChooser.showDialog(null, tp.toString());
+		if(result == JFileChooser.CANCEL_OPTION){   
+			return "";
+		} else {   
+			return fileChooser.getSelectedFile().getPath();
+		}
+	}
 	public static void msgWarning(String mensagem, String titulo){
 		javax.swing.JOptionPane.showMessageDialog(null, mensagem, titulo, javax.swing.JOptionPane.WARNING_MESSAGE);
 	}
