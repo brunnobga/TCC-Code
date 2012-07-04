@@ -25,6 +25,16 @@ public class Dialog {
 			return fileChooser.getSelectedFile().getPath();
 		}
 	}
+        public static String getDirectory(TipoGetFile tp, String path){
+		JFileChooser fileChooser = new JFileChooser(path);
+                fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		int result = fileChooser.showDialog(null, tp.toString());
+		if(result == JFileChooser.CANCEL_OPTION){   
+			return "";
+		} else {   
+			return fileChooser.getSelectedFile().getPath();
+		}
+	}
 	public static String getFile(TipoGetFile tp){
 		JFileChooser fileChooser = new JFileChooser();
 		int result = fileChooser.showDialog(null, tp.toString());
