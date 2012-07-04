@@ -31,6 +31,12 @@ public class Windows extends javax.swing.JFrame {
         a = new Ajuda();
         r = new Resultados();
         b = new Gerenciar();
+        jButton1.setEnabled(false);
+        jButton2.setEnabled(false);
+        jButton3.setEnabled(false);
+        jButton4.setEnabled(false);
+        jButton5.setEnabled(false);
+        jButton6.setEnabled(false);
     }
 
     /**
@@ -210,6 +216,11 @@ public class Windows extends javax.swing.JFrame {
                 jPasswordField1FocusLost(evt);
             }
         });
+        jPasswordField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jPasswordField1KeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -251,7 +262,7 @@ public class Windows extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        b.setVisible(!a.isVisible());
+        b.setVisible(!b.isVisible());
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -308,14 +319,31 @@ public class Windows extends javax.swing.JFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
+        login();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jPasswordField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordField1KeyReleased
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER){
+            login();
+        }
+    }//GEN-LAST:event_jPasswordField1KeyReleased
+    private void login(){
         if(!loggedIn){
-    //        String login = jTextField1.getText();
-    //        String senha = new String(jPasswordField1.getPassword());
-            // se login for aceito
-            jButton7.setText("Sair");
-            jTextField1.setEnabled(false);
-            jPasswordField1.setEnabled(false);
-            loggedIn = true;
+            String login = jTextField1.getText();
+            String senha = new String(jPasswordField1.getPassword());
+            java.util.ArrayList userList = bridge.ServiceBridge.queryUserList();
+            for(int i = 0; i < userList.size(); ++i){
+                if(((entity.User)userList.get(i)).getLogin().equals(login)){
+                    if(((entity.User)userList.get(i)).getPassword().equals(senha)){
+                        // se login for aceito
+                        jButton7.setText("Sair");
+                        jTextField1.setEnabled(false);
+                        jPasswordField1.setEnabled(false);
+                        loggedIn = true;
+                    }
+                }
+            }
         } else {
             jTextField1.setText("Login");
             jPasswordField1.setText("Senha");
@@ -324,8 +352,13 @@ public class Windows extends javax.swing.JFrame {
             jButton7.setText("Entrar");
             loggedIn = false;
         }
-    }//GEN-LAST:event_jButton7ActionPerformed
-
+        jButton1.setEnabled(loggedIn);
+        jButton2.setEnabled(loggedIn);
+        jButton3.setEnabled(loggedIn);
+        jButton4.setEnabled(loggedIn);
+        jButton5.setEnabled(loggedIn);
+        jButton6.setEnabled(loggedIn);
+    }
     /**
      * @param args the command line arguments
      */
