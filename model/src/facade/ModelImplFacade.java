@@ -12,6 +12,7 @@ import dao.MediaTypeDAO;
 import dao.MetricDAO;
 import dao.SessionDAO;
 import dao.SoftwareRateDAO;
+import dao.UserDAO;
 import dao.UserRateDAO;
 import entity.Artifact;
 import entity.Device;
@@ -20,6 +21,7 @@ import entity.MediaList;
 import entity.MediaType;
 import entity.Metric;
 import entity.SoftwareRate;
+import entity.User;
 import entity.UserRate;
 
 
@@ -69,6 +71,14 @@ public class ModelImplFacade implements ModelFacade {
 		return new MediaDAO(openSession()).remove(media);
 	}
 	
+	public boolean removeUser(User user) {
+		return new UserDAO(openSession()).remove(user);
+	}
+	
+	public boolean removeSession(entity.Session session) {
+		return new SessionDAO(openSession()).remove(session);
+	}
+	
 	public List<Media> listAllMedias() {
 		return new MediaDAO(openSession()).list();
 	}
@@ -97,6 +107,10 @@ public class ModelImplFacade implements ModelFacade {
 		return new SessionDAO(openSession()).list();
 	}
 	
+	public List<User> listAllUsers(){
+		return new UserDAO(openSession()).list();
+	}
+	
 	public boolean saveOrUpdateSession(entity.Session session) {
 		return new SessionDAO(openSession()).saveOrUpdate(session);
 	}
@@ -113,6 +127,10 @@ public class ModelImplFacade implements ModelFacade {
 		return new SoftwareRateDAO(openSession()).saveOrUpdate(softwareRate);
 	}
 	
+	public boolean saveOrUpdateUser(User user) {
+		return new UserDAO(openSession()).saveOrUpdate(user);
+	}
+	
 	public MediaType findMediaTypeById(int value) {
 		return new MediaTypeDAO(openSession()).findById(value);
 	}
@@ -120,4 +138,6 @@ public class ModelImplFacade implements ModelFacade {
 	public Media findMediaById(int value){
 		return new MediaDAO(openSession()).findById(value);
 	}
+	
+	
 }
