@@ -17,6 +17,7 @@ import entity.MediaList;
 import entity.Metric;
 import entity.Session;
 import entity.SoftwareRate;
+import entity.User;
 import entity.UserRate;
 import facade.ModelImplFacade;
 import facade.ServiceFacade;
@@ -246,6 +247,10 @@ public class ServiceBridge {
 		return (ArrayList<Session>) mif.listAllSessions();
 	}
 	
+	public static ArrayList<User> queryUserList(){
+		return (ArrayList<User>) mif.listAllUsers();
+	}
+	
 	public static Media queryMediaById(int pk){
 		return mif.findMediaById(pk);
 	}
@@ -260,5 +265,21 @@ public class ServiceBridge {
 	
 	public static void SaveOrUpdateMedia(Media m){
 		mif.saveOrUpdateMedia(m);
+	}
+	
+	public static void SaveOrUpdateUser(User u){
+		mif.saveOrUpdateUser(u);
+	}
+	
+	public static void RemoveUser(User u){
+		mif.removeUser(u);
+	}
+	
+	public static void RemoveMedia(Media m){
+		mif.removeMedia(m);
+	}
+	
+	public static void RemoveSession(Session s){
+		mif.removeSession(s);
 	}
 }
