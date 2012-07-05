@@ -11,6 +11,8 @@ import java.awt.event.KeyEvent;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import support.Dialog;
 
@@ -116,6 +118,14 @@ public class Ferramentas extends javax.swing.JFrame {
         jScrollPane7 = new javax.swing.JScrollPane();
         jTable4 = new javax.swing.JTable();
         jButton20 = new javax.swing.JButton();
+        jPanel8 = new javax.swing.JPanel();
+        jTextField16 = new javax.swing.JTextField();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        jTable7 = new javax.swing.JTable();
+        jLabel18 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
+        jButton1 = new javax.swing.JButton();
 
         setTitle("Ferramentas");
         setBounds(new java.awt.Rectangle(400, 200, 0, 0));
@@ -861,6 +871,100 @@ public class Ferramentas extends javax.swing.JFrame {
 
             jTabbedPane1.addTab("RaffleViewer", jPanel7);
 
+            jTextField16.setText("Procure vídeos");
+            jTextField16.setToolTipText("Digite um termo para busca e pressione enter.");
+            jTextField16.addFocusListener(new java.awt.event.FocusAdapter() {
+                public void focusGained(java.awt.event.FocusEvent evt) {
+                    jTextField16FocusGained(evt);
+                }
+                public void focusLost(java.awt.event.FocusEvent evt) {
+                    jTextField16FocusLost(evt);
+                }
+            });
+            jTextField16.addKeyListener(new java.awt.event.KeyAdapter() {
+                public void keyReleased(java.awt.event.KeyEvent evt) {
+                    jTextField16KeyReleased(evt);
+                }
+            });
+
+            jScrollPane10.setPreferredSize(new java.awt.Dimension(200, 200));
+
+            tableMPlayer = new CustomTableModel(
+                CustomTableModel.VIDEO_DATA,
+                bridge.ServiceBridge.queryMediaList(new Media())
+            );
+            jTable7.setModel(tableMPlayer);
+            jTable7.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+            jScrollPane10.setViewportView(jTable7);
+            jTable7.getSelectionModel().addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+                public void valueChanged(javax.swing.event.ListSelectionEvent evt){
+                    if(!evt.getValueIsAdjusting()){
+                        ArrayList mediaList = bridge.ServiceBridge.queryMediaList(new Media());
+                        Media m = (Media) mediaList.get(jTable7.getSelectedRow());
+                        mplayerVideo = "mplayer -slave -quiet -ontop ";
+                        mplayerVideo += "-geometry +" + (int)(Util.getScreenSize().getWidth()/2-m.getWidth()/2);
+                        mplayerVideo += "+" + (int)(Util.getScreenSize().getHeight()/2-m.getHeigth()/2);
+                        if(m.getPath().toLowerCase().contains(".yuv")){
+                            mplayerVideo += " -demuxer rawvideo -rawvideo ";
+                            mplayerVideo += "w=" + m.getWidth();
+                            mplayerVideo += ":h=" + m.getHeigth();
+                        }
+                        mplayerVideo += " " + m.getPath();
+                    }
+                    jTextArea2.setText(mplayerVideo);
+                }
+            });
+
+            jLabel18.setText("Parâmetros:");
+
+            jTextArea2.setColumns(20);
+            jTextArea2.setLineWrap(true);
+            jTextArea2.setRows(5);
+            jScrollPane3.setViewportView(jTextArea2);
+
+            jButton1.setText("Iniciar");
+            jButton1.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButton1ActionPerformed(evt);
+                }
+            });
+
+            javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+            jPanel8.setLayout(jPanel8Layout);
+            jPanel8Layout.setHorizontalGroup(
+                jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel8Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jTextField16)
+                        .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel8Layout.createSequentialGroup()
+                            .addComponent(jLabel18)
+                            .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                            .addGap(0, 0, Short.MAX_VALUE)
+                            .addComponent(jButton1)))
+                    .addContainerGap())
+            );
+            jPanel8Layout.setVerticalGroup(
+                jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel8Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel18)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jButton1)
+                    .addContainerGap())
+            );
+
+            jTabbedPane1.addTab("MPlayer", jPanel8);
+
             javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
             getContentPane().setLayout(layout);
             layout.setHorizontalGroup(
@@ -1449,6 +1553,39 @@ public class Ferramentas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jTextField16FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField16FocusGained
+        // TODO add your handling code here:
+        jTextField16.setText("");
+    }//GEN-LAST:event_jTextField16FocusGained
+
+    private void jTextField16FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField16FocusLost
+        // TODO add your handling code here:
+        if(jTextField16.getText().equals("")) jTextField16.setText("Procure vídeos");
+    }//GEN-LAST:event_jTextField16FocusLost
+
+    private void jTextField16KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField16KeyReleased
+        // TODO add your handling code here:
+        Media m = new Media();
+        m.setTitle(jTextField16.getText());
+        tableMPlayer.refresh(bridge.ServiceBridge.queryMediaList(m));
+        jTable7.revalidate();
+        jTable7.repaint();
+    }//GEN-LAST:event_jTextField16KeyReleased
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        if(!jTable7.getSelectionModel().isSelectionEmpty()){
+            try{
+                System.out.println("1");
+                Process mplayerProcess1 = Runtime.getRuntime().exec(jTextArea2.getText());
+                System.out.println("2");
+            } catch (IOException ex) {
+                Dialog.msgError("Erro na execução. Verifique\nos parâmetros.", "MPlayer");
+            }
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private String getParams(int row, String dist){
         String acc = "";
         if(dist.equals("constant")){
@@ -1569,6 +1706,7 @@ public class Ferramentas extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
@@ -1598,6 +1736,7 @@ public class Ferramentas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1613,9 +1752,12 @@ public class Ferramentas extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
@@ -1639,10 +1781,13 @@ public class Ferramentas extends javax.swing.JFrame {
     private javax.swing.JTable jTable6;
     private CustomTableModel tableAvaliadorTask;
     private ArrayList avaliadorTask;
+    private javax.swing.JTable jTable7;
+    private CustomTableModel tableMPlayer;
     private javax.swing.JTable jTable8;
     private CustomTableModel tableGeradorTask;
     private ArrayList geradorTask;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
@@ -1650,6 +1795,7 @@ public class Ferramentas extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField13;
     private javax.swing.JTextField jTextField14;
     private javax.swing.JTextField jTextField15;
+    private javax.swing.JTextField jTextField16;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
@@ -1660,4 +1806,5 @@ public class Ferramentas extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
     private int oldRaffleColumns = 4;
+    private String mplayerVideo;
 }

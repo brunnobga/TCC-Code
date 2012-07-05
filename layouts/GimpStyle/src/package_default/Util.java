@@ -19,6 +19,7 @@ public class Util {
     private static String operatingSystem;
     private static String fileSeparator;
     private static String toolsDirectory;
+    private static String loggedUser;
     
     public static Dimension getScreenSize(){
         java.awt.Toolkit toolkit =  java.awt.Toolkit.getDefaultToolkit ();
@@ -49,8 +50,14 @@ public class Util {
     public static void setDefaultToolsDirectory(String folder){
         toolsDirectory = folder;
     }
+    public static void setLoggedUser(String login){
+        loggedUser = login;
+    }
     public static boolean isSessionBackscreenVisible(){
         return backscreen;
+    }
+    public static String getLoggedUser(){
+        return loggedUser;
     }
     public static String getDefaultToolsDirectory(){
         return toolsDirectory;

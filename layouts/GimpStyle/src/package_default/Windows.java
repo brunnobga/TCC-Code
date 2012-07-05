@@ -197,6 +197,11 @@ public class Windows extends javax.swing.JFrame {
                 jTextField1FocusLost(evt);
             }
         });
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
+            }
+        });
 
         jButton7.setText("Entrar");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
@@ -328,6 +333,13 @@ public class Windows extends javax.swing.JFrame {
             login();
         }
     }//GEN-LAST:event_jPasswordField1KeyReleased
+
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER){
+            login();
+        }
+    }//GEN-LAST:event_jTextField1KeyReleased
     private void login(){
         if(!loggedIn){
             String login = jTextField1.getText();
@@ -341,6 +353,7 @@ public class Windows extends javax.swing.JFrame {
                         jTextField1.setEnabled(false);
                         jPasswordField1.setEnabled(false);
                         loggedIn = true;
+                        Util.setLoggedUser(login);
                     }
                 }
             }

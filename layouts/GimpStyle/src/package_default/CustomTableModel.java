@@ -22,6 +22,7 @@ public class CustomTableModel extends DefaultTableModel {
         public static final int METRIC_TASK = 4;
         public static final int GERADOR_TASK = 5;
         public static final int RAFFLE_FILES = 6;
+        public static final int USER_DATA = 7;
 
 	private int dataType;
 	private ArrayList currentData;
@@ -34,6 +35,7 @@ public class CustomTableModel extends DefaultTableModel {
                 {"Vídeo", "Reference", "Metric"},
                 {"Vídeo", "Artefato", "Raffle", "Parâmetros"},
                 {"Arquivos Raffle"},
+                {"Nome", "Login", "Email"},
 	};
 	private Object[][] data;
 
@@ -97,6 +99,14 @@ public class CustomTableModel extends DefaultTableModel {
                                 for(i = 0; i < newData.size(); i++){
                                         data[i][0] = newData.get(i);
                                 }
+                                break;
+                        case USER_DATA:
+				for(i = 0; i < newData.size(); i++){
+					entity.User a = (entity.User) newData.get(i);
+					data[i][0] = a.getName();
+					data[i][1] = a.getLogin();
+					data[i][2] = a.getContactEmail();
+				}
                                 break;
 			default:
 				break;
