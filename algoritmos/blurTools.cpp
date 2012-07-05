@@ -18,10 +18,11 @@ static struct option long_options[] =
 		{"size", required_argument, 0, 's'},
 		{"blur", required_argument, 0, 'b'},
 		{"window", required_argument, 0, 'w'},
+		{"rafflelist", required_argument, 0, 'r'},
 		{"help", no_argument, 0, 'h'},
 	};
 
-static char short_options[] = "i:o:s:b:w:h:";
+static char short_options[] = "i:o:s:b:w:h:r:";
 
 #define DURATIONDIST 0
 #define FRAMEDIST 1
@@ -31,12 +32,13 @@ static char short_options[] = "i:o:s:b:w:h:";
 class FilterTool{
 private:
 	int artifactType, frameWidth, frameHeight, frameTotal, frameSize, blockSize, levels[32], opt_index, c;
-	char *inputFileName, *outputFileName, *tmp;
-	ifstream input;
+	char *inputFileName, *outputFileName, *raffleFileName, *tmp;
+	ifstream input, raffleFile;
 	ofstream output;
 	byte * frame, *outframe;
 	Settings set;
-	bool help;
+	bool help, full_flag;
+	list<Raffle> frames;
 
 public:
 	FilterTool(int argc, char* argv[]){
@@ -72,6 +74,15 @@ public:
 					blockSize =  set.blockSize;
 					if(set.blockSize == 0) printf("Argumento invalido para -w...\n"), exit(1);
 					break;
+				case 'r':
+					if(strcmp(optarg, "full") == 0){
+						full_flag = true;
+						break;
+					}
+					full_flag = false;
+					raffleFileName = (char*)malloc(strlen(optarg)+1);
+					strcpy(raffleFileName, optarg);
+					break;
 				case 'h':
 					help = true;
 					break;
@@ -101,12 +112,33 @@ public:
 		return help;
 	}
 
+	void nextRaffle(int* n, int * d){
+		if(frames.empty()){
+			*n = 0;
+			*d = 0;
+			return;
+		}
+		Raffle a = frames.front();
+		frames.pop_front();
+		*n = a.f;
+		*d = a.x;
+		return;
+	}
+
 	void performFiltering(){
+		int next, duration;
+		nextRaffle(&next, &duration);
 		for(int fc = 1; fc <= frameTotal; fc++){
 			input.read((char*)frame, frameSize);
 			memcpy(outframe, frame, frameSize);
 			
-			blur(frame, outframe, frameHeight, frameWidth, &set);
+			printf("!!! %d %d ", next, duration);	
+			if(fc >= next && duration == 0)
+				nextRaffle(&next, &duration);
+			if(full_flag || (duration > 0 && fc >= next)){
+				blur(frame, outframe, frameHeight, frameWidth, &set);
+				duration--;
+			}
 			
 			output.write((char*) outframe, frameSize);
 			input.read((char*) frame, frameSize/2);
@@ -119,6 +151,7 @@ public:
 
 	void performIO(){
 		input.open(inputFileName, ifstream::binary);
+		raffleFile.open(raffleFileName, ifstream::binary);
 		output.open(outputFileName, ofstream::binary);
 		if(input.eof() || input.fail()) printf("Arquivo inexistente: %s\n", inputFileName), exit(2);
 		input.seekg(0, ios::end);
@@ -132,8 +165,21 @@ public:
 		#endif
 	}
 
+	void readRaffleFile(){
+		int tmpB, tmpD;
+		while(raffleFile >> tmpB >> tmpD){
+			Raffle a;
+			a.f = tmpB;
+			a.x = tmpD;
+			frames.push_back(a);
+		}
+		printf("list size %d\n", frames.size());
+		return;
+	}
+
 	void closeIO(){
 		input.close();
+		raffleFile.close();
 		output.close();
 	}
 
@@ -152,6 +198,7 @@ int main(int argc, char* argv[]){
 		//5 read Y component
 		//6. apply artifacts to Y component
 		//7. write Y component and copy UV to output
+		f.readRaffleFile();
 		f.performFiltering();
 
 		f.closeIO();

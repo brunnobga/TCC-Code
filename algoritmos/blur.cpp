@@ -22,7 +22,7 @@ void blur(byte *originalFrame, byte *bluredFrame, int H, int W, Settings * set){
 	if(fSize < 3) return;
 	int lowerLimit = (fSize-fSize%2)/-2;
 	int upperLimit = (fSize-fSize%2)/2;
-	double elements = fSize*fSize;
+	double elements = fSize*fSize, result;
 
 	if(fType == AVERAGE){
 		/*
@@ -32,10 +32,11 @@ void blur(byte *originalFrame, byte *bluredFrame, int H, int W, Settings * set){
 		 */
 		for(int i = 0; i < H; i++){
 			for(int j = 0; j < W; j++){
-				*(bluredFrame + i*W + j) = 0;
+				result = 0;
 				for(int k = lowerLimit; k <= upperLimit; k++)
 					for(int m = lowerLimit; m <= upperLimit; m++)
-						*(bluredFrame + i*W + j) += *(originalFrame + max(min(i+k, H-1), 0)*W + max(min(j+m, W-1), 0))/elements;
+						result += *(originalFrame + max(min(i+k, H-1), 0)*W + max(min(j+m, W-1), 0))/elements;
+				*(bluredFrame + i*W + j) = result;
 			}
 		}
 	} else if(fType == MEDIAN){
