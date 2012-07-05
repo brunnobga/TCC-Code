@@ -17,14 +17,9 @@ public class Windows extends javax.swing.JFrame {
      * Creates new form Windows
      */
     public Windows() {
+        Util.init();
         initComponents();
         jButton7.requestFocusInWindow();
-        Util.setDefaultOutputDirectory(System.getProperty("user.dir"));
-        Util.setDefaultVideosDirectory(System.getProperty("user.dir"));
-        Util.setUserDirectory(System.getProperty("user.dir"));
-        Util.setOperatingSystem(System.getProperty("os.name"));
-        Util.setFileSeparator(System.getProperty("file.separator"));
-        Util.setDefaultToolsDirectory(System.getProperty("user.dir") + Util.getFileSeparator() + ".." + Util.getFileSeparator() + ".." + Util.getFileSeparator() + "algoritmos");
         s = new Sessao();
         f = new Ferramentas();
         c = new Configuracao();

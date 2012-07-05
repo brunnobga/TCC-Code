@@ -925,7 +925,7 @@ class PlayVideo extends javax.swing.AbstractAction{
         if(mediaPlaying < medias.size()){
             if(estado == INICIO){
                 blackPanel.setString(((Media)medias.get(mediaPlaying)).getTitle());
-                ((javax.swing.Timer)ae.getSource()).setInitialDelay(2000);
+                ((javax.swing.Timer)ae.getSource()).setInitialDelay(Util.getSessionDelayTitle());
                 ((javax.swing.Timer)ae.getSource()).restart();
                 estado = PLAYING1;
             } else if(estado == PLAYING1){
@@ -1001,7 +1001,7 @@ class PlayVideo extends javax.swing.AbstractAction{
             }
         } else {
             blackPanel.setString("Fim da Sessão");
-            ((javax.swing.Timer)ae.getSource()).setInitialDelay(10000);
+            ((javax.swing.Timer)ae.getSource()).setInitialDelay(Util.getSessionDelayEnd());
             ((javax.swing.Timer)ae.getSource()).restart();
             estado = FIMSESSAO;
         }
