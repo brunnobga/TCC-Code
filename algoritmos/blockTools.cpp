@@ -51,6 +51,7 @@ class FilterTool{
 private:
 	int artifactType, frameWidth, frameHeight, frameTotal, frameSize, blockSize, levels[32], opt_index, c;
 	char *inputFileName, *outputFileName, *raffleFileName, *tmp;
+	bool full_flag;
 	ifstream input, raffleFile;
 	ofstream output;
 	byte * frame, *outframe;
@@ -93,6 +94,11 @@ public:
 					parseLevels(optarg);
 					break;
 				case 'r':
+					if(strcmp(optarg, "full") == 0){
+						full_flag = true;
+						break;
+					}
+					full_flag = false;
 					raffleFileName = (char*)malloc(strlen(optarg)+1);
 					strcpy(raffleFileName, optarg);
 					break;
@@ -132,14 +138,26 @@ public:
 
 	void blockFilter(int fc){
 		Raffle current;
-		if(pixelList.size() > 0) current = pixelList.front();
-		while(current.f == fc && pixelList.size() > 0){
-			blockage(frame + current.x*frameWidth*blockSize + current.y*blockSize,
-					outframe + current.x*frameWidth*blockSize + current.y*blockSize, 
-					frameWidth, 
-					&set);
-			pixelList.pop_front();
-			current = pixelList.front();
+		if(full_flag){
+			int i, j;
+			for(i = 0; i < frameHeight/blockSize; i++){
+				for(j = 0; j < frameWidth/blockSize; j++){
+					blockage(frame + i*frameWidth*blockSize + j*blockSize,
+							outframe + i*frameWidth*blockSize + j*blockSize, 
+							frameWidth, 
+							&set);
+				}
+			}
+		} else {
+			if(pixelList.size() > 0) current = pixelList.front();
+			while(current.f == fc && pixelList.size() > 0){
+				blockage(frame + current.x*frameWidth*blockSize + current.y*blockSize,
+						outframe + current.x*frameWidth*blockSize + current.y*blockSize, 
+						frameWidth, 
+						&set);
+				pixelList.pop_front();
+				current = pixelList.front();
+			}
 		}
 	}
 
@@ -159,9 +177,25 @@ public:
 		}
 	}
 
+	void generateFullRaffle(){
+		int i, j, k;
+		for(i = 1; i <= frameTotal; i++){
+			for(j = 0; j < frameHeight; j++){
+				for(k = 0; k < frameWidth; k++){
+					Raffle *tmp = new Raffle();
+					tmp->f = i;
+					tmp->x = j;
+					tmp->y = k;
+					pixelList.push_back(*tmp);
+				}
+			}
+		}
+	}
+
 	void readRaffleList(){
-		// TODO Ler arquivo com os pontos sorteados
 		int tmpF, tmpX, tmpY;
+		if(full_flag)
+			return;
 		while(raffleFile >> tmpF >> tmpY >> tmpX){
 			Raffle *tmpRaffle = new Raffle();
 			(*tmpRaffle).f = tmpF;
@@ -181,10 +215,12 @@ public:
 
 	void performIO(){
 		input.open(inputFileName, ifstream::binary);
-		raffleFile.open(raffleFileName, ifstream::binary);
+		if(!full_flag)
+			raffleFile.open(raffleFileName, ifstream::binary);
 		output.open(outputFileName, ofstream::binary);
 		if(input.eof() || input.fail()) printf("Arquivo inexistente: %s\n", inputFileName), exit(2);
-		if(raffleFile.eof() || raffleFile.fail()) printf("Arquivo inexistente: %s\n", raffleFileName), exit(2);
+		if(!full_flag)
+			if(raffleFile.eof() || raffleFile.fail()) printf("Arquivo inexistente: %s\n", raffleFileName), exit(2);
 		input.seekg(0, ios::end);
 		frameTotal = input.tellg();
 		frameTotal /= frameSize*1.5;
