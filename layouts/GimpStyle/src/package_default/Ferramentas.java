@@ -668,9 +668,9 @@ public class Ferramentas extends javax.swing.JFrame {
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"Duração", null, null, null, null},
-                {"Frames", null, null, null, null},
-                {"X", null, null, null, null},
-                {"Y", null, null, null, null}
+                {"Coluna 1", null, null, null, null},
+                {"Coluna 2", null, null, null, null},
+                {"Coluna 3", null, null, null, null}
             },
             new String [] {
                 "", "Distribuição", "Parâmetro 1", "Parâmetro 2", "Parâmetro 3"
@@ -712,7 +712,7 @@ public class Ferramentas extends javax.swing.JFrame {
 
         jLabel3.setText("Colunas:");
 
-        jSpinner2.setValue(4);
+        jSpinner2.setValue(jTable1.getRowCount()-1);
         jSpinner2.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSpinner2StateChanged(evt);
@@ -982,23 +982,17 @@ public class Ferramentas extends javax.swing.JFrame {
     private void jSpinner2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner2StateChanged
         // TODO add your handling code here:
         int newValue = Integer.valueOf(jSpinner2.getValue().toString());
-        if (newValue < 4) {
-            jSpinner2.setValue(4);//(Object)new Integer(0));
+        if (newValue < 1) {
+            jSpinner2.setValue(1);//(Object)new Integer(0));
         } else {
             DefaultTableModel t = ((DefaultTableModel) jTable1.getModel());
             if (oldRaffleColumns < newValue) {
                 if (t.getRowCount() == 0) {
                     t.insertRow(t.getRowCount(), new Object[]{"Duração"});
-                } else if (t.getRowCount() == 1) {
-                    t.insertRow(t.getRowCount(), new Object[]{"Frame"});
-                } else if (t.getRowCount() == 2) {
-                    t.insertRow(t.getRowCount(), new Object[]{"X"});
-                } else if (t.getRowCount() == 3) {
-                    t.insertRow(t.getRowCount(), new Object[]{"Y"});
                 } else {
                     t.insertRow(t.getRowCount(), new Object[]{"Coluna " + t.getRowCount()});
                 }
-            } else if (t.getRowCount() > 4) {
+            } else if (t.getRowCount() > 2) {
                 t.removeRow(t.getRowCount() - 1);
             }
         }

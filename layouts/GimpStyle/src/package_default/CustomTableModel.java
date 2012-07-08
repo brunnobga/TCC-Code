@@ -28,11 +28,11 @@ public class CustomTableModel extends DefaultTableModel {
 	private ArrayList currentData;
 
 	private static String[][] columnNames = {
-		{"!", "Title", "Format", "Description"},
-		{"Title", "Format", "Description"},
+		{"!", "Título", "Formato", "Descrição"},
+		{"Título", "Formato", "Descrição"},
 		{""},
-                {"Name", "Port"},
-                {"Vídeo", "Reference", "Metric"},
+                {"Nome", "Porta"},
+                {"Vídeo", "Referência", "Metrica"},
                 {"Vídeo", "Artefato", "Raffle", "Parâmetros"},
                 {"Arquivos Raffle"},
                 {"Nome", "Login", "Email"},

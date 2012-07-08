@@ -137,7 +137,7 @@
             <Component class="javax.swing.JTree" name="jTree1">
               <Properties>
                 <Property name="model" type="javax.swing.tree.TreeModel" editor="org.netbeans.modules.form.editors2.TreeModelEditor">
-                  <TreeModel code="SASQV&#xa; Introdu&#xe7;&#xe3;o&#xa;  Interface&#xa; Sess&#xe3;o&#xa; Ferramentas&#xa;  Gerador de Artefatos&#xa;  Avaliador Objetivo&#xa;  RaffleTools&#xa; Banco de Dados&#xa; Resultados&#xa; Configura&#xe7;&#xf5;es"/>
+                  <TreeModel code="SASQV2&#xa; Introdu&#xe7;&#xe3;o&#xa; Sess&#xe3;o&#xa; Ferramentas&#xa;  Gerador de Artefatos&#xa;   Blocagem&#xa;   Borramento&#xa;   NetSim&#xa;  Avaliador Objetivo&#xa;  RaffleTool&#xa;  RaffleViewer&#xa;  MPlayer&#xa; Gerenciador&#xa;  Usu&#xe1;rios&#xa;  V&#xed;deos&#xa; Resultados&#xa; Configura&#xe7;&#xf5;es"/>
                 </Property>
               </Properties>
               <Events>

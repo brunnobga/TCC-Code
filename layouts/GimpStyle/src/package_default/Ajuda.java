@@ -77,22 +77,34 @@ public class Ajuda extends javax.swing.JFrame {
 
         jTextField1.setText("jTextField1");
 
-        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("SASQV");
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("SASQV2");
         javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Introdução");
-        javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Interface");
-        treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Sessão");
         treeNode1.add(treeNode2);
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Ferramentas");
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Gerador de Artefatos");
+        javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Gerador de Artefatos");
+        javax.swing.tree.DefaultMutableTreeNode treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("Blocagem");
+        treeNode3.add(treeNode4);
+        treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("Borramento");
+        treeNode3.add(treeNode4);
+        treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("NetSim");
+        treeNode3.add(treeNode4);
         treeNode2.add(treeNode3);
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Avaliador Objetivo");
         treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("RaffleTools");
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("RaffleTool");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("RaffleViewer");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("MPlayer");
         treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Banco de Dados");
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Gerenciador");
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Usuários");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Vídeos");
+        treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Resultados");
         treeNode1.add(treeNode2);
@@ -165,7 +177,7 @@ public class Ajuda extends javax.swing.JFrame {
     public void displayURL(String page){
         try {
             if(page.equals("SASQV")) jEditorPane1.setPage(new File(Util.getUserDirectory()+"/src/helpdocs/index.html").toURI().toURL());
-            if(page.equals("Introdução")) jEditorPane1.setPage(new File(Util.getUserDirectory()+"/src/helpdocs/introducao.html").toURI().toURL());
+            if(page.equals("Introdução")) jEditorPane1.setPage(new File(Util.getUserDirectory()+"/src/helpdocs/index.html#teste").toURI().toURL());
             if(page.equals("Interface")) jEditorPane1.setPage(new File(Util.getUserDirectory()+"/src/helpdocs/interface.html").toURI().toURL());
             
         } catch (IOException ex) {}
