@@ -1068,18 +1068,30 @@ public class Ferramentas extends javax.swing.JFrame {
                     }
                     //Process p = new ProcessBuilder(directory + "/../../algoritmos/raffleTools", "-o", "pbuilder.rff", "-u", "constant", "-r", "2", "-e", "100", "-d", "uniform", "-p", "1,5").start();
                     if (Dialog.question("Gerar arquivo?", "Confirmação")) {
-                        Process p = new ProcessBuilder(parametros).start();
-                        try {
-                            p.waitFor();
-                            Dialog.msgInfo("Arquivo gerado com sucesso.", "Confirmação");
-                        } catch (InterruptedException ex) {
-                            Dialog.msgError("Erro no processamento.", "Erro");
+                        File f = new File(Util.getDefaultRaffleDirectory()+Util.getFileSeparator()+jTextField3.getText());
+                        if(f.isFile()){
+                            if(!Dialog.question("Arquivo já existe. Deseja sobrescrever?", "Arquivo de saída")){
+                                return;
+                            }
+                        } else{
+                            Process p = new ProcessBuilder(parametros).start();
+                            try {
+                                p.waitFor();
+                                f = new File(Util.getDefaultRaffleDirectory()+Util.getFileSeparator()+jTextField3.getText());
+                                if(f.isFile()){
+                                    Dialog.msgInfo("Arquivo gerado com sucesso.", "Confirmação");
+                                } else {
+                                    Dialog.msgInfo("Erro na geração do arquivo.", "Erro");
+                                }
+                            } catch (InterruptedException ex) {
+                                Dialog.msgError("Erro no processamento.", "Erro");
+                            }
                         }
                         // TODO warning confirmar: deu certo!
                     }
                 }
             } catch (java.io.IOException e) {
-                Dialog.msgError("Ocorreu um erro na geração do arquivo. Por favor, tente novamente.", "Processo de geração");
+                Dialog.msgError("Ocorreu um erro na geração do arquivo. Por favor, tente novamente.", "Erro");
             }
         } else {
             // TODO Display warning

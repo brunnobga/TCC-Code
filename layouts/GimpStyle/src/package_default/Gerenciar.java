@@ -77,6 +77,13 @@ public class Gerenciar extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jButton15 = new javax.swing.JButton();
         jLayeredPane2 = new javax.swing.JLayeredPane();
+        jPanel5 = new javax.swing.JPanel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        jTable4 = new javax.swing.JTable();
+        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
@@ -97,13 +104,6 @@ public class Gerenciar extends javax.swing.JFrame {
         jButton9 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
         jLabel26 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jButton12 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel25 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
@@ -131,6 +131,11 @@ public class Gerenciar extends javax.swing.JFrame {
         setTitle("Banco de Dados");
         setIconImage((new javax.swing.ImageIcon(getClass().getResource("/package_default/imgs/icon_bancodedados.png"))).getImage());
         setResizable(false);
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -358,6 +363,81 @@ public class Gerenciar extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Vídeos", jLayeredPane1);
 
+        jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jScrollPane7.setPreferredSize(new java.awt.Dimension(200, 200));
+
+        tableGerenciarUsuarios = new CustomTableModel(
+            CustomTableModel.USER_DATA,
+            bridge.ServiceBridge.queryUserList()
+        );
+        jTable4.setModel(tableGerenciarUsuarios);
+        jTable4.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane7.setViewportView(jTable4);
+
+        jButton7.setText("Adicionar");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        jButton8.setText("Editar");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        jButton10.setText("Remover");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
+        jButton12.setText("Trocar senha");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
+                        .addComponent(jButton7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton10)))
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton10)
+                    .addComponent(jButton7)
+                    .addComponent(jButton8)
+                    .addComponent(jButton12))
+                .addContainerGap())
+        );
+
+        jPanel5.setBounds(10, 10, 510, 320);
+        jLayeredPane2.add(jPanel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel16.setText("ID:");
@@ -493,81 +573,6 @@ public class Gerenciar extends javax.swing.JFrame {
 
         jPanel4.setBounds(10, 10, 510, 320);
         jLayeredPane2.add(jPanel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jScrollPane7.setPreferredSize(new java.awt.Dimension(200, 200));
-
-        tableGerenciarUsuarios = new CustomTableModel(
-            CustomTableModel.USER_DATA,
-            bridge.ServiceBridge.queryUserList()
-        );
-        jTable4.setModel(tableGerenciarUsuarios);
-        jTable4.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane7.setViewportView(jTable4);
-
-        jButton7.setText("Adicionar");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
-
-        jButton8.setText("Editar");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
-
-        jButton10.setText("Remover");
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
-            }
-        });
-
-        jButton12.setText("Trocar senha");
-        jButton12.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton12ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
-                        .addComponent(jButton7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton10)))
-                .addContainerGap())
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton10)
-                    .addComponent(jButton7)
-                    .addComponent(jButton8)
-                    .addComponent(jButton12))
-                .addContainerGap())
-        );
-
-        jPanel5.setBounds(10, 10, 510, 320);
-        jLayeredPane2.add(jPanel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -1090,6 +1095,16 @@ public class Gerenciar extends javax.swing.JFrame {
         // TODO add your handling code here:
         jTextField3.setText(Dialog.getFile(Dialog.TipoGetFile.Abrir, Util.getDefaultVideosDirectory()));
     }//GEN-LAST:event_jButton15ActionPerformed
+
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+        // TODO add your handling code here:
+        tableGerenciarVideos.refresh(bridge.ServiceBridge.queryMediaList(new Media()));
+        jTable3.revalidate();
+        jTable3.repaint();
+        tableGerenciarUsuarios.refresh(bridge.ServiceBridge.queryUserList());
+        jTable4.revalidate();
+        jTable4.repaint();
+    }//GEN-LAST:event_formFocusGained
 
     /**
      * @param args the command line arguments

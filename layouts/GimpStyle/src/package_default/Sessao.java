@@ -81,6 +81,16 @@ public class Sessao extends javax.swing.JFrame {
         setBounds(new java.awt.Rectangle(300, 200, 0, 0));
         setIconImage((new javax.swing.ImageIcon(getClass().getResource("/package_default/imgs/icon_sessao.png"))).getImage());
         setResizable(false);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentHidden(java.awt.event.ComponentEvent evt) {
+                formComponentHidden(evt);
+            }
+        });
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Seleção"));
 
@@ -161,7 +171,7 @@ public class Sessao extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton3))
                     .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -169,13 +179,13 @@ public class Sessao extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -187,15 +197,15 @@ public class Sessao extends javax.swing.JFrame {
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
                     .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton10)
-                    .addComponent(jButton2)
                     .addComponent(jButton3)
+                    .addComponent(jButton2)
                     .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(17, 17, 17))
+                .addContainerGap())
         );
 
         jPanel3.setBounds(0, 0, 530, 330);
@@ -622,7 +632,7 @@ public class Sessao extends javax.swing.JFrame {
 	    if(jComboBox2.getModel().getSelectedItem().toString().equals("DSIS")){
                 PlayVideo playVideo = new PlayVideo(sessionMedias, s, false);
                 new javax.swing.Timer(100, playVideo).start();
-            } else if(jComboBox2.getModel().getSelectedItem().toString().equals("DSCQS")){
+            } else if(jComboBox2.getModel().getSelectedItem().toString().equals("SDSCE")){
                 PlayVideo playVideo = new PlayVideo(sessionMedias, s, true);
                 new javax.swing.Timer(100, playVideo).start();
             }
@@ -716,6 +726,26 @@ public class Sessao extends javax.swing.JFrame {
         jTable8.revalidate();
         jTable8.repaint();
     }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+        // TODO add your handling code here:
+        Media m = new Media();
+        m.setTitle(jTextField8.getText());
+        tablePlayer1.refresh(bridge.ServiceBridge.queryMediaList(m));
+        jTable1.revalidate();
+        jTable1.repaint();
+        ArrayList devices = bridge.ServiceBridge.queryDeviceList();
+        tableDeviceAll.refresh(devices);
+        jTable3.revalidate();
+        jTable3.repaint();
+    }//GEN-LAST:event_formFocusGained
+
+    private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
+        // TODO add your handling code here:
+        jPanel1.setVisible(true);
+        jPanel2.setVisible(false);
+        jPanel3.setVisible(false);
+    }//GEN-LAST:event_formComponentHidden
 
     /**
      * @param args the command line arguments
@@ -945,38 +975,39 @@ class PlayVideo extends javax.swing.AbstractAction{
                 try {
                     //bridge.ServiceBridge.operationDefineMetric(0);
                     Process mplayerProcess1 = Runtime.getRuntime().exec(cmd1);
-                    if(!simultaneously) mplayerProcess1.waitFor();
-                    Process mplayerProcess2 = Runtime.getRuntime().exec(cmd2);
-                    mplayerProcess2.waitFor();
+                    if(simultaneously){
+                        Process mplayerProcess2 = Runtime.getRuntime().exec(cmd2);
+                        mplayerProcess2.waitFor();
+                    } else {
+                        mplayerProcess1.waitFor();
+                    }
                 } catch (InterruptedException ex) {
                 } catch (java.io.IOException ex){
                 }
-                blackPanel.setString("Avaliação " + ((Media)medias.get(mediaPlaying)).getTitle());
-                ((javax.swing.Timer)ae.getSource()).setInitialDelay(50);
+                if(simultaneously){
+                    estado = AVALIACAO;
+                    blackPanel.setString("Avaliação " + ((Media)medias.get(mediaPlaying+1)).getTitle());
+                    ((javax.swing.Timer)ae.getSource()).setInitialDelay(Util.getSessionDelayEvaluation());
+                    ((javax.swing.Timer)ae.getSource()).restart();
+                }
+                else{
+                    estado = PLAYING2;
+                    blackPanel.setString(((Media)medias.get(mediaPlaying+1)).getTitle());
+                    ((javax.swing.Timer)ae.getSource()).setInitialDelay(Util.getSessionDelayTitle());
+                    ((javax.swing.Timer)ae.getSource()).restart();
+                }
+            } else if(estado == PLAYING2){
+                /* APRESENTAÇÃO DO SEGUNDO VIDEO: METRICA DSIS */
+                try {
+                    Process mplayerProcess = Runtime.getRuntime().exec(cmd2);
+                    mplayerProcess.waitFor();
+                } catch (InterruptedException ex) {
+                } catch (java.io.IOException ex){
+                }
+                blackPanel.setString("Avaliação " + ((Media)medias.get(mediaPlaying+1)).getTitle());
+                ((javax.swing.Timer)ae.getSource()).setInitialDelay(Util.getSessionDelayEvaluation());
                 ((javax.swing.Timer)ae.getSource()).restart();
                 estado = AVALIACAO;
-//            } else if(estado == PLAYING2){
-//                /* APRESENTAÇÃO DO SEGUNDO VIDEO: METRICA DSIS */
-//                cmd = "mplayer -slave -quiet -ontop ";
-//                cmd += "-geometry +" + (int)(Util.getScreenSize().getWidth()/2-((Media)medias.get(mediaPlaying+1)).getWidth()/2);
-//                cmd += "+" + (int)(Util.getScreenSize().getHeight()/2-((Media)medias.get(mediaPlaying+1)).getHeigth()/2);
-//                if(((Media)medias.get(mediaPlaying+1)).getPath().toLowerCase().contains(".yuv")){
-//                    cmd += " -demuxer rawvideo -rawvideo ";
-//                    cmd += "w=" + ((Media)medias.get(mediaPlaying+1)).getWidth();
-//                    cmd += ":h=" + ((Media)medias.get(mediaPlaying+1)).getHeigth();
-//                }
-//                cmd += " " + ((Media)medias.get(mediaPlaying+1)).getPath();
-//                try {
-//                    System.out.println(cmd);
-//                    Process mplayerProcess = Runtime.getRuntime().exec(cmd);
-//                    mplayerProcess.waitFor();
-//                } catch (InterruptedException ex) {
-//                } catch (java.io.IOException ex){
-//                }
-//                blackPanel.setString("Avaliação " + ((Media)medias.get(mediaPlaying)).getTitle());
-//                ((javax.swing.Timer)ae.getSource()).setInitialDelay(7000);
-//                ((javax.swing.Timer)ae.getSource()).restart();
-//                estado = AVALIACAO;
             } else if(estado == AVALIACAO){
                 // Metrica DSIS toca dois videos por vez para analisar o segundo
                 //bridge.ServiceBridge.operatioEnableRate(session, (Media)medias.get(mediaPlaying+1));
