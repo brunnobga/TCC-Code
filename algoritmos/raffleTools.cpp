@@ -213,6 +213,7 @@ x = b - sqrt((1 - u) * (b - a) * (b - c)), for fc <= u < 1
 			s = pow(u, 2)+pow(v, 2);
 		} while(s == 0 || s >= 1);
 		z0 = u*sqrt(-2*log(s)/s);
+		printf("%d\n", (int)(mean+sqrt(variance)*z0));
 		return (int)(mean+sqrt(variance)*z0);
 	}
 
@@ -226,21 +227,21 @@ x = b - sqrt((1 - u) * (b - a) * (b - c)), for fc <= u < 1
 		for(; elements;){
 			// sortear duração
 			if(duration->type == CONSTANT) dur = duration->a;
-			else if(duration->type == UNIFORM) dur = uniform(duration->a, duration->b);
-			else if(duration->type == NORMAL) dur = normal(duration->a, duration->b);
-			else if(duration->type == TRIANGULAR) dur = triangular(duration->a, duration->b, duration->c);
+			if(duration->type == UNIFORM) dur = uniform(duration->a, duration->b);
+			if(duration->type == NORMAL) dur = normal(duration->a, duration->b);
+			if(duration->type == TRIANGULAR) dur = triangular(duration->a, duration->b, duration->c);
 			// sortear um elemento (linha completa)
 			for(i = 0, distIt = dist.begin(); distIt != dist.end() && elements; ++i, ++distIt){
 				//do{
 					if((*distIt).type == CONSTANT) values[i] = (*distIt).a;
 					if(i == 0){
 						if((*distIt).type == UNIFORM) values[i] = uniform((*distIt).a+1-dur, (*distIt).b);
-						else if((*distIt).type == NORMAL) values[i] = normal((*distIt).a+1-dur, (*distIt).b);
-						else if((*distIt).type == TRIANGULAR) values[i] = triangular((*distIt).a+1-dur, (*distIt).b, (*distIt).c);
+						if((*distIt).type == NORMAL) values[i] = normal((*distIt).a+1-dur, (*distIt).b);
+						if((*distIt).type == TRIANGULAR) values[i] = triangular((*distIt).a+1-dur, (*distIt).b, (*distIt).c);
 					} else {
 						if((*distIt).type == UNIFORM) values[i] = uniform((*distIt).a, (*distIt).b);
-						else if((*distIt).type == NORMAL) values[i] = normal((*distIt).a, (*distIt).b);
-						else if((*distIt).type == TRIANGULAR) values[i] = triangular((*distIt).a, (*distIt).b, (*distIt).c);
+						if((*distIt).type == NORMAL) values[i] = normal((*distIt).a, (*distIt).b);
+						if((*distIt).type == TRIANGULAR) values[i] = triangular((*distIt).a, (*distIt).b, (*distIt).c);
 					}
 				//}while(values[i]+dur >= (*distIt).b);
 			}
@@ -249,10 +250,19 @@ x = b - sqrt((1 - u) * (b - a) * (b - c)), for fc <= u < 1
 			for(int j = 0; j < dur && elements && !exceeded; --elements, j++){
 				for(i = 0, distIt = dist.begin(); !exceeded && i < dist.size(); ++i, ++distIt){
 					if(i == 0){
-						if((*distIt).a <= values[i]+j && (*distIt).b > values[i]+j) output << values[i]+j << " ";
-						else{
-							exceeded = true;
-							elements++;
+						if((*distIt).type == NORMAL){
+							if((*distIt).a+(*distIt).b >= values[i]+j && values[i]+j > 0) output << values[i]+j << " ";
+							else{
+								exceeded = true;
+								elements++;
+							}
+
+						} else {
+							if((*distIt).a <= values[i]+j && (*distIt).b > values[i]+j) output << values[i]+j << " ";
+							else{
+								exceeded = true;
+								elements++;
+							}
 						}
 					}
 					else {
@@ -296,10 +306,12 @@ int main(int argc, char* argv[]){
 		// 4. Raffle values
 		r.raffle();
 
+	printf("3\n");
 		printf("maximo = %d\n\n", r.maxElements());
 
 		// 5. Close IO
 		r.closeIO();
+	printf("4\n");
 	}
 	return 0;
 }
