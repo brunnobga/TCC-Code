@@ -29,7 +29,7 @@ public class Util {
         operatingSystem = System.getProperty("os.name");
         defaultVideosDirectory = userDirectory; // criar pasta VideoDB
         defaultOutputDirectory = userDirectory; // criar pasta VideoOutput
-        raffleDirectory = userDirectory; // criar pasta RaffleFiles
+        raffleDirectory = userDirectory + fileSeparator + ".." + fileSeparator + ".." + fileSeparator + "algoritmos"; // criar pasta RaffleFiles
         toolsDirectory = userDirectory + fileSeparator + ".." + fileSeparator + ".." + fileSeparator + "algoritmos"; // criar pasta Tools + mplayer
         backscreen = true;
         titleDelay = 2000;

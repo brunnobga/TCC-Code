@@ -212,9 +212,9 @@ public class Configuracao extends javax.swing.JFrame {
 
         jCheckBox1.setSelected(true);
         jCheckBox1.setText("Mostrar tela cinza de fundo durante sessões.");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
+        jCheckBox1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jCheckBox1StateChanged(evt);
             }
         });
 
@@ -360,25 +360,15 @@ public class Configuracao extends javax.swing.JFrame {
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
         if(Dialog.question("Salvar alterações?", "Configurações")){
-            Util.setUserDirectory(user);
-            Util.setDefaultVideosDirectory(videoDB);
-            Util.setDefaultOutputDirectory(videoOutput);
-            Util.setDefaultToolsDirectory(tools);
-            Util.setDefaultRaffleDirectory(raffles);
+            Util.setUserDirectory(jTextField1.getText());
+            Util.setDefaultVideosDirectory(jTextField4.getText());
+            Util.setDefaultOutputDirectory(jTextField5.getText());
+            Util.setDefaultToolsDirectory(jTextField6.getText());
+            Util.setDefaultRaffleDirectory(jTextField7.getText());
             Util.setSessionBackscreenVisible(jCheckBox1.isSelected());
+            this.setVisible(false);
         }
     }//GEN-LAST:event_jButton9ActionPerformed
-
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-        // TODO add your handling code here:
-        boolean selected = jCheckBox1.isSelected();
-        jLabel5.setEnabled(selected);
-        jLabel7.setEnabled(selected);
-        jLabel6.setEnabled(selected);
-        jLabel8.setEnabled(selected);
-        jTextField2.setEnabled(selected);
-        jTextField3.setEnabled(selected);
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
@@ -398,22 +388,27 @@ public class Configuracao extends javax.swing.JFrame {
         // TODO add your handling code here:
         // video output directory
         videoOutput = Dialog.getDirectory(Dialog.TipoGetFile.Abrir, Util.getDefaultOutputDirectory());
-        if(!videoOutput.equals("")) jTextField4.setText(videoOutput);
+        if(!videoOutput.equals("")) jTextField5.setText(videoOutput);
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         // TODO add your handling code here:
         // tools directory
         tools = Dialog.getDirectory(Dialog.TipoGetFile.Abrir, Util.getDefaultToolsDirectory());
-        if(!tools.equals("")) jTextField4.setText(tools);
+        if(!tools.equals("")) jTextField6.setText(tools);
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         // TODO add your handling code here:
-        // tools directory
+        // raffle directory
         raffles = Dialog.getDirectory(Dialog.TipoGetFile.Abrir, Util.getDefaultRaffleDirectory());
-        if(!raffles.equals("")) jTextField4.setText(raffles);
+        if(!raffles.equals("")) jTextField7.setText(raffles);
     }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jCheckBox1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBox1StateChanged
+        // TODO add your handling code here:
+        Util.setSessionBackscreenVisible(jCheckBox1.isEnabled());
+    }//GEN-LAST:event_jCheckBox1StateChanged
 
     /**
      * @param args the command line arguments

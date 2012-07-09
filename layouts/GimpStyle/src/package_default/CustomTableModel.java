@@ -84,7 +84,7 @@ public class CustomTableModel extends DefaultTableModel {
                         case GERADOR_TASK:
 				for(i = 0; i < newData.size(); i++){
 					GeradorTask a = (GeradorTask) newData.get(i);
-					data[i][0] = a.getVideo().getTitle();
+					data[i][0] = a.getNewTitle();
                                         data[i][1] = a.getArtefato();
                                         data[i][2] = a.getRaffleFile();
                                         String param = "";

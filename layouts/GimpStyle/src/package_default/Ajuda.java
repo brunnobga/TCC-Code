@@ -51,7 +51,7 @@ public class Ajuda extends javax.swing.JFrame {
         setTitle("Ajuda");
         setBounds(new java.awt.Rectangle(200, 100, 0, 0));
         setIconImage((new javax.swing.ImageIcon(getClass().getResource("/package_default/imgs/icon_ajuda.png"))).getImage());
-        setPreferredSize(new java.awt.Dimension(800, 400));
+        setPreferredSize(new java.awt.Dimension(800, 600));
         setResizable(false);
 
         jEditorPane1.setContentType("text/html");
@@ -64,7 +64,7 @@ public class Ajuda extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -145,7 +145,7 @@ public class Ajuda extends javax.swing.JFrame {
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -176,9 +176,26 @@ public class Ajuda extends javax.swing.JFrame {
 
     public void displayURL(String page){
         try {
-            if(page.equals("SASQV")) jEditorPane1.setPage(new File(Util.getUserDirectory()+"/src/helpdocs/index.html").toURI().toURL());
-            if(page.equals("Introdução")) jEditorPane1.setPage(new File(Util.getUserDirectory()+"/src/helpdocs/index.html#teste").toURI().toURL());
+            if(page.equals("SASQV2")) jEditorPane1.setPage(new File(Util.getUserDirectory()+"/src/helpdocs/index.html").toURI().toURL());
+            if(page.equals("Introdução")) jEditorPane1.setPage(new File(Util.getUserDirectory()+"/src/helpdocs/introducao.html").toURI().toURL());
             if(page.equals("Interface")) jEditorPane1.setPage(new File(Util.getUserDirectory()+"/src/helpdocs/interface.html").toURI().toURL());
+          /*  SASQV2
+            Introdução
+             Sessão
+ Ferramentas
+  Gerador de Artefatos
+   Blocagem
+   Borramento
+   NetSim
+  Avaliador Objetivo
+  RaffleTool
+  RaffleViewer
+  MPlayer
+ Gerenciador
+  Usuários
+  Vídeos
+ Resultados
+ Configurações*/
             
         } catch (IOException ex) {}
     }

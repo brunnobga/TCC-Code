@@ -359,6 +359,12 @@ public class Windows extends javax.swing.JFrame {
             jPasswordField1.setEnabled(true);
             jButton7.setText("Entrar");
             loggedIn = false;
+            s.setVisible(false);
+            f.setVisible(false);
+            c.setVisible(false);
+            a.setVisible(false);
+            r.setVisible(false);
+            b.setVisible(false);
         }
         jButton1.setEnabled(loggedIn);
         jButton2.setEnabled(loggedIn);
