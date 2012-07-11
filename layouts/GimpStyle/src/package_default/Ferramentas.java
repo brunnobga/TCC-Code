@@ -126,6 +126,7 @@ public class Ferramentas extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setTitle("Ferramentas");
         setBounds(new java.awt.Rectangle(400, 200, 0, 0));
@@ -133,6 +134,11 @@ public class Ferramentas extends javax.swing.JFrame {
         setResizable(false);
 
         jTabbedPane1.setPreferredSize(new java.awt.Dimension(574, 329));
+        jTabbedPane1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTabbedPane1FocusGained(evt);
+            }
+        });
 
         jPanel2.setPreferredSize(new java.awt.Dimension(574, 379));
 
@@ -668,9 +674,9 @@ public class Ferramentas extends javax.swing.JFrame {
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"Duração", null, null, null, null},
-                {"Frames", null, null, null, null},
-                {"X", null, null, null, null},
-                {"Y", null, null, null, null}
+                {"Coluna 1", null, null, null, null},
+                {"Coluna 2", null, null, null, null},
+                {"Coluna 3", null, null, null, null}
             },
             new String [] {
                 "", "Distribuição", "Parâmetro 1", "Parâmetro 2", "Parâmetro 3"
@@ -712,7 +718,7 @@ public class Ferramentas extends javax.swing.JFrame {
 
         jLabel3.setText("Colunas:");
 
-        jSpinner2.setValue(4);
+        jSpinner2.setValue(jTable1.getRowCount()-1);
         jSpinner2.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSpinner2StateChanged(evt);
@@ -929,6 +935,13 @@ public class Ferramentas extends javax.swing.JFrame {
                 }
             });
 
+            jButton4.setText("Commandos");
+            jButton4.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButton4ActionPerformed(evt);
+                }
+            });
+
             javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
             jPanel8.setLayout(jPanel8Layout);
             jPanel8Layout.setHorizontalGroup(
@@ -944,6 +957,8 @@ public class Ferramentas extends javax.swing.JFrame {
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                             .addGap(0, 0, Short.MAX_VALUE)
+                            .addComponent(jButton4)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jButton1)))
                     .addContainerGap())
             );
@@ -959,7 +974,9 @@ public class Ferramentas extends javax.swing.JFrame {
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jButton1)
+                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1)
+                        .addComponent(jButton4))
                     .addContainerGap())
             );
 
@@ -982,23 +999,17 @@ public class Ferramentas extends javax.swing.JFrame {
     private void jSpinner2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner2StateChanged
         // TODO add your handling code here:
         int newValue = Integer.valueOf(jSpinner2.getValue().toString());
-        if (newValue < 4) {
-            jSpinner2.setValue(4);//(Object)new Integer(0));
+        if (newValue < 1) {
+            jSpinner2.setValue(1);//(Object)new Integer(0));
         } else {
             DefaultTableModel t = ((DefaultTableModel) jTable1.getModel());
             if (oldRaffleColumns < newValue) {
                 if (t.getRowCount() == 0) {
                     t.insertRow(t.getRowCount(), new Object[]{"Duração"});
-                } else if (t.getRowCount() == 1) {
-                    t.insertRow(t.getRowCount(), new Object[]{"Frame"});
-                } else if (t.getRowCount() == 2) {
-                    t.insertRow(t.getRowCount(), new Object[]{"X"});
-                } else if (t.getRowCount() == 3) {
-                    t.insertRow(t.getRowCount(), new Object[]{"Y"});
                 } else {
                     t.insertRow(t.getRowCount(), new Object[]{"Coluna " + t.getRowCount()});
                 }
-            } else if (t.getRowCount() > 4) {
+            } else if (t.getRowCount() > 2) {
                 t.removeRow(t.getRowCount() - 1);
             }
         }
@@ -1057,13 +1068,30 @@ public class Ferramentas extends javax.swing.JFrame {
                     }
                     //Process p = new ProcessBuilder(directory + "/../../algoritmos/raffleTools", "-o", "pbuilder.rff", "-u", "constant", "-r", "2", "-e", "100", "-d", "uniform", "-p", "1,5").start();
                     if (Dialog.question("Gerar arquivo?", "Confirmação")) {
-                        Process p = new ProcessBuilder(parametros).start();
+                        File f = new File(Util.getDefaultRaffleDirectory()+Util.getFileSeparator()+jTextField3.getText());
+                        if(f.isFile()){
+                            if(!Dialog.question("Arquivo já existe. Deseja sobrescrever?", "Arquivo de saída")){
+                                return;
+                            }
+                        } else{
+                            Process p = new ProcessBuilder(parametros).start();
+                            try {
+                                p.waitFor();
+                                f = new File(Util.getDefaultRaffleDirectory()+Util.getFileSeparator()+jTextField3.getText());
+                                if(f.isFile()){
+                                    Dialog.msgInfo("Arquivo gerado com sucesso.", "Confirmação");
+                                } else {
+                                    Dialog.msgInfo("Erro na geração do arquivo.", "Erro");
+                                }
+                            } catch (InterruptedException ex) {
+                                Dialog.msgError("Erro no processamento.", "Erro");
+                            }
+                        }
                         // TODO warning confirmar: deu certo!
-                        Dialog.msgInfo("Arquivo gerado com sucesso.", "Confirmação");
                     }
                 }
             } catch (java.io.IOException e) {
-                Dialog.msgError("Ocorreu um erro na geração do arquivo. Por favor, tente novamente.", "Processo de geração");
+                Dialog.msgError("Ocorreu um erro na geração do arquivo. Por favor, tente novamente.", "Erro");
             }
         } else {
             // TODO Display warning
@@ -1209,7 +1237,6 @@ public class Ferramentas extends javax.swing.JFrame {
 	    Dialog.msgWarning("Formato inválido para o tipo de degradação", "Formato");
             return;
 	}
-        video.setTitle(jTextField12.getText());
         java.util.List<String> params = new java.util.ArrayList<String>();
         params.add(Util.getDefaultToolsDirectory()+Util.getFileSeparator()+"blur");
         params.add("-i");
@@ -1222,7 +1249,7 @@ public class Ferramentas extends javax.swing.JFrame {
         params.add(jComboBox2.getSelectedItem().toString());
         params.add("-w");
         params.add(jSpinner4.getValue().toString());
-        geradorTask.add(new GeradorTask(video, "blur", "", params, Util.getDefaultOutputDirectory()+Util.getFileSeparator()+jTextField5.getText()));
+        geradorTask.add(new GeradorTask(video, "blur", "", params, Util.getDefaultOutputDirectory()+Util.getFileSeparator()+jTextField5.getText(), jTextField12.getText()));
         tableGeradorTask.refresh(geradorTask);
         jTable8.revalidate();
         jTable8.repaint();
@@ -1252,7 +1279,7 @@ public class Ferramentas extends javax.swing.JFrame {
                     }
                     //TODO: Adicionar o novo vídeo no banco de dados
 		    m = new Media(task.getVideo());
-		    m.setTitle( task.getVideo().getTitle());
+		    m.setTitle(task.getNewTitle());
 		    m.setPath(task.getNewPath());
 		    bridge.ServiceBridge.SaveOrUpdateMedia(m);
                 } catch (IOException ex) {
@@ -1366,7 +1393,6 @@ public class Ferramentas extends javax.swing.JFrame {
 	    Dialog.msgWarning("Formato inválido para o tipo de degradação", "Formato");
             return;
 	}
-        video.setTitle(jTextField8.getText());
         java.util.List<String> params = new java.util.ArrayList<String>();
         params.add(Util.getDefaultToolsDirectory()+Util.getFileSeparator()+"block");
         params.add("-i");
@@ -1381,7 +1407,7 @@ public class Ferramentas extends javax.swing.JFrame {
         params.add(jTextField4.getText());
         params.add("-s");
         params.add(video.getWidth() + "x" + video.getHeigth());
-        geradorTask.add(new GeradorTask(video, "block", jTextField1.getText(), params, Util.getDefaultOutputDirectory()+Util.getFileSeparator()+jTextField2.getText()));
+        geradorTask.add(new GeradorTask(video, "block", jTextField1.getText(), params, Util.getDefaultOutputDirectory()+Util.getFileSeparator()+jTextField2.getText(), jTextField8.getText()));
         tableGeradorTask.refresh(geradorTask);
         jTable8.revalidate();
         jTable8.repaint();
@@ -1436,7 +1462,6 @@ public class Ferramentas extends javax.swing.JFrame {
 	    Dialog.msgWarning("Formato inválido para o tipo de degradação", "Formato");
             return;
 	}
-        video.setTitle(jTextField13.getText());
         java.util.List<String> params = new java.util.ArrayList<String>();
         params.add(Util.getDefaultToolsDirectory()+Util.getFileSeparator()+"netsim");
         params.add("-i");
@@ -1445,7 +1470,7 @@ public class Ferramentas extends javax.swing.JFrame {
         params.add(Util.getDefaultOutputDirectory()+Util.getFileSeparator()+jTextField6.getText());
         params.add("-r");
         params.add(jTextField7.getText());
-        geradorTask.add(new GeradorTask(video, "netsim", jTextField7.getText(), params, Util.getDefaultOutputDirectory()+Util.getFileSeparator()+jTextField6.getText()));
+        geradorTask.add(new GeradorTask(video, "netsim", jTextField7.getText(), params, Util.getDefaultOutputDirectory()+Util.getFileSeparator()+jTextField6.getText(), jTextField13.getText()));
         tableGeradorTask.refresh(geradorTask);
         jTable8.revalidate();
         jTable8.repaint();
@@ -1586,6 +1611,47 @@ public class Ferramentas extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jTabbedPane1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTabbedPane1FocusGained
+        // TODO add your handling code here:
+        Media m = new Media();
+        m.setTitle("");
+        tableAvaliador1.refresh(bridge.ServiceBridge.queryMediaList(m));
+        jTable2.revalidate();
+        jTable2.repaint();
+        tableGerador1.refresh(bridge.ServiceBridge.queryMediaList(m));
+        jTable3.revalidate();
+        jTable3.repaint();
+        tableAvaliador2.refresh(bridge.ServiceBridge.queryMediaList(m));
+        jTable5.revalidate();
+        jTable5.repaint();
+        tableRaffleFiles.refresh(getRaffleFiles(jTextField14.getText()));
+        jTable4.revalidate();
+        jTable4.repaint();
+        tableMPlayer.refresh(bridge.ServiceBridge.queryMediaList(m));
+        jTable7.revalidate();
+        jTable7.repaint();
+    }//GEN-LAST:event_jTabbedPane1FocusGained
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        Dialog.msgInfo("<- e ->     voltar/avançar 10 segundos \n"
+                + "/\\ e \\/        volta/avança 1 minuto \n"
+                + "pgup e pgdown    volta/avança 10 minutos \n"
+                + "[ e ]            diminui/aumenta velocidade do vídeo em 10% \n"
+                + "{ e }            metade/dobro da velocidade atual do vídeo \n"
+                + "backspace        reseta velocidade para normal \n"
+                + "SPACE            pausa/resume vídeo \n"
+                + ".                avançar frame a frame \n"
+                + "q / ESC          sai do MPlayer \n"
+                + "+ and -          ajusta delay do áudio em 0.1 segundos \n"
+                + "/ and *          diminui/aumenta volume \n"
+                + "9 and 0          diminui/aumenta volume \n"
+                + "m                mudo \n"
+                + "f                abilita/desabilita modo fullscreen \n"
+                + "T                abilita/desabilita stay-on-top \n"
+                + "o                mostra estado", "Comandos MPlayer");
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     private String getParams(int row, String dist){
         String acc = "";
         if(dist.equals("constant")){
@@ -1719,6 +1785,7 @@ public class Ferramentas extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton20;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;

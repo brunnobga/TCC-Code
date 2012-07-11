@@ -51,7 +51,7 @@ public class Ajuda extends javax.swing.JFrame {
         setTitle("Ajuda");
         setBounds(new java.awt.Rectangle(200, 100, 0, 0));
         setIconImage((new javax.swing.ImageIcon(getClass().getResource("/package_default/imgs/icon_ajuda.png"))).getImage());
-        setPreferredSize(new java.awt.Dimension(800, 400));
+        setPreferredSize(new java.awt.Dimension(800, 600));
         setResizable(false);
 
         jEditorPane1.setContentType("text/html");
@@ -64,7 +64,7 @@ public class Ajuda extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -77,22 +77,34 @@ public class Ajuda extends javax.swing.JFrame {
 
         jTextField1.setText("jTextField1");
 
-        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("SASQV");
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("SASQV2");
         javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Introdução");
-        javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Interface");
-        treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Sessão");
         treeNode1.add(treeNode2);
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Ferramentas");
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Gerador de Artefatos");
+        javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Gerador de Artefatos");
+        javax.swing.tree.DefaultMutableTreeNode treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("Blocagem");
+        treeNode3.add(treeNode4);
+        treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("Borramento");
+        treeNode3.add(treeNode4);
+        treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("NetSim");
+        treeNode3.add(treeNode4);
         treeNode2.add(treeNode3);
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Avaliador Objetivo");
         treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("RaffleTools");
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("RaffleTool");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("RaffleViewer");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("MPlayer");
         treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Banco de Dados");
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Gerenciador");
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Usuários");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Vídeos");
+        treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Resultados");
         treeNode1.add(treeNode2);
@@ -133,7 +145,7 @@ public class Ajuda extends javax.swing.JFrame {
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -164,9 +176,26 @@ public class Ajuda extends javax.swing.JFrame {
 
     public void displayURL(String page){
         try {
-            if(page.equals("SASQV")) jEditorPane1.setPage(new File(Util.getUserDirectory()+"/src/helpdocs/index.html").toURI().toURL());
+            if(page.equals("SASQV2")) jEditorPane1.setPage(new File(Util.getUserDirectory()+"/src/helpdocs/index.html").toURI().toURL());
             if(page.equals("Introdução")) jEditorPane1.setPage(new File(Util.getUserDirectory()+"/src/helpdocs/introducao.html").toURI().toURL());
             if(page.equals("Interface")) jEditorPane1.setPage(new File(Util.getUserDirectory()+"/src/helpdocs/interface.html").toURI().toURL());
+          /*  SASQV2
+            Introdução
+             Sessão
+ Ferramentas
+  Gerador de Artefatos
+   Blocagem
+   Borramento
+   NetSim
+  Avaliador Objetivo
+  RaffleTool
+  RaffleViewer
+  MPlayer
+ Gerenciador
+  Usuários
+  Vídeos
+ Resultados
+ Configurações*/
             
         } catch (IOException ex) {}
     }

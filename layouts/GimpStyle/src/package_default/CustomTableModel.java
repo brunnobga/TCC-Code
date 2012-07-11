@@ -28,11 +28,11 @@ public class CustomTableModel extends DefaultTableModel {
 	private ArrayList currentData;
 
 	private static String[][] columnNames = {
-		{"!", "Title", "Format", "Description"},
-		{"Title", "Format", "Description"},
+		{"!", "Título", "Formato", "Descrição"},
+		{"Título", "Formato", "Descrição"},
 		{""},
-                {"Name", "Port"},
-                {"Vídeo", "Reference", "Metric"},
+                {"Nome", "Porta"},
+                {"Vídeo", "Referência", "Metrica"},
                 {"Vídeo", "Artefato", "Raffle", "Parâmetros"},
                 {"Arquivos Raffle"},
                 {"Nome", "Login", "Email"},
@@ -84,7 +84,7 @@ public class CustomTableModel extends DefaultTableModel {
                         case GERADOR_TASK:
 				for(i = 0; i < newData.size(); i++){
 					GeradorTask a = (GeradorTask) newData.get(i);
-					data[i][0] = a.getVideo().getTitle();
+					data[i][0] = a.getNewTitle();
                                         data[i][1] = a.getArtefato();
                                         data[i][2] = a.getRaffleFile();
                                         String param = "";

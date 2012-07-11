@@ -22,6 +22,8 @@ public class Util {
     private static String loggedUser;
     private static int titleDelay;
     private static int endDelay;
+    private static int intervalDelay;
+    private static int evalDelay;
     
     public static void init(){
         userDirectory = System.getProperty("user.dir");
@@ -29,11 +31,13 @@ public class Util {
         operatingSystem = System.getProperty("os.name");
         defaultVideosDirectory = userDirectory; // criar pasta VideoDB
         defaultOutputDirectory = userDirectory; // criar pasta VideoOutput
-        raffleDirectory = userDirectory; // criar pasta RaffleFiles
+        raffleDirectory = userDirectory + fileSeparator + ".." + fileSeparator + ".." + fileSeparator + "algoritmos"; // criar pasta RaffleFiles
         toolsDirectory = userDirectory + fileSeparator + ".." + fileSeparator + ".." + fileSeparator + "algoritmos"; // criar pasta Tools + mplayer
         backscreen = true;
         titleDelay = 2000;
         endDelay = 10000;
+        intervalDelay = 3000;
+        evalDelay = 7000;
     }
     public static Dimension getScreenSize(){
         java.awt.Toolkit toolkit =  java.awt.Toolkit.getDefaultToolkit ();
@@ -73,8 +77,20 @@ public class Util {
     public static void setSessionDelayEnd(int delay){
         endDelay = delay;
     }
+    public static void setSessionDelayInterval(int delay){
+        intervalDelay = delay;
+    }
+    public static void setSessionDelayEvaluation(int delay){
+        evalDelay = delay;
+    }
     public static boolean isSessionBackscreenVisible(){
         return backscreen;
+    }
+    public static int getSessionDelayEvaluation(){
+        return evalDelay;
+    }
+    public static int getSessionDelayInterval(){
+        return intervalDelay;
     }
     public static int getSessionDelayEnd(){
         return endDelay;

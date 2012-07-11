@@ -40,15 +40,24 @@ public class Sessao extends javax.swing.JFrame {
     private void initComponents() {
 
         jLayeredPane1 = new javax.swing.JLayeredPane();
+        jPanel3 = new javax.swing.JPanel();
+        jTextField5 = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jScrollPane12 = new javax.swing.JScrollPane();
+        jTable9 = new javax.swing.JTable();
+        jLabel8 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox();
         jComboBox2 = new javax.swing.JComboBox();
         jSpinner1 = new javax.swing.JSpinner();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -67,22 +76,140 @@ public class Sessao extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        jTextField5 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
-        jScrollPane12 = new javax.swing.JScrollPane();
-        jTable9 = new javax.swing.JTable();
-        jLabel8 = new javax.swing.JLabel();
 
         setTitle("Sessão");
         setBounds(new java.awt.Rectangle(300, 200, 0, 0));
         setIconImage((new javax.swing.ImageIcon(getClass().getResource("/package_default/imgs/icon_sessao.png"))).getImage());
         setResizable(false);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentHidden(java.awt.event.ComponentEvent evt) {
+                formComponentHidden(evt);
+            }
+        });
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Seleção"));
+
+        jTextField5.setText("Procurar dispositivos");
+        jTextField5.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextField5FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextField5FocusLost(evt);
+            }
+        });
+        jTextField5.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField5KeyReleased(evt);
+            }
+        });
+
+        jButton2.setText("Adicionar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Remover");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton9.setText("Iniciar");
+        jButton9.setMaximumSize(new java.awt.Dimension(69, 30));
+        jButton9.setMinimumSize(new java.awt.Dimension(69, 30));
+        jButton9.setPreferredSize(new java.awt.Dimension(69, 30));
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
+        jButton10.setText("Voltar");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
+        jScrollPane6.setPreferredSize(new java.awt.Dimension(200, 200));
+
+        tableDeviceAll = new CustomTableModel(
+            CustomTableModel.DEVICE_DATA,
+            bridge.ServiceBridge.queryDeviceList()
+        );
+        jTable3.setModel(tableDeviceAll);
+        jTable3.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        jScrollPane6.setViewportView(jTable3);
+
+        jScrollPane12.setPreferredSize(new java.awt.Dimension(200, 200));
+
+        sessionDevices = new ArrayList();
+        tableDeviceSelected = new CustomTableModel(
+            CustomTableModel.DEVICE_DATA,
+            sessionDevices);
+        jTable9.setModel(tableDeviceSelected);
+        jTable9.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        jScrollPane12.setViewportView(jTable9);
+
+        jLabel8.setText("<html><u>Dispositivos</u></html>");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton3))
+                    .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+                    .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton10)
+                    .addComponent(jButton3)
+                    .addComponent(jButton2)
+                    .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        jPanel3.setBounds(0, 0, 530, 330);
+        jLayeredPane1.add(jPanel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Cadastro"));
         jPanel1.setPreferredSize(new java.awt.Dimension(520, 329));
@@ -91,15 +218,11 @@ public class Sessao extends javax.swing.JFrame {
 
         jLabel2.setText("Título");
 
-        jLabel3.setText("Tipo");
-
         jLabel4.setText("Métrica");
 
         jLabel5.setText("Espectadores");
 
         jLabel6.setText("Descrição");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "", "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         comboSessaoMetrica = new CustomComboBoxModel(
             CustomComboBoxModel.SMETRIC_DATA,
@@ -114,6 +237,7 @@ public class Sessao extends javax.swing.JFrame {
         });
 
         jTextArea1.setColumns(20);
+        jTextArea1.setLineWrap(true);
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
@@ -129,28 +253,29 @@ public class Sessao extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel3)
                             .addComponent(jLabel2)
                             .addComponent(jLabel6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField1)
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jSpinner1)
                             .addComponent(jScrollPane1)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton8)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton8))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSpinner1)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -162,24 +287,20 @@ public class Sessao extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel6)
-                        .addGap(0, 79, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton8)
                 .addContainerGap())
@@ -312,7 +433,7 @@ public class Sessao extends javax.swing.JFrame {
                     .addComponent(jButton11))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
                     .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -325,125 +446,6 @@ public class Sessao extends javax.swing.JFrame {
 
         jPanel2.setBounds(0, 0, 530, 330);
         jLayeredPane1.add(jPanel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Seleção"));
-
-        jTextField5.setText("Procurar dispositivos");
-        jTextField5.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                jTextField5FocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jTextField5FocusLost(evt);
-            }
-        });
-        jTextField5.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextField5KeyReleased(evt);
-            }
-        });
-
-        jButton2.setText("Adicionar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jButton3.setText("Remover");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        jButton9.setText("Iniciar");
-        jButton9.setMaximumSize(new java.awt.Dimension(69, 30));
-        jButton9.setMinimumSize(new java.awt.Dimension(69, 30));
-        jButton9.setPreferredSize(new java.awt.Dimension(69, 30));
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
-            }
-        });
-
-        jButton10.setText("Voltar");
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
-            }
-        });
-
-        jScrollPane6.setPreferredSize(new java.awt.Dimension(200, 200));
-
-        tableDeviceAll = new CustomTableModel(
-            CustomTableModel.DEVICE_DATA,
-            bridge.ServiceBridge.queryDeviceList()
-        );
-        jTable3.setModel(tableDeviceAll);
-        jTable3.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        jScrollPane6.setViewportView(jTable3);
-
-        jScrollPane12.setPreferredSize(new java.awt.Dimension(200, 200));
-
-        sessionDevices = new ArrayList();
-        tableDeviceSelected = new CustomTableModel(
-            CustomTableModel.DEVICE_DATA,
-            sessionDevices);
-        jTable9.setModel(tableDeviceSelected);
-        jTable9.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        jScrollPane12.setViewportView(jTable9);
-
-        jLabel8.setText("<html><u>Dispositivos</u></html>");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3))
-                    .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
-                    .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton10)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(17, 17, 17))
-        );
-
-        jPanel3.setBounds(0, 0, 530, 330);
-        jLayeredPane1.add(jPanel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -523,10 +525,6 @@ public class Sessao extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(jTextField1.getText().length() == 0){
             Dialog.msgWarning("Escolha um nome para a sessão.", "Sessão");
-            return;
-        }
-        if(jComboBox1.getSelectedIndex() == 0){
-            Dialog.msgWarning("Escolha um tipo.", "Sessão");
             return;
         }
         if(Integer.valueOf(jSpinner1.getValue().toString()) == 0){
@@ -625,7 +623,7 @@ public class Sessao extends javax.swing.JFrame {
 	Session s;
 	ArrayList sessionArgs = new ArrayList();
 	sessionArgs.add(jTextField1.getText()); //titulo
-	sessionArgs.add(jComboBox1.getSelectedIndex());//tipo
+	sessionArgs.add(0);//tipo
 	sessionArgs.add((Metric) comboSessaoMetrica.getAuxData(jComboBox2.getSelectedIndex()));//metrica
 	sessionArgs.add(Integer.parseInt(jSpinner1.getValue().toString()));// espectadores
 	sessionArgs.add(jTextArea1.getText());//descricao
@@ -634,7 +632,7 @@ public class Sessao extends javax.swing.JFrame {
 	    if(jComboBox2.getModel().getSelectedItem().toString().equals("DSIS")){
                 PlayVideo playVideo = new PlayVideo(sessionMedias, s, false);
                 new javax.swing.Timer(100, playVideo).start();
-            } else if(jComboBox2.getModel().getSelectedItem().toString().equals("DSCQS")){
+            } else if(jComboBox2.getModel().getSelectedItem().toString().equals("SDSCE")){
                 PlayVideo playVideo = new PlayVideo(sessionMedias, s, true);
                 new javax.swing.Timer(100, playVideo).start();
             }
@@ -729,6 +727,26 @@ public class Sessao extends javax.swing.JFrame {
         jTable8.repaint();
     }//GEN-LAST:event_jButton11ActionPerformed
 
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+        // TODO add your handling code here:
+        Media m = new Media();
+        m.setTitle(jTextField8.getText());
+        tablePlayer1.refresh(bridge.ServiceBridge.queryMediaList(m));
+        jTable1.revalidate();
+        jTable1.repaint();
+        ArrayList devices = bridge.ServiceBridge.queryDeviceList();
+        tableDeviceAll.refresh(devices);
+        jTable3.revalidate();
+        jTable3.repaint();
+    }//GEN-LAST:event_formFocusGained
+
+    private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
+        // TODO add your handling code here:
+        jPanel1.setVisible(true);
+        jPanel2.setVisible(false);
+        jPanel3.setVisible(false);
+    }//GEN-LAST:event_formComponentHidden
+
     /**
      * @param args the command line arguments
      */
@@ -782,12 +800,10 @@ public class Sessao extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
     private CustomComboBoxModel comboSessaoMetrica;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -957,43 +973,44 @@ class PlayVideo extends javax.swing.AbstractAction{
                 cmd2 += " " + ((Media)medias.get(mediaPlaying+1)).getPath();
                 // apaga texto da blackScreen
                 try {
-                    bridge.ServiceBridge.operationDefineMetric(0);
+                    //bridge.ServiceBridge.operationDefineMetric(0);
                     Process mplayerProcess1 = Runtime.getRuntime().exec(cmd1);
-                    if(!simultaneously) mplayerProcess1.waitFor();
-                    Process mplayerProcess2 = Runtime.getRuntime().exec(cmd2);
-                    mplayerProcess2.waitFor();
+                    if(simultaneously){
+                        Process mplayerProcess2 = Runtime.getRuntime().exec(cmd2);
+                        mplayerProcess2.waitFor();
+                    } else {
+                        mplayerProcess1.waitFor();
+                    }
                 } catch (InterruptedException ex) {
                 } catch (java.io.IOException ex){
                 }
-                blackPanel.setString("Avaliação " + ((Media)medias.get(mediaPlaying)).getTitle());
-                ((javax.swing.Timer)ae.getSource()).setInitialDelay(50);
+                if(simultaneously){
+                    estado = AVALIACAO;
+                    blackPanel.setString("Avaliação " + ((Media)medias.get(mediaPlaying+1)).getTitle());
+                    ((javax.swing.Timer)ae.getSource()).setInitialDelay(Util.getSessionDelayEvaluation());
+                    ((javax.swing.Timer)ae.getSource()).restart();
+                }
+                else{
+                    estado = PLAYING2;
+                    blackPanel.setString(((Media)medias.get(mediaPlaying+1)).getTitle());
+                    ((javax.swing.Timer)ae.getSource()).setInitialDelay(Util.getSessionDelayTitle());
+                    ((javax.swing.Timer)ae.getSource()).restart();
+                }
+            } else if(estado == PLAYING2){
+                /* APRESENTAÇÃO DO SEGUNDO VIDEO: METRICA DSIS */
+                try {
+                    Process mplayerProcess = Runtime.getRuntime().exec(cmd2);
+                    mplayerProcess.waitFor();
+                } catch (InterruptedException ex) {
+                } catch (java.io.IOException ex){
+                }
+                blackPanel.setString("Avaliação " + ((Media)medias.get(mediaPlaying+1)).getTitle());
+                ((javax.swing.Timer)ae.getSource()).setInitialDelay(Util.getSessionDelayEvaluation());
                 ((javax.swing.Timer)ae.getSource()).restart();
                 estado = AVALIACAO;
-//            } else if(estado == PLAYING2){
-//                /* APRESENTAÇÃO DO SEGUNDO VIDEO: METRICA DSIS */
-//                cmd = "mplayer -slave -quiet -ontop ";
-//                cmd += "-geometry +" + (int)(Util.getScreenSize().getWidth()/2-((Media)medias.get(mediaPlaying+1)).getWidth()/2);
-//                cmd += "+" + (int)(Util.getScreenSize().getHeight()/2-((Media)medias.get(mediaPlaying+1)).getHeigth()/2);
-//                if(((Media)medias.get(mediaPlaying+1)).getPath().toLowerCase().contains(".yuv")){
-//                    cmd += " -demuxer rawvideo -rawvideo ";
-//                    cmd += "w=" + ((Media)medias.get(mediaPlaying+1)).getWidth();
-//                    cmd += ":h=" + ((Media)medias.get(mediaPlaying+1)).getHeigth();
-//                }
-//                cmd += " " + ((Media)medias.get(mediaPlaying+1)).getPath();
-//                try {
-//                    System.out.println(cmd);
-//                    Process mplayerProcess = Runtime.getRuntime().exec(cmd);
-//                    mplayerProcess.waitFor();
-//                } catch (InterruptedException ex) {
-//                } catch (java.io.IOException ex){
-//                }
-//                blackPanel.setString("Avaliação " + ((Media)medias.get(mediaPlaying)).getTitle());
-//                ((javax.swing.Timer)ae.getSource()).setInitialDelay(7000);
-//                ((javax.swing.Timer)ae.getSource()).restart();
-//                estado = AVALIACAO;
             } else if(estado == AVALIACAO){
                 // Metrica DSIS toca dois videos por vez para analisar o segundo
-                bridge.ServiceBridge.operatioEnableRate(session, (Media)medias.get(mediaPlaying+1));
+                //bridge.ServiceBridge.operatioEnableRate(session, (Media)medias.get(mediaPlaying+1));
                 mediaPlaying+=2;
                 ((javax.swing.Timer)ae.getSource()).setInitialDelay(50);
                 ((javax.swing.Timer)ae.getSource()).restart();
