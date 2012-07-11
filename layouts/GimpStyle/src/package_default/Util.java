@@ -26,13 +26,13 @@ public class Util {
     private static int evalDelay;
     
     public static void init(){
-        userDirectory = System.getProperty("user.dir");
         fileSeparator = System.getProperty("file.separator");
         operatingSystem = System.getProperty("os.name");
-        defaultVideosDirectory = userDirectory; // criar pasta VideoDB
-        defaultOutputDirectory = userDirectory; // criar pasta VideoOutput
-        raffleDirectory = userDirectory + fileSeparator + ".." + fileSeparator + ".." + fileSeparator + "algoritmos"; // criar pasta RaffleFiles
-        toolsDirectory = userDirectory + fileSeparator + ".." + fileSeparator + ".." + fileSeparator + "algoritmos"; // criar pasta Tools + mplayer
+        userDirectory = fileSeparator + "media" + fileSeparator + "hd" + fileSeparator + "UT" + fileSeparator + "SASQV2";
+        defaultVideosDirectory = userDirectory + fileSeparator + "videodb"; // criar pasta VideoDB
+        defaultOutputDirectory = userDirectory + fileSeparator + "videodb"; // criar pasta VideoOutput
+        raffleDirectory = userDirectory + fileSeparator + "raffles"; // criar pasta RaffleFiles
+        toolsDirectory = userDirectory + fileSeparator + "tools"; // criar pasta Tools + mplayer
         backscreen = true;
         titleDelay = 2000;
         endDelay = 10000;

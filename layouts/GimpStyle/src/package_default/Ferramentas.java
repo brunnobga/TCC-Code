@@ -1053,7 +1053,7 @@ public class Ferramentas extends javax.swing.JFrame {
                     parametros.add(jSpinner1.getValue().toString());
                     for (int i = 1; i < ((DefaultTableModel) jTable1.getModel()).getRowCount(); i++) {
                         parametros.add("-d");
-                        if (jTable1.getValueAt(i, 1) == null) {
+                           if (jTable1.getValueAt(i, 1) == null) {
                             Dialog.msgError("Verifique se o tipo da distribuição está correto.", "Parâmetros incorretos");
                             return;
                         }
@@ -1073,24 +1073,24 @@ public class Ferramentas extends javax.swing.JFrame {
                             if(!Dialog.question("Arquivo já existe. Deseja sobrescrever?", "Arquivo de saída")){
                                 return;
                             }
-                        } else{
-                            Process p = new ProcessBuilder(parametros).start();
-                            try {
-                                p.waitFor();
-                                f = new File(Util.getDefaultRaffleDirectory()+Util.getFileSeparator()+jTextField3.getText());
-                                if(f.isFile()){
-                                    Dialog.msgInfo("Arquivo gerado com sucesso.", "Confirmação");
-                                } else {
-                                    Dialog.msgInfo("Erro na geração do arquivo.", "Erro");
-                                }
-                            } catch (InterruptedException ex) {
-                                Dialog.msgError("Erro no processamento.", "Erro");
+                        }
+                        Process p = new ProcessBuilder(parametros).start();
+                        try {
+                            p.waitFor();
+                            f = new File(Util.getDefaultRaffleDirectory()+Util.getFileSeparator()+jTextField3.getText());
+                            if(f.isFile()){
+                                Dialog.msgInfo("Arquivo gerado com sucesso.", "Confirmação");
+                            } else {
+                                Dialog.msgInfo("Erro na geração do arquivo.", "Erro");
                             }
+                        } catch (InterruptedException ex) {
+                            Dialog.msgError("Erro no processamento.", "Erro");
                         }
                         // TODO warning confirmar: deu certo!
                     }
                 }
             } catch (java.io.IOException e) {
+                System.err.print(e);
                 Dialog.msgError("Ocorreu um erro na geração do arquivo. Por favor, tente novamente.", "Erro");
             }
         } else {
@@ -1142,7 +1142,7 @@ public class Ferramentas extends javax.swing.JFrame {
             try {
                 task = (MetricTask) taskObj;
                 params = new ArrayList<String>();
-                params.add(Util.getDefaultToolsDirectory()+Util.getFileSeparator()+"metricTool");
+                params.add(Util.getDefaultToolsDirectory()+Util.getFileSeparator()+"metric");
                 params.add("-s");
                 params.add(task.getVideo().getWidth() + "x" + task.getVideo().getHeigth());
                 params.add("-i");
@@ -1151,6 +1151,10 @@ public class Ferramentas extends javax.swing.JFrame {
                 params.add(task.getReference().getPath());
                 params.add("-m");
                 params.add(task.getMetric().getName());
+                if(task.getMetric().getName().equals("MSSIM")){
+                    params.add("-w");
+                    params.add("8");
+                }
                 Process p = new ProcessBuilder(params).start();
                 InputStream pi = p.getInputStream();
                 exit = p.waitFor();
@@ -1219,6 +1223,10 @@ public class Ferramentas extends javax.swing.JFrame {
             Dialog.msgWarning("Escolha o nome do arquivo a ser gerado.", "Arquivo de saída");
             return;
         }
+        if(jTextField15.getText().length() == 0){
+            Dialog.msgWarning("Escolha um arquivo de degradação.", "Arquivo de degradação");
+            return;
+        }
         if(jComboBox2.getSelectedIndex() == 0){
             Dialog.msgWarning("Filtro não selecionado.", "Filtro");
             return;
@@ -1233,7 +1241,8 @@ public class Ferramentas extends javax.swing.JFrame {
         }
         Media video;
         video = (Media) tableGerador1.getAuxData(jTable3.getSelectedRow());
-	if(video.getType().getId() != 2){
+        System.out.println(video.getType().getName());
+	if(!video.getType().getName().toLowerCase().equals("yuv")){
 	    Dialog.msgWarning("Formato inválido para o tipo de degradação", "Formato");
             return;
 	}
@@ -1241,6 +1250,8 @@ public class Ferramentas extends javax.swing.JFrame {
         params.add(Util.getDefaultToolsDirectory()+Util.getFileSeparator()+"blur");
         params.add("-i");
         params.add(video.getPath());
+        params.add("-r");
+        params.add(jTextField15.getText());
         params.add("-o");
         params.add(Util.getDefaultOutputDirectory()+Util.getFileSeparator()+jTextField5.getText());
         params.add("-s");
@@ -1289,7 +1300,7 @@ public class Ferramentas extends javax.swing.JFrame {
                 }
             }
         }
-        Dialog.msgInfo("Vídeos gerados com sucesso!", "Geração de vídeos");
+        Dialog.msgInfo("Vídeo(s) gerado(s) com sucesso!", "Geração de vídeos");
         geradorTask.clear();
         tableGeradorTask.refresh(avaliadorTask);
         jTable8.revalidate();
@@ -1482,7 +1493,7 @@ public class Ferramentas extends javax.swing.JFrame {
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         //raffle NetSim
-	String caminho = Dialog.getFile(Dialog.TipoGetFile.Abrir);
+	String caminho = Dialog.getFile(Dialog.TipoGetFile.Abrir, Util.getDefaultRaffleDirectory());
 	jTextField7.setText(caminho);
     }//GEN-LAST:event_jButton8ActionPerformed
 
@@ -1576,6 +1587,8 @@ public class Ferramentas extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        String caminho = Dialog.getFile(Dialog.TipoGetFile.Abrir, Util.getDefaultRaffleDirectory());
+        jTextField15.setText(caminho);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextField16FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField16FocusGained
@@ -1601,9 +1614,7 @@ public class Ferramentas extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(!jTable7.getSelectionModel().isSelectionEmpty()){
             try{
-                System.out.println("1");
                 Process mplayerProcess1 = Runtime.getRuntime().exec(jTextArea2.getText());
-                System.out.println("2");
             } catch (IOException ex) {
                 Dialog.msgError("Erro na execução. Verifique\nos parâmetros.", "MPlayer");
             }
@@ -1729,13 +1740,15 @@ public class Ferramentas extends javax.swing.JFrame {
     public ArrayList getRaffleFiles(String folder){
         ArrayList<String> files = new ArrayList<String>();
         File[] filesList = new File(folder).listFiles();
-        for(int i = 0; i < filesList.length; ++i){
-            if(filesList[i].isFile()){
-                if (filesList[i].getName().toLowerCase().endsWith(".rff")){
+        if(filesList != null){
+            for(int i = 0; i < filesList.length; ++i){
+                if(filesList[i].isFile()){
+                    if (filesList[i].getName().toLowerCase().endsWith(".rff")){
+                        files.add(filesList[i].getName());
+                    }
+                } else {
                     files.add(filesList[i].getName());
                 }
-            } else {
-                files.add(filesList[i].getName());
             }
         }
         return files;
