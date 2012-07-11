@@ -64,6 +64,11 @@ public class Resultados extends javax.swing.JFrame {
         setBounds(new java.awt.Rectangle(200, 100, 0, 0));
         setIconImage((new javax.swing.ImageIcon(getClass().getResource("/package_default/imgs/icon_results.png"))).getImage());
         setResizable(false);
+        addWindowStateListener(new java.awt.event.WindowStateListener() {
+            public void windowStateChanged(java.awt.event.WindowEvent evt) {
+                formWindowStateChanged(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -114,7 +119,7 @@ public class Resultados extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(369, Short.MAX_VALUE))
+                .addContainerGap(376, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Sessão", jPanel2);
@@ -147,7 +152,7 @@ public class Resultados extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3))
-                        .addGap(0, 37, Short.MAX_VALUE))
+                        .addGap(0, 38, Short.MAX_VALUE))
                     .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -203,6 +208,11 @@ public class Resultados extends javax.swing.JFrame {
 	else
 	    ((ChartPanel)jPanel1).setChart(createMediaResultChart());
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void formWindowStateChanged(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowStateChanged
+        // TODO add your handling code here:
+        ((CustomComboBoxModel)jComboBox2.getModel()).refresh(bridge.ServiceBridge.querySessionList());
+    }//GEN-LAST:event_formWindowStateChanged
 
     private DefaultStatisticalCategoryDataset resultsFromSession(ArrayList<UserRate> result) {
 	DefaultStatisticalCategoryDataset data = new DefaultStatisticalCategoryDataset();

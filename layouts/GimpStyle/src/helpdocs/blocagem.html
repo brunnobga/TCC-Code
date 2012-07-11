@@ -36,44 +36,28 @@
 		</ul>
 
 		<div id="conteudo">
-			<p>A tela inicial do SASQV2 apresenta os seguintes componentes:</p>
-			<table>
-			<tr>
-			<td>
-			<img src="screens/principal.png"/>
-			</td>
-			<td>
-			<dl>
-				<dt><b>0.</b> Login</dt>
-				<dd>- Oferece os campos para entrada de usuário e senha, permitindo o uso da aplicação.</dd>
-				<br>
-				<br>
-				<br>
-				<br>
-				<dt><b>1.</b> Gerenciador de sessão</dt>
-				<dd>- Inicia a tela de gerenciamento de sessão, onde é possível executar sessões de avaliação subjetiva.</dd>
-				<br>
-				<br>
-				<dt><b>2.</b> Ferramentas</dt>
-				<dd>- Inicia a tela de ferramentas, dando acesso às ferramentas de degradação e avaliação objetiva.</dd>
-				<br>
-				<br>
-				<dt><b>3.</b> Gerenciador de dados</dt>
-				<dd>- Inicia o Gerenciador de dados, permitindo gerenciar usuários e vídeos da base de dados.</dd>
-				<br>
-				<br>
-				<dt><b>4.</b> Visualizador de resultados</dt>
-				<dd>- Abre o visualizador gráfico de resultados</dd>
-				<br>
-				<br>
-				<dt><b>5.</b> Configurações</dt>
-				<dd>- Abre um diálogo que permite configurar aspectos básicos do sistema.</dd>
-				<br>
-				<br>
-			</dl>
-			</td>
-			</td>
-			</table>
+		<p>Nesta seção será apresentado o passo a passo para gerar um vídeo degradado com o artefato de blocagem.</p>
+		<p>Primeiramente, selecione um dos vídeos da tabela de vídeos. Se necessário, utilize a busca para realizar uma pesquisa:</p>
+
+		<img src="screens/ferramentas2.png"/>
+		
+		<p>Após selecionar o vídeo, informe os parâmetros indicados pelos campos:</p>
+		<ul>
+			<li>Título: o título do novo vídeo;</li>
+			<li>Resultado: nome do arquivo de vídeo (será salvo no diretório padrão, definido em <a href="configuracoes.html">Configurações</a>);</li>
+			<li>Raffle: arquivo de degradação (ver <a href="raffle.html">RaffleTool</a>);</li>
+			<li>Janela: tamanho da janela deslizante utilizada na Transformada Discreta de Cossenos (<a href="http://en.wikipedia.org/wiki/Discrete_cosine_transform">DCT</a>);</li>
+			<li>Níves DCT: estes níveis deverão ser zerados pela aplicação da transformada. Sendo w o tamanho da janela escolhida, o maior nível possível é dado por (2*n - 1). Os níveis devem ser informados separados por vírgula, conforme a imagem a seguir: </li>
+		</ul>
+		<br>
+		<img src="screens/ferramentas3.png"/>
+
+		<p>Clique agora em 'Adicionar' para acumular a tarefa na fila de tarefas. Ela será executada somente ao se clicar em 'Iniciar'. Desta forma, é possível configurar várias tarefas e executá-las todas ao mesmo tempo.<p>
+		
+		<img src="screens/ferramentas4.png"/>
+		
+		<p>Após a confirmação (ver figura acima), o novo vídeo deve aparecer na tabela de vídeos. Para visualizar o novo vídeo, acesse a aba <a href="mplayer.html">MPlayer</a>.</p>
+
 		</div>
 	
 		<div id="footer">

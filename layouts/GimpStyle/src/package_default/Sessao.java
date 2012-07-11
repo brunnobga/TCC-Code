@@ -973,7 +973,7 @@ class PlayVideo extends javax.swing.AbstractAction{
                 cmd2 += " " + ((Media)medias.get(mediaPlaying+1)).getPath();
                 // apaga texto da blackScreen
                 try {
-                    //bridge.ServiceBridge.operationDefineMetric(0);
+                    bridge.ServiceBridge.operationDefineMetric(0);
                     Process mplayerProcess1 = Runtime.getRuntime().exec(cmd1);
                     if(simultaneously){
                         Process mplayerProcess2 = Runtime.getRuntime().exec(cmd2);
@@ -1010,7 +1010,7 @@ class PlayVideo extends javax.swing.AbstractAction{
                 estado = AVALIACAO;
             } else if(estado == AVALIACAO){
                 // Metrica DSIS toca dois videos por vez para analisar o segundo
-                //bridge.ServiceBridge.operatioEnableRate(session, (Media)medias.get(mediaPlaying+1));
+                bridge.ServiceBridge.operatioEnableRate(session, (Media)medias.get(mediaPlaying+1));
                 mediaPlaying+=2;
                 ((javax.swing.Timer)ae.getSource()).setInitialDelay(50);
                 ((javax.swing.Timer)ae.getSource()).restart();
