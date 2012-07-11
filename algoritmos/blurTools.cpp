@@ -114,7 +114,7 @@ public:
 
 	void nextRaffle(int* n, int * d){
 		if(frames.empty()){
-			*n = 0;
+			*n = 999;
 			*d = 0;
 			return;
 		}
@@ -131,14 +131,23 @@ public:
 		for(int fc = 1; fc <= frameTotal; fc++){
 			input.read((char*)frame, frameSize);
 			memcpy(outframe, frame, frameSize);
-			
-			printf("!!! %d %d ", next, duration);	
+
+			if(next > 0){
+				next--;
+			} else if(duration > 0){
+				blur(frame, outframe, frameHeight, frameWidth, &set);
+				duration--;
+			} else {
+				nextRaffle(&next, &duration);
+			}
+			/*	
+			printf("!!! %d %d ", next, duration);
 			if(fc >= next && duration == 0)
 				nextRaffle(&next, &duration);
 			if(full_flag || (duration > 0 && fc >= next)){
 				blur(frame, outframe, frameHeight, frameWidth, &set);
 				duration--;
-			}
+			}*/
 			
 			output.write((char*) outframe, frameSize);
 			input.read((char*) frame, frameSize/2);
