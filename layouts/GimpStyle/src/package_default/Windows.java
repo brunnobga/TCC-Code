@@ -6,6 +6,7 @@ package package_default;
 
 import bridge.ServiceBridge;
 import communication.Monitor;
+import support.Dialog;
 
 /**
  *
@@ -23,7 +24,7 @@ public class Windows extends javax.swing.JFrame {
         s = new Sessao();
         f = new Ferramentas();
         c = new Configuracao();
-        a = new Ajuda();
+        //a = new Ajuda();
         r = new Resultados();
         b = new Gerenciar();
         jButton1.setEnabled(false);
@@ -267,7 +268,24 @@ public class Windows extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        a.setVisible(!a.isVisible());
+        String urls = "file://"+Util.getUserDirectory()+Util.getFileSeparator()+"helpdocs/index.html";
+        if( !java.awt.Desktop.isDesktopSupported() ) {
+            Dialog.msgInfo("Não foi possível abrir a documentação.\nPor favor, tente abrir o seguinte\n arquivo em seu browser:\n\n"+urls, null);
+        }
+        java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
+        if( !desktop.isSupported( java.awt.Desktop.Action.BROWSE ) ) {
+            Dialog.msgInfo("Não foi possível abrir a documentação.\nPor favor, tente abrir o seguinte\n arquivo em seu browser:\n\n"+urls, null);
+        }
+        try {
+            if(Dialog.question("Para visualizar a documentação,\né necessário iniciar seu browser padrão.\nDeseja continuar?", "Continuar")){
+                java.net.URI uri = new java.net.URI( urls );
+                desktop.browse( uri );
+            }
+        }
+        catch ( Exception e ) {
+            Dialog.msgError("Ocorreu um erro. Por favor,\ntente novamente.", "Erro");
+        }
+        //a.setVisible(!a.isVisible());
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -362,7 +380,7 @@ public class Windows extends javax.swing.JFrame {
             s.setVisible(false);
             f.setVisible(false);
             c.setVisible(false);
-            a.setVisible(false);
+            //a.setVisible(false);
             r.setVisible(false);
             b.setVisible(false);
         }
@@ -439,7 +457,7 @@ public class Windows extends javax.swing.JFrame {
     private Sessao s;
     private Ferramentas f;
     private Configuracao c;
-    private Ajuda a;
+    //private Ajuda a;
     private Resultados r;
     private Gerenciar b;
     private boolean loggedIn = false;
